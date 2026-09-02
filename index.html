@@ -3,288 +3,593 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>서울대 한국어 4A - 슬라이드 제너레이터</title>
+    <title>서울대 한국어 4A - 스마트 제너레이터</title>
+    
+    <!-- 폰트 및 아이콘 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- Tailwind CSS (대시보드 UI용) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- PPTX 다운로드용 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@3.12.0/libs/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@3.12.0/dist/pptxgen.min.js"></script>
 
     <style>
+        /* ==================================================================
+           1. PPTX 템플릿 렌더링 전용 CSS (V20 디자인 완벽 유지)
+           ================================================================== */
         * { box-sizing: border-box; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif !important; }
-        body { margin: 0; padding: 0; background-color: #f1f5f9; display: flex; flex-direction: column; height: 100vh; }
         
-        /* 상단 헤더 및 컨트롤 패널 */
-        .header { background-color: #1e3a8a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10; flex-shrink: 0; }
-        .header h1 { margin: 0; font-size: 24px; font-weight: bold; }
-        .controls { display: flex; gap: 15px; align-items: center; }
-        select { padding: 10px 15px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 16px; font-weight: bold; outline: none; cursor: pointer; min-width: 300px; }
-        
-        /* 버튼 스타일 */
-        .btn { padding: 10px 20px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; border: none; transition: 0.2s; display: flex; align-items: center; gap: 8px; }
-        .btn-primary { background-color: #3b82f6; color: white; }
-        .btn-primary:hover { background-color: #2563eb; }
-        .btn-success { background-color: #10b981; color: white; }
-        .btn-success:hover { background-color: #059669; }
-        .btn-success:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        .preview-bg {
+            background-color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
+            width: 100%;
+            min-height: 100vh;
+        }
 
-        /* 메인 콘텐츠(미리보기) 영역 */
-        .main-content { flex: 1; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 60px; }
-        .instruction { text-align: center; color: #64748b; margin-bottom: -20px; }
+        .slide-wrapper {
+            width: 1280px;
+            height: 720px;
+            transform-origin: top center;
+            transform: scale(0.75); 
+            margin-bottom: -180px; 
+        }
 
-        .slide-wrapper { width: 1280px; height: 720px; transform-origin: top center; transform: scale(0.75); margin-bottom: -180px; } 
-        .slide-container { background-color: #ffffff; border-radius: 4px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; width: 1280px; height: 720px; overflow: hidden; padding: 50px 60px; position: relative; color: #000000; border-top: 10px solid #1e3a8a; }
-        
-        .slide-container h1, .slide-container h2, .slide-container h3, .slide-container p, .slide-container td, .slide-container th { margin: 0; color: #000000; line-height: 1.4; }
-        
-        /* 공통 제목 스타일 */
-        .slide-container .slide-title { font-size: 40px; font-weight: bold; color: #1e3a8a; text-align: left; width: 100%; border-bottom: 3px solid #1e3a8a; padding-bottom: 12px; margin-bottom: 30px; }
+        .slide-container {
+            background-color: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            width: 1280px;
+            height: 720px;
+            overflow: hidden;
+            padding: 50px 60px;
+            position: relative;
+            color: #000000;
+            border-top: 10px solid #27408B;
+        }
+
+        .slide-container h1, .slide-container h2, .slide-container h3,
+        .slide-container p, .slide-container td, .slide-container th {
+            margin: 0; color: #000000; line-height: 1.4;
+        }
+
+        .slide-container .slide-title {
+            font-size: 40px; font-weight: bold; color: #27408B; 
+            text-align: left; width: 100%; border-bottom: 3px solid #27408B;
+            padding-bottom: 8px; margin-bottom: 30px;
+        }
+
         .content-area { display: flex; flex-direction: column; flex-grow: 1; width: 100%; }
 
-        /* 편집 활성화 효과 */
-        [contenteditable="true"] { outline: none; transition: background-color 0.2s; border-radius: 4px; }
-        [contenteditable="true"]:hover { background-color: rgba(59, 130, 246, 0.05); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+        [contenteditable="true"] { outline: none; transition: background-color 0.2s, box-shadow 0.2s; border-radius: 4px; padding: 2px 4px; }
+        [contenteditable="true"]:hover { background-color: rgba(59, 130, 246, 0.05); box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); cursor: text; }
         [contenteditable="true"]:focus { background-color: rgba(59, 130, 246, 0.1); box-shadow: 0 0 0 2px #3b82f6; }
 
-        /* Slide 1 (표지) */
+        /* Slide 1: 표지 */
         .slide1-layout { text-align: center; display: flex; flex-direction: column; width: 100%; height: 100%; position: relative; }
-        .slide1-layout .subtitle { position: absolute; top: 0px; right: 0px; font-size: 32px; color: #64748b; font-weight: bold; }
-        .slide1-navy-box { background-color: #1e3a8a; width: 1280px; position: absolute; top: 110px; left: -60px; padding: 15px 0; text-align: center; }
-        .slide1-navy-box .main-title { font-size: 50px; color: #ffffff; font-weight: bold; margin: 0; }
-        .slide1-layout .grammar-points { position: absolute; top: 250px; width: 100%; text-align: center; font-size: 35px; line-height: 1.6; font-weight: bold; }
-        .pos-text { color: #1e3a8a; font-weight: bold; } 
+        .slide1-layout .subtitle { position: absolute; top: 20px; right: 0px; font-size: 32px; color: #64748b; font-weight: bold; }
+        .slide1-navy-box { background-color: #27408B; width: 1280px; position: absolute; top: 150px; left: -60px; padding: 20px 0; text-align: center; }
+        .slide1-navy-box .main-title { font-size: 54px; color: #ffffff; font-weight: bold; margin: 0; }
+        .slide1-layout .grammar-points { position: absolute; top: 310px; width: 100%; text-align: center; font-size: 35px; line-height: 1.6; font-weight: bold; }
+        .pos-text { color: #27408B; font-weight: bold; } 
 
-        /* Slide 2 (도입 상황) */
-        .two-column { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; width: 100%; height: 100%; align-items: center; }
-        .dialogue-box { background-color: #f8fafc; padding: 40px; border-left: 6px solid #1e3a8a; display: flex; flex-direction: column; justify-content: center; height: 420px; border-radius: 12px; }
-        .dialogue-box p { font-size: 32px; margin-bottom: 25px; color: #000000; }
-        .image-placeholder { background-color: #e2e8f0; display: flex; justify-content: center; align-items: center; text-align: center; height: 420px; border-radius: 12px; padding: 20px; }
+        /* Slide 2: 도입 */
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 100%; height: 100%; }
+        .dialogue-box { background-color: #f8fafc; padding: 40px; display: flex; flex-direction: column; justify-content: center; height: 480px; }
+        .dialogue-box p { font-size: 32px; margin-bottom: 30px; color: #000000; }
+        .image-placeholder { background-color: #e2e8f0; display: flex; justify-content: center; align-items: center; text-align: center; height: 480px; padding: 20px; }
         .image-placeholder p { font-size: 26px; color: #64748b; font-weight: bold; }
 
-        /* Slide 3 (의미와 예문) */
-        .meaning-layout { display: flex; flex-direction: column; gap: 30px; width: 100%; }
-        .meaning-layout .section-title { font-size: 32px; color: #1e3a8a; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-        .meaning-layout p.meaning-text { font-size: 29px; margin-bottom: 10px; word-break: keep-all; }
-        .meaning-layout p.example-text { font-size: 29px; margin-bottom: 10px; white-space: nowrap; }
-        .example-group { margin-bottom: 15px; }
+        /* Slide 3: 의미와 예문 */
+        .meaning-layout { display: flex; flex-direction: column; gap: 40px; width: 100%; }
+        .meaning-layout .section-title { font-size: 32px; color: #27408B; font-weight: bold; margin-bottom: 15px; }
+        .meaning-layout p.meaning-text { font-size: 32px; margin-bottom: 10px; }
+        .meaning-layout p.example-text { font-size: 29px; margin-bottom: 15px; white-space: pre-wrap; }
 
-        /* Slide 4, 5 (형태 표) */
+        /* Tables */
         .table-wrapper { width: 100%; display: flex; justify-content: center; }
-        table { border-collapse: collapse; width: 95%; border: 2px solid #cbd5e1; }
-        th, td { border: 1px solid #cbd5e1; padding: 14px 20px; text-align: center; vertical-align: middle; font-size: 29px; white-space: nowrap; }
-        th { background-color: #1e3a8a; color: #ffffff !important; font-weight: bold; }
+        table { border-collapse: collapse; width: 95%; border: 1px solid #cbd5e1; }
+        th, td { border: 1px solid #cbd5e1; padding: 12px 15px; text-align: center; vertical-align: middle; font-size: 28px; }
+        th { background-color: #27408B; color: #ffffff !important; font-weight: bold; }
         .sub-pos { font-size: 20px; color: #64748b; font-weight: normal; }
+        .no-bottom-border { border-bottom: none !important; }
+        .no-top-border { border-top: none !important; }
 
-        /* 연습문제 스타일 */
-        .practice-wrapper { display: flex; flex-direction: row; width: 100%; height: 500px; gap: 20px; align-items: flex-start; padding-top: 10px; }
-        .practice-num { font-size: 36px; font-weight: bold; color: #1e3a8a; min-width: 90px; white-space: nowrap; margin-top: 10px; }
-        /* white-space: pre-wrap을 통해 넓은 괄호(스페이스바 공백)가 줄어들지 않게 완벽 보호 */
-        .practice-box { flex-grow: 1; background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 40px; font-size: 26px; color: #000000; line-height: 1.8; white-space: pre-wrap; height: 100%; width: 100%; overflow-y: hidden; }
+        /* 연습문제 */
+        .practice-wrapper { display: flex; flex-direction: row; width: 100%; height: 440px; gap: 20px; align-items: flex-start; padding-top: 10px; }
+        .practice-num { font-size: 36px; font-weight: bold; color: #27408B; min-width: 80px; white-space: nowrap; margin-top: 10px; }
+        .practice-box { flex-grow: 1; background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 40px; font-size: 26px; color: #000000; line-height: 1.8; white-space: pre-wrap; height: 100%; width: 100%; overflow: hidden; }
 
-        /* 메시지 박스 */
-        #messageBox { display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: #1e293b; color: white; padding: 15px 30px; border-radius: 8px; z-index: 9999; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        /* 커스텀 모달 */
+        #customModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 24px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     </style>
 </head>
-<body>
+<body class="bg-slate-100 text-slate-800">
 
-    <!-- 헤더 영역 -->
-    <div class="header">
-        <h1>서울대 한국어 4A <span style="font-size:16px; font-weight:normal; color:#cbd5e1; margin-left:10px;">PPTX 제너레이터 v3.1</span></h1>
-        <div class="controls">
-            <select id="grammarSelect">
-                <option value="" disabled selected>학습할 문법을 선택하세요</option>
-                <option value="1-1-1">1단원: 동-는다면서(요)?, 형-다면서(요)?...</option>
-                <option value="1-1-2">1단원: 동-다(가) 보면</option>
-            </select>
-            <button class="btn btn-primary" onclick="renderSlides()"><i class="fa-solid fa-desktop"></i> 슬라이드 미리보기 생성</button>
-            <button id="downloadBtn" class="btn btn-success" onclick="downloadPPTX()" disabled><i class="fa-solid fa-file-powerpoint"></i> PPTX 다운로드</button>
+    <!-- 1. 로그인 화면 -->
+    <div id="login-screen" class="w-full h-screen flex flex-col justify-center items-center bg-blue-900 text-white hidden">
+        <h1 class="text-4xl font-bold mb-8">서울대 한국어 4A 시스템</h1>
+        <p class="mb-8 text-blue-200">선생님 인증이 필요합니다.</p>
+        <button onclick="loginWithGoogle()" class="flex items-center gap-3 bg-white text-blue-900 px-6 py-3 rounded-lg font-bold shadow-lg hover:bg-blue-50 transition">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-6 h-6">
+            Google 계정으로 로그인
+        </button>
+    </div>
+
+    <!-- 2. 접근 권한 없음 화면 -->
+    <div id="denied-screen" class="w-full h-screen flex flex-col justify-center items-center bg-slate-100 hidden">
+        <i class="fa-solid fa-lock text-6xl text-red-500 mb-6"></i>
+        <h1 class="text-3xl font-bold mb-4">접근 권한이 없습니다</h1>
+        <p class="text-slate-600 mb-8" id="admin-contact-msg">관리자에게 접근 권한을 요청하세요.</p>
+        <button onclick="signOutUser()" class="bg-slate-800 text-white px-6 py-2 rounded-lg font-bold hover:bg-slate-700 transition">다른 계정으로 로그인</button>
+    </div>
+
+    <!-- 3. 메인 대시보드 화면 -->
+    <div id="dashboard-screen" class="w-full min-h-screen flex flex-col hidden">
+        <div class="w-full bg-blue-900 text-white px-8 py-5 flex justify-between items-center shadow-md sticky top-0 z-50">
+            <h1 class="text-2xl font-bold">서울대 한국어 4A <span class="text-blue-300 text-base font-normal ml-2">스마트 슬라이드 제너레이터</span></h1>
+            <div class="flex gap-4">
+                <button id="admin-btn" onclick="showScreen('admin-screen')" class="hidden bg-yellow-500 text-blue-900 px-4 py-2 rounded-md font-bold hover:bg-yellow-400 transition"><i class="fa-solid fa-gear"></i> 관리자 설정</button>
+                <button onclick="signOutUser()" class="bg-blue-800 px-4 py-2 rounded-md font-bold hover:bg-blue-700 transition">로그아웃</button>
+            </div>
+        </div>
+
+        <div class="max-w-6xl w-full mx-auto p-8">
+            <p class="text-slate-600 mb-8 text-center text-lg">원하는 단원의 항목을 클릭하면 즉시 편집 및 PPTX 다운로드가 가능합니다.</p>
+            <div id="dashboard-grid" class="w-full">
+                <!-- Javascript로 그리드 버튼 자동 생성됨 -->
+            </div>
         </div>
     </div>
 
-    <!-- 알림 메시지 영역 -->
-    <div id="messageBox"></div>
-
-    <div class="instruction">
-        <p><i class="fa-solid fa-circle-info"></i> 슬라이드가 생성되면 <b>모든 텍스트를 클릭하여 수정</b>할 수 있습니다. 수정 내용은 PPTX 파일에 실시간으로 반영됩니다.</p>
+    <!-- 4. 관리자 화면 -->
+    <div id="admin-screen" class="w-full min-h-screen bg-slate-100 flex flex-col hidden">
+        <div class="w-full bg-blue-900 text-white px-8 py-5 flex justify-between items-center shadow-md">
+            <h1 class="text-2xl font-bold"><i class="fa-solid fa-users-gear mr-2"></i> 접근 권한 관리</h1>
+            <button onclick="showScreen('dashboard-screen')" class="bg-blue-800 px-4 py-2 rounded-md font-bold hover:bg-blue-700 transition"><i class="fa-solid fa-house"></i> 대시보드로 돌아가기</button>
+        </div>
+        
+        <div class="max-w-3xl w-full mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg">
+            <h2 class="text-xl font-bold mb-6 border-b pb-4">허용된 선생님 이메일 등록</h2>
+            <div class="flex gap-4 mb-8">
+                <input type="email" id="new-email-input" placeholder="선생님 이메일 입력 (예: teacher@gmail.com)" class="flex-1 border border-slate-300 rounded-lg px-4 py-2 outline-none focus:border-blue-500">
+                <button onclick="addAllowedEmail()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 transition">추가</button>
+            </div>
+            
+            <h3 class="text-lg font-bold mb-4 text-slate-700">현재 등록된 이메일 목록</h3>
+            <ul id="email-list" class="flex flex-col gap-3">
+                <!-- 자바스크립트로 렌더링 -->
+            </ul>
+        </div>
     </div>
 
-    <!-- 슬라이드 생성 영역 -->
-    <div class="main-content" id="previewArea">
-        <!-- 슬라이드들이 이곳에 생성됩니다. -->
+    <!-- 5. PPTX 미리보기 및 편집 화면 -->
+    <div id="preview-screen" class="w-full hidden flex-col">
+        <div class="w-full bg-blue-900 text-white px-8 py-4 flex justify-between items-center shadow-md sticky top-0 z-50">
+            <h1 class="text-xl font-bold" id="preview-header-title">미리보기 편집</h1>
+            <div class="flex gap-4">
+                <button onclick="showScreen('dashboard-screen')" class="bg-slate-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-slate-500 transition shadow"><i class="fa-solid fa-house mr-1"></i> 홈으로</button>
+                <button id="downloadBtn" onclick="downloadPPTX()" class="bg-emerald-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-emerald-500 transition shadow"><i class="fa-solid fa-file-powerpoint mr-1"></i> PPTX 다운로드</button>
+            </div>
+        </div>
+        <div class="w-full text-center py-3 bg-blue-50 border-b border-blue-100 text-blue-800 text-sm">
+            <i class="fa-solid fa-pen-to-square mr-1"></i> 슬라이드 화면의 텍스트를 마우스로 클릭하여 바로 수정할 수 있습니다.
+        </div>
+        
+        <div class="preview-bg" id="previewArea">
+            <!-- 동적 렌더링 영역 -->
+        </div>
     </div>
 
-    <script>
-        // 알림창 함수 (alert 대체)
-        function showMessage(msg) {
-            const mb = document.getElementById("messageBox");
-            mb.innerText = msg;
-            mb.style.display = "block";
-            setTimeout(() => { mb.style.display = "none"; }, 3000);
+    <!-- 커스텀 모달 -->
+    <div id="customModal">
+        <div class="modal-content">
+            <p id="modalMessage" class="text-lg font-bold text-slate-800 mb-6"></p>
+            <button onclick="closeModal()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold w-full hover:bg-blue-700">확인</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 환경 변수 처리 (Immersive 런타임 대응)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'snu-4a-grammar';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "dummy", authDomain: "dummy", projectId: "dummy"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let allowedEmailsList = [];
+        
+        // base64로 인코딩된 관리자 이메일을 코드상에서 디코딩하여 사용합니다 (이메일 노출 방지)
+        // evernewyum@gmail.com 을 btoa() 로 인코딩한 값: ZXZlcm5ld3l1bUBnbWFpbC5jb20=
+        const ADMIN_EMAIL = atob("ZXZlcm5ld3l1bUBnbWFpbC5jb20=");
+
+        // 전역 함수 등록
+        window.loginWithGoogle = async function() {
+            const provider = new GoogleAuthProvider();
+            try {
+                const result = await signInWithPopup(auth, provider);
+                currentUser = result.user;
+                verifyAccess();
+            } catch (error) {
+                showModal("구글 로그인에 실패했습니다.");
+            }
+        };
+
+        window.signOutUser = async function() {
+            await signOut(auth);
+            location.reload();
+        };
+
+        // 앱 초기화 및 Auth 체크
+        async function initAuth() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                    currentUser = auth.currentUser;
+                } else {
+                    // 환경 밖 테스트용
+                    showScreen('login-screen');
+                    return;
+                }
+
+                if (currentUser) {
+                    if (!currentUser.email) {
+                        // 이메일 정보가 없는 경우 (익명 등) 명시적 구글 로그인 요구
+                        showScreen('login-screen');
+                    } else {
+                        verifyAccess();
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+                showScreen('login-screen');
+            }
         }
 
-        // 교재 및 워크북 소스 데이터베이스 (연습문제 26개 모두 수록 및 테이블 완벽 분리)
-        const db = {
+        // 권한 검증 로직
+        function verifyAccess() {
+            if (!currentUser || !currentUser.email) {
+                showScreen('login-screen');
+                return;
+            }
+
+            // 권한 거부 시 띄워줄 관리자 연락처 동적 메시지 처리
+            document.getElementById('admin-contact-msg').innerText = `관리자(${ADMIN_EMAIL})에게 접근 권한을 요청하세요.`;
+
+            if (currentUser.email === ADMIN_EMAIL) {
+                document.getElementById('admin-btn').classList.remove('hidden');
+                setupAdminListener();
+                showScreen('dashboard-screen');
+                return;
+            }
+
+            // 일반 유저 이메일 권한 체크 (Rule 1: Strict Path 적용)
+            const emailsRef = collection(db, 'artifacts', appId, 'public', 'data', 'allowedEmails');
+            getDocs(emailsRef).then(snapshot => {
+                let isAllowed = false;
+                snapshot.forEach(d => {
+                    if (d.data().email === currentUser.email) isAllowed = true;
+                });
+                
+                if (isAllowed) {
+                    showScreen('dashboard-screen');
+                } else {
+                    showScreen('denied-screen');
+                }
+            }).catch(e => {
+                console.error(e);
+                showScreen('denied-screen');
+            });
+        }
+
+        // ===================================================================
+        // 관리자 패널 관련 (Firebase onSnapshot)
+        // ===================================================================
+        function setupAdminListener() {
+            const emailsRef = collection(db, 'artifacts', appId, 'public', 'data', 'allowedEmails');
+            onSnapshot(emailsRef, (snapshot) => {
+                allowedEmailsList = snapshot.docs.map(doc => ({ id: doc.id, email: doc.data().email }));
+                renderAdminList();
+            }, (error) => {
+                console.error("Failed to listen to allowed emails", error);
+            });
+        }
+
+        window.addAllowedEmail = async function() {
+            if (!currentUser) return;
+            const input = document.getElementById('new-email-input');
+            const email = input.value.trim();
+            if (!email) return;
+
+            const emailsRef = collection(db, 'artifacts', appId, 'public', 'data', 'allowedEmails');
+            try {
+                await addDoc(emailsRef, { email: email });
+                input.value = '';
+                showModal("이메일이 추가되었습니다.");
+            } catch (e) {
+                showModal("추가 실패: " + e.message);
+            }
+        };
+
+        window.removeAllowedEmail = async function(docId) {
+            if (!currentUser) return;
+            try {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'allowedEmails', docId));
+            } catch (e) {
+                showModal("삭제 실패: " + e.message);
+            }
+        };
+
+        function renderAdminList() {
+            const list = document.getElementById('email-list');
+            list.innerHTML = '';
+            allowedEmailsList.forEach(item => {
+                let li = document.createElement('li');
+                li.className = "flex justify-between items-center bg-slate-50 border border-slate-200 px-4 py-3 rounded-lg";
+                li.innerHTML = `
+                    <span class="font-medium text-slate-700">${item.email}</span>
+                    <button onclick="removeAllowedEmail('${item.id}')" class="text-red-500 hover:text-red-700 font-bold px-3 py-1 rounded bg-red-50 hover:bg-red-100 transition">삭제</button>
+                `;
+                list.appendChild(li);
+            });
+            if(allowedEmailsList.length === 0) {
+                list.innerHTML = '<li class="text-slate-500 text-center py-4">등록된 이메일이 없습니다.</li>';
+            }
+        }
+
+        // 앱 구동 시작
+        initAuth();
+
+        // ===================================================================
+        // 텍스트북/워크북 데이터베이스 구조화
+        // ===================================================================
+        const grammarDB = {
             "1-1-1": {
-                unitLabel: "1단원. 진로와 적성 (1-1. 진로)",
-                grammarParts: [
-                    { pos: "V", text: "-는다면서(요)?" },
-                    { pos: "A", text: "-다면서(요)?" },
-                    { pos: "N", text: "(이)라면서(요)?" }
-                ],
-                intro: {
-                    speakerA: "가: 오늘 교수님과 상담을 한다면서요?",
-                    speakerB: "나: 네. 아직 진로를 정하지 못해서 교수님과 이야기해 보려고요."
-                },
+                pos: "V", text: "-는다면서(요)?\n/-다면서(요)?",
                 meaning: "다른 사람에게 듣거나 이미 알고 있는 사실을 확인할 때 사용합니다.",
-                examples: [
-                    "가: 방학에 부산에 간다면서요?\n나: 네. 오랜만에 부산에 사는 친구를 만나려고요.",
-                    "가: 한국은 과일값이 비싸다면서요?\n나: 네. 너무 비싸서 자주 사 먹기 힘들어요."
-                ],
+                examples: [ "가: 방학에 부산에 간다면서요?\n나: 네. 오랜만에 부산에 사는 친구를 만나려고요.", "가: 한국은 과일값이 비싸다면서요?\n나: 네. 너무 비싸서 자주 사 먹기 힘들어요." ],
                 tables: [
-                    {
-                        title: "문법 형태 (1) - 동사",
-                        headers: ["결합 형태", "기본형", "활용형"],
-                        rows: [
-                            [ { pos: "V", text: "-는다면서(요)?", sub: "/-다면서(요)?", rowspan: 2 }, "가다", "간다면서요?" ],
-                            [ null, "먹다", "먹는다면서요?" ]
-                        ]
-                    },
-                    {
-                        title: "문법 형태 (2) - 형용사",
-                        headers: ["결합 형태", "기본형", "활용형"],
-                        rows: [
-                            [ { pos: "A", text: "-다면서(요)?", sub: "", rowspan: 2 }, "비싸다", "비싸다면서요?" ],
-                            [ null, "재미있다", "재미있다면서요?" ]
-                        ]
-                    },
-                    {
-                        title: "문법 형태 (3) - 명사",
-                        headers: ["결합 형태", "기본형", "활용형"],
-                        rows: [
-                            [ { pos: "N", text: "(이)라면서(요)?", sub: "", rowspan: 2 }, "친구", "친구라면서요?" ],
-                            [ null, "생일", "생일이라면서요?" ]
-                        ]
-                    },
-                    {
-                        title: "문법 형태 (4) - 과거 / 미래",
-                        headers: ["결합 형태", "기본형", "활용형"],
-                        rows: [
-                            [ { pos: "V, A", text: "-었/았다면서(요)?", sub: "", rowspan: 3 }, "보다", "봤다면서요?" ],
-                            [ null, "길다", "길었다면서요?" ],
-                            [ null, "잘하다", "잘했다면서요?" ],
-                            [ { pos: "N", text: "(이)었다면서(요)?", sub: "", rowspan: 2 }, "친구", "친구였다면서요?" ],
-                            [ null, "생일", "생일이었다면서요?" ],
-                            [ { pos: "V, A", text: "-(으)ㄹ 거라면서(요)?", sub: "", rowspan: 2 }, "취업하다", "취업할 거라면서요?" ],
-                            [ null, "읽다", "읽을 거라면서요?" ]
-                        ]
-                    }
+                    { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "V", text: "-는다면서(요)?\n/-다면서(요)?", rowspan: 2 }, "가다", "간다면서요?"], [null, "먹다", "먹는다면서요?"] ] },
+                    { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "A", text: "-다면서(요)?", rowspan: 2 }, "비싸다", "비싸다면서요?"], [null, "재미있다", "재미있다면서요?"] ] },
+                    { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "N", text: "(이)라면서(요)?", rowspan: 2 }, "친구", "친구라면서요?"], [null, "생일", "생일이라면서요?"] ] }
                 ],
                 practices: [
-                    "대화를 완성해 보세요.\n\n가: 테오 씨, 내일 발표를 한다면서요? 준비는 잘돼 가요?\n나: 열심히 하고 있는데 쉽지 않네요.\n\n[힌트] 테오 씨가 내일 발표를 한대요.",
-                    "대화를 완성해 보세요.\n\n가: 나나 씨, (                                                  )?\n다음 주에 제주도에 갈 건데 어디에 가면 좋을까요?\n나: 성산일출봉에 한번 가 보세요. 아주 아름다워요.\n\n[힌트] 나나 씨의 고향이 제주도예요.",
-                    "대화를 완성해 보세요.\n\n가: 민우야, (                                                  )? 어떤 사람을 좋아해?\n나: 응. 나는 내 이야기를 잘 들어 주는 사람이 좋더라.\n가: 우리 회사 동료 중에 그런 사람이 있는데 한번 만나 볼래?\n\n[힌트] 민우 씨가 여자 친구를 사귀고 싶대요.",
-                    "대화를 완성해 보세요.\n\n가: 소날 씨, (                                                  )?\n지금 편의점에 갈 건데 뭐 좀 사다 줄까요?\n나: 네. 너무 배가 고파요. 편의점에서 빵 좀 사다 주세요.\n가: 알겠어요.\n\n[힌트] 소날 씨가 아직 점심을 못 먹었대요.",
-                    "대화를 완성해 보세요.\n\n가: 제니, (                                                  )? 축하해.\n나: 고마워. 운이 좋았던 것 같아.\n가: 운이라니. 넌 항상 열심히 공부했잖아.\n\n[힌트] 제니 씨가 대학원 입학시험에 합격했어요.",
-                    "대화를 완성해 보세요.\n\n가: 하이 씨, (                                                  )?\n나: 네. 뭘 입고 갈지 걱정이에요.\n가: 나한테 정장이 한 벌 있는데 빌려줄까요?\n\n[힌트] 하이 씨가 내일 면접을 볼 거래요.",
-                    "그림을 보고 대화를 완성해 보세요.\n\n가: 유진 씨, (                                                  )? 축하해요!\n나: 네. 고마워요.\n\n[힌트: 결혼식 청첩장 그림]",
-                    "그림을 보고 대화를 완성해 보세요.\n\n가: 광고를 봤는데 (                                                  )?\n나: 네, 맞습니다. 등록하시겠어요?\n\n[힌트: 요가학원 1+1 이벤트 그림]",
-                    "그림을 보고 대화를 완성해 보세요.\n\n가: 선생님, 이번 (                                                  )?\n나: 네, 맞아요. 대회에 한번 나가 보세요.\n\n[힌트: 말하기 대회 포스터 그림]",
-                    "그림을 보고 대화를 완성해 보세요.\n\n가: 닛쿤 씨, (                                                  )? 축하해요.\n나: 고마워요. 장학금을 받았으니까 제가 한턱낼게요.\n\n[힌트: LEI 장학생 명단 - 닛쿤]",
-                    "그림을 보고 대화를 완성해 보세요.\n\n가: 민우 씨, (                                                  )?\n나: 글쎄요. 제 친구들은 서울전자보다는 미래전자를 더 선호하는 것 같아요.\n\n[힌트: 대학생 선호 기업 1위 서울전자]"
+                    "가: 테오 씨, 내일 발표를 한다면서요? 준비는 잘돼 가요?\n나: 열심히 하고 있는데 쉽지 않네요.\n\n[힌트] 테오 씨가 내일 발표를 한대요.",
+                    "가: 나나 씨, (                                                  )?\n     다음 주에 제주도에 갈 건데 어디에 가면 좋을까요?\n나: 성산일출봉에 한번 가 보세요. 아주 아름다워요."
                 ]
             },
             "1-1-2": {
-                unitLabel: "1단원. 진로와 적성 (1-1. 진로)",
-                grammarParts: [
-                    { pos: "V", text: "-다(가) 보면" }
-                ],
-                intro: {
-                    speakerA: "가: 요즘 수영을 배우기 시작했는데 너무 재미있어요.\n그런데 아직 조금밖에 못 가요.",
-                    speakerB: "나: 걱정하지 마세요.\n계속 연습하다가 보면 더 멀리 갈 수 있을 거예요."
-                },
+                pos: "V", text: "-다(가) 보면",
                 meaning: "앞의 행동을 계속하면 나중에 뒤의 결과가 생길 수 있다는 것을 말할 때 사용합니다.",
-                examples: [
-                    "가: 저는 요리에 소질이 없나 봐요. 제가 만든 요리는 너무 맛이 없어요.\n나: 자주 요리를 하다 보면 지금보다 잘하게 될 거예요.",
-                    "가: 한국 음식은 너무 매워서 먹을 때마다 좀 힘들어요.\n나: 한국 음식이 좀 맵지만 계속 먹다 보면 익숙해질 거예요."
-                ],
+                examples: [ "가: 저는 요리에 소질이 없나 봐요. 제가 만든 요리는 너무 맛이 없어요.\n나: 자주 요리를 하다 보면 지금보다 잘하게 될 거예요." ],
                 tables: [
-                    {
-                        title: "문법 형태",
-                        headers: ["결합 형태", "기본형", "활용형"],
-                        rows: [
-                            [ { pos: "V", text: "-다(가) 보면", sub: "", rowspan: 2 }, "연습하다", "연습하다가 보면" ],
-                            [ null, "먹다", "먹다가 보면" ]
-                        ]
-                    }
+                    { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "V", text: "-다(가) 보면", rowspan: 2 }, "연습하다", "연습하다가 보면"], [null, "먹다", "먹다가 보면"] ] }
                 ],
                 practices: [
-                    "대화를 완성해 보세요.\n\n가: 김치가 맛있는데 저한테는 좀 매운 것 같아요.\n나: 처음에는 좀 맵지만 (                                        ) 괜찮아질 거예요. 나도 그랬어요.",
-                    "대화를 완성해 보세요.\n\n가: 한국어 발음이 안 좋아서 걱정이에요.\n나: 계속 (                                        ) 좋아질 거예요. 매일 연습해 보세요.",
-                    "대화를 완성해 보세요.\n\n가: 어제 만난 사람이 별로 마음에 들지 않아요.\n나: 몇 번 더 (                                        ) 좋아질 수도 있어요. 몇 번 더 만나 보세요.",
-                    "대화를 완성해 보세요.\n\n가: 이 일은 처음이라서 자꾸 실수를 하게 돼요.\n나: 괜찮아요. 처음에는 다 그래요. 열심히 (                                        ) 잘하게 될 거예요.",
-                    "대화를 완성해 보세요.\n\n가: 자막 없이 한국 영화를 보는 건 아직 어려워요.\n나: 같은 영화를 여러 번 (                                        ) 언젠가는 자막이 없어도 다 이해하게 될 거예요.",
-                    "대화를 완성해 보세요.\n\n가: 어젯밤에 밤새 게임을 하다가 잠을 못 잤어.\n나: 밤새도록 (                                        ) 낮에 집중력이 떨어질 수도 있어.",
-                    "대화를 완성해 보세요.\n\n가: 요즘 바빠서 계속 인스턴트 음식을 먹어요.\n나: 계속 인스턴트 음식을 (                                        ) 건강이 나빠질 수도 있어요.",
-                    "대화를 완성해 보세요.\n\n가: 저 사람 좀 보세요. 휴대폰 보면서 걷다가 차에 부딪힐 뻔했어요.\n나: 저렇게 (                                        ) 사고가 날 수도 있어요.",
-                    "대화를 완성해 보세요.\n\n가: 너무 피곤해서 양치질하는 걸 잊어버려요.\n나: 자꾸 양치질을 안 (                                        ) 충치가 생길 수도 있어요.",
-                    "대화를 완성해 보세요.\n\n가: 저는 집에서 불을 꺼 놓고 영화 보는 것을 좋아해요.\n나: 계속 어두운 곳에서 (                                        ) 눈이 나빠질 수도 있어요.",
-                    "상황에 맞게 조언해 보세요.\n\n상황: 제 동생은 밖에 나가지도 않고 매일 책을 읽어요.\n조언: (                                                                                          )",
-                    "상황에 맞게 조언해 보세요.\n\n상황: 한국 음식이 입에 안 맞아요.\n조언: (                                                                                          )",
-                    "상황에 맞게 조언해 보세요.\n\n상황: 우리 언니는 밤새도록 드라마를 봐요.\n조언: (                                                                                          )",
-                    "상황에 맞게 조언해 보세요.\n\n상황: 회사에서 이번에도 승진하지 못해서 속상해요.\n조언: (                                                                                          )",
-                    "상황에 맞게 조언해 보세요.\n\n상황: 외국으로 유학을 가고 싶은데 부모님이 반대하세요.\n조언: (                                                                                          )"
+                    "가: 김치가 맛있는데 저한테는 좀 매운 것 같아요.\n나: 처음에는 좀 맵지만 (                                                  ) 괜찮아질 거예요. 나도 그랬어요."
                 ]
             }
         };
 
-        let currentKey = null;
+        // 제목 매핑 매트릭스
+        const unitTitles = {
+            1: ["진로", "능력과 자질"], 2: ["질병과 증상", "건강한 습관"], 3: ["만족과 후회", "사회 변화"],
+            4: ["날씨와 기후", "기후와 문화의 특징"], 5: ["아름다운 풍경", "여행의 기쁨"], 6: ["함께 즐기는 축제", "감상과 평가"],
+            7: ["조사 결과", "통계와 그래프"], 8: ["스타와 대중문화", "대중문화의 영향"], 9: ["흥미진진한 경기", "경기와 규칙"]
+        };
 
-        function renderSlides() {
-            const select = document.getElementById("grammarSelect");
-            currentKey = select.value;
-            if(!currentKey) {
-                showMessage("문법을 선택해 주세요.");
-                return;
+        // 데이터 뼈대 자동 생성 (1-1-1 ~ 9-2-2)
+        for (let u = 1; u <= 9; u++) {
+            for (let p = 1; p <= 2; p++) {
+                for (let g = 1; g <= 2; g++) {
+                    let key = `${u}-${p}-${g}`;
+                    if (!grammarDB[key]) {
+                        grammarDB[key] = {
+                            pos: "V", text: `${u}-${p}-${g} 문법 내용 입력란`,
+                            meaning: "여기에 문법의 의미를 입력하세요.",
+                            examples: [ "가: 예문 1\n나: 대답 1", "가: 예문 2\n나: 대답 2" ],
+                            tables: [ { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "V", text: "동사 형태", rowspan: 1 }, "기본형", "활용형 입력"], [{ pos: "A", text: "형용사 형태", rowspan: 1 }, "기본형", "활용형 입력"] ] } ],
+                            practices: [ "가: 연습문제를 입력하세요.\n나: 빈칸을 (                                                  ) 채워보세요." ]
+                        };
+                    }
+                }
+            }
+        }
+
+        // ===================================================================
+        // 대시보드 버튼 그리드 생성
+        // ===================================================================
+        window.buildDashboard = function() {
+            const gridContainer = document.getElementById('dashboard-grid');
+            let html = '';
+
+            // 1~9단원
+            for(let i=1; i<=9; i++) {
+                html += `
+                <div class="mb-10 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-2xl font-bold text-blue-900 mb-6 border-b-2 border-blue-900 pb-2">${i}단원</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <button onclick="openPreview('${i}-1')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 py-3 rounded-lg font-bold transition shadow-sm">${i}-1과</button>
+                        <button onclick="openPreview('${i}-1-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition shadow-sm">${i}-1과 어휘</button>
+                        <button onclick="openPreview('${i}-2')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 py-3 rounded-lg font-bold transition shadow-sm">${i}-2과</button>
+                        <button onclick="openPreview('${i}-2-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition shadow-sm">${i}-2과 어휘</button>
+                    </div>
+                </div>`;
             }
 
-            const data = db[currentKey];
+            // 복습
+            html += `
+                <div class="mb-10 bg-indigo-50 p-6 rounded-xl shadow-sm border border-indigo-200">
+                    <h3 class="text-2xl font-bold text-indigo-900 mb-6 border-b-2 border-indigo-900 pb-2">복습 과제</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button onclick="openPreview('review-1-3')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">1-3과 복습</button>
+                        <button onclick="openPreview('review-4-6')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">4-6과 복습</button>
+                        <button onclick="openPreview('review-7-9')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">7-9과 복습</button>
+                    </div>
+                </div>`;
+
+            gridContainer.innerHTML = html;
+        };
+
+        // 초기 빌드
+        buildDashboard();
+
+        // 화면 전환 헬퍼
+        window.showScreen = function(screenId) {
+            ['login-screen', 'denied-screen', 'dashboard-screen', 'admin-screen', 'preview-screen'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+            if (screenId === 'preview-screen') {
+                document.getElementById(screenId).classList.add('flex');
+            } else {
+                document.getElementById('preview-screen').classList.remove('flex');
+            }
+        };
+
+        window.showModal = function(msg) {
+            document.getElementById('modalMessage').innerText = msg;
+            document.getElementById('customModal').style.display = 'flex';
+        };
+        window.closeModal = function() {
+            document.getElementById('customModal').style.display = 'none';
+        };
+
+        // ===================================================================
+        // PPTX 미리보기 렌더링 로직
+        // ===================================================================
+        let activeKey = "";
+
+        window.openPreview = function(key) {
+            activeKey = key;
             const container = document.getElementById("previewArea");
-            container.innerHTML = ""; // 초기화
+            container.innerHTML = "";
+            let html = "";
+            let titleText = "";
 
-            // Slide 1: 타이틀 (valign: top 느낌을 주기 위해 마진 축소)
-            let grammarHTML = data.grammarParts.map((p, idx) => 
-                `<div id="s1-g-${idx}" contenteditable="true" style="margin-bottom:8px;"><span class="pos-text">${p.pos}</span> ${p.text}</div>`
-            ).join('');
+            if (key.includes('-v')) {
+                // 어휘 (Vocabulary)
+                let parts = key.split('-');
+                let u = parts[0], l = parts[1];
+                titleText = `${u}단원. ${unitTitles[u][l-1]} (${u}-${l}. 어휘)`;
+                document.getElementById('preview-header-title').innerText = titleText;
+                
+                html += generateTitleHtml(titleText, "어휘 Vocabulary", []);
+                html += generateVocabHtml();
+            } else if (key.startsWith('review-')) {
+                // 복습 (Review)
+                let ranges = key.split('-').slice(1).join('-');
+                titleText = `${ranges}과 복습 (Workbook)`;
+                document.getElementById('preview-header-title').innerText = titleText;
+                
+                html += generateTitleHtml(titleText, "복습", []);
+                html += generateReviewHtml();
+            } else {
+                // 문법 (Grammar)
+                let parts = key.split('-');
+                let u = parts[0], l = parts[1];
+                titleText = `${u}단원. ${unitTitles[u][l-1]} (${u}-${l}. 문법)`;
+                document.getElementById('preview-header-title').innerText = titleText;
 
-            container.innerHTML += `
-                <div class="slide-wrapper" id="slide-1">
-                    <div class="slide-container">
+                let g1 = grammarDB[`${u}-${l}-1`];
+                let g2 = grammarDB[`${u}-${l}-2`];
+
+                let gList = [];
+                if(g1) gList.push(g1);
+                if(g2) gList.push(g2);
+
+                html += generateTitleHtml(titleText, "문법과 표현", gList);
+
+                // 각 문법 포인트 생성
+                if(g1) html += generateGrammarHtml(g1, 1);
+                if(g2) html += generateGrammarHtml(g2, 2);
+            }
+
+            container.innerHTML = html;
+            showScreen('preview-screen');
+        };
+
+        function generateTitleHtml(subtitle, main, gList) {
+            let listHtml = gList.map((g, i) => {
+                let posSpan = g.pos ? `<span class="pos-text">${g.pos}</span> ` : "";
+                return `<div id="title-g-${i}" contenteditable="true">${posSpan}${g.text.replace(/\n/g, '')}</div>`;
+            }).join('');
+
+            return `
+                <div class="slide-wrapper" id="slide-title">
+                    <div class="slide-container" style="border-top: none;">
                         <div class="slide1-layout">
-                            <div class="subtitle" id="s1-unit" contenteditable="true">${data.unitLabel}</div>
+                            <div class="subtitle" id="title-sub" contenteditable="true">${subtitle}</div>
                             <div class="slide1-navy-box">
-                                <div class="main-title" id="s1-title" contenteditable="true">문법과 표현</div>
+                                <div class="main-title" id="title-main" contenteditable="true">${main}</div>
                             </div>
                             <div class="grammar-points">
-                                ${grammarHTML}
+                                ${listHtml}
                             </div>
                         </div>
                     </div>
                 </div>
             `;
+        }
 
-            // Slide 2: 도입
-            container.innerHTML += `
-                <div class="slide-wrapper" id="slide-2">
+        function generateVocabHtml() {
+            return `
+                <div class="slide-wrapper" id="slide-vocab">
                     <div class="slide-container">
-                        <div class="slide-title" id="s2-title" contenteditable="true">도입 상황</div>
+                        <div class="slide-title" id="vocab-title" contenteditable="true">어휘 학습</div>
+                        <div class="content-area">
+                            <div class="practice-box" id="vocab-content" contenteditable="true" style="height:480px;">여기에 어휘와 의미를 입력하세요.</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateReviewHtml() {
+            return `
+                <div class="slide-wrapper" id="slide-review">
+                    <div class="slide-container">
+                        <div class="slide-title" id="review-title" contenteditable="true">확인 및 연습</div>
+                        <div class="content-area">
+                            <div class="practice-box" id="review-content" contenteditable="true" style="height:480px;">여기에 복습 문제를 입력하세요.</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateGrammarHtml(g, gIdx) {
+            let html = "";
+            
+            // 도입
+            html += `
+                <div class="slide-wrapper">
+                    <div class="slide-container">
+                        <div class="slide-title" id="intro-${gIdx}-title" contenteditable="true">도입 상황</div>
                         <div class="content-area">
                             <div class="two-column">
                                 <div class="dialogue-box">
-                                    <p id="s2-a" contenteditable="true">${data.intro.speakerA.replace(/\n/g, '<br>')}</p>
-                                    <p id="s2-b" contenteditable="true" style="margin-bottom: 0;">${data.intro.speakerB.replace(/\n/g, '<br>')}</p>
+                                    <p id="intro-${gIdx}-a" contenteditable="true">가: 도입 대화를 입력하세요.</p>
+                                    <p id="intro-${gIdx}-b" contenteditable="true" style="margin-bottom: 0;">나: 대답을 입력하세요.</p>
                                 </div>
                                 <div class="image-placeholder">
-                                    <p id="s2-img-txt" contenteditable="true">[PDF 원본에서 그림을 복사하여<br>이곳에 붙여넣으세요]</p>
+                                    <p id="intro-${gIdx}-img" contenteditable="true">[그림을 복사하여 붙여넣으세요]</p>
                                 </div>
                             </div>
                         </div>
@@ -292,24 +597,24 @@
                 </div>
             `;
 
-            // Slide 3: 의미와 예문
-            let exHTML = data.examples.map((ex, idx) => 
-                `<div class="example-group" id="s3-ex-${idx}" contenteditable="true">${ex.replace(/\n/g, '<br>')}</div>`
+            // 의미와 예문
+            let exHTML = g.examples.map((ex, i) => 
+                `<div class="example-text" id="mean-${gIdx}-ex-${i}" contenteditable="true" style="margin-bottom: 25px;">${ex.replace(/\n/g, '<br>')}</div>`
             ).join('');
 
-            container.innerHTML += `
-                <div class="slide-wrapper" id="slide-3">
+            html += `
+                <div class="slide-wrapper">
                     <div class="slide-container">
-                        <div class="slide-title" id="s3-title" contenteditable="true">의미와 예문</div>
+                        <div class="slide-title" id="mean-${gIdx}-title" contenteditable="true">의미와 예문</div>
                         <div class="content-area">
                             <div class="meaning-layout">
                                 <div>
                                     <div class="section-title" contenteditable="true"><i class="fa-solid fa-lightbulb"></i> 의미</div>
-                                    <p class="meaning-text" id="s3-mean" contenteditable="true">${data.meaning}</p>
+                                    <p id="mean-${gIdx}-desc" contenteditable="true">${g.meaning}</p>
                                 </div>
                                 <div>
                                     <div class="section-title" contenteditable="true"><i class="fa-solid fa-comments"></i> 예문</div>
-                                    <div class="example-text">${exHTML}</div>
+                                    <div>${exHTML}</div>
                                 </div>
                             </div>
                         </div>
@@ -317,26 +622,26 @@
                 </div>
             `;
 
-            // Slide 4+: 형태 표 (테이블 데이터 분리 적용)
-            data.tables.forEach((tbl, tIdx) => {
+            // 형태 표
+            g.tables.forEach((tbl, tIdx) => {
                 let trs = "";
                 tbl.rows.forEach((row, rIdx) => {
                     trs += "<tr>";
                     if(row[0] !== null) {
-                        trs += `<td rowspan="${row[0].rowspan}" id="tbl-${tIdx}-r${rIdx}-c0" contenteditable="true">
-                                    <span class="pos-text">${row[0].pos}</span> ${row[0].text}<br>
-                                    <span class="sub-pos">${row[0].sub}</span>
+                        let posHtml = row[0].pos ? `<span class="pos-text">${row[0].pos}</span> ` : "";
+                        trs += `<td rowspan="${row[0].rowspan}" id="tbl-${gIdx}-${tIdx}-r${rIdx}-c0" contenteditable="true">
+                                    ${posHtml}${row[0].text.replace(/\n/g, '<br>')}
                                 </td>`;
                     }
-                    trs += `<td id="tbl-${tIdx}-r${rIdx}-c1" contenteditable="true">${row[1]}</td>`;
-                    trs += `<td id="tbl-${tIdx}-r${rIdx}-c2" contenteditable="true">${row[2]}</td>`;
+                    trs += `<td id="tbl-${gIdx}-${tIdx}-r${rIdx}-c1" contenteditable="true">${row[1]}</td>`;
+                    trs += `<td id="tbl-${gIdx}-${tIdx}-r${rIdx}-c2" contenteditable="true">${row[2]}</td>`;
                     trs += "</tr>";
                 });
 
-                container.innerHTML += `
-                    <div class="slide-wrapper" id="slide-tbl-${tIdx}">
+                html += `
+                    <div class="slide-wrapper">
                         <div class="slide-container">
-                            <div class="slide-title" id="tbl-${tIdx}-title" contenteditable="true">${tbl.title}</div>
+                            <div class="slide-title" id="tbl-${gIdx}-${tIdx}-title" contenteditable="true">문법 형태</div>
                             <div class="content-area">
                                 <div class="table-wrapper">
                                     <table>
@@ -347,9 +652,7 @@
                                                 <th style="width: 35%;" contenteditable="true">${tbl.headers[2]}</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            ${trs}
-                                        </tbody>
+                                        <tbody>${trs}</tbody>
                                     </table>
                                 </div>
                             </div>
@@ -358,16 +661,16 @@
                 `;
             });
 
-            // Slide Practice: 연습문제 (1슬라이드 1문제 꽉 차게)
-            data.practices.forEach((prac, pIdx) => {
-                container.innerHTML += `
-                    <div class="slide-wrapper" id="slide-prac-${pIdx}">
+            // 연습문제
+            g.practices.forEach((prac, pIdx) => {
+                html += `
+                    <div class="slide-wrapper">
                         <div class="slide-container">
                             <div class="slide-title" contenteditable="true">확인 및 연습</div>
                             <div class="content-area">
                                 <div class="practice-wrapper">
                                     <div class="practice-num" contenteditable="true">Q${pIdx + 1}.</div>
-                                    <div class="practice-box" id="prac-${pIdx}-txt" contenteditable="true">${prac}</div>
+                                    <div class="practice-box" id="prac-${gIdx}-${pIdx}-txt" contenteditable="true">${prac}</div>
                                 </div>
                             </div>
                         </div>
@@ -375,14 +678,16 @@
                 `;
             });
 
-            document.getElementById("downloadBtn").disabled = false;
-            showMessage("✅ 미리보기가 성공적으로 생성되었습니다. 내용을 클릭하여 수정해 보세요!");
+            return html;
         }
 
-        function downloadPPTX() {
+        // ===================================================================
+        // PPTX 엔진 연동 및 다운로드
+        // ===================================================================
+        window.downloadPPTX = function() {
             let btn = document.getElementById('downloadBtn');
-            let originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 생성 중...';
+            let originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> 파일 생성 중...';
             btn.disabled = true;
 
             setTimeout(() => {
@@ -390,172 +695,179 @@
                     let pres = new PptxGenJS();
                     pres.layout = 'LAYOUT_16x9'; 
                     
-                    let COLOR_NAVY = "1E3A8A"; 
+                    let COLOR_NAVY = "27408B";
                     let COLOR_BLACK = "000000";
-                    let COLOR_GRAY = "64748B";
+                    let COLOR_GRAY_TITLE = "64748B";
                     let COLOR_BORDER = "CBD5E1";
-                    let COLOR_BG_LIGHT = "F8FAFC";
+                    let COLOR_BG_LIGHT = "F8FAFC"; 
+                    let COLOR_BG_DARK = "E2E8F0";
                     let FONT_FACE = "맑은 고딕";
-                    let X_MARGIN = 0.5; 
-                    let W_CONTENT = 9.0; 
+                    
+                    let X_MARGIN = 0.625; 
+                    let W_CONTENT = 8.75; 
 
                     pres.defineSlideMaster({
                         title: "MASTER_SLIDE",
-                        background: { fill: "FFFFFF" },
-                        objects: [
-                            { rect: { x: 0, y: 0, w: "100%", h: 0.15, fill: COLOR_NAVY } }
-                        ]
+                        background: { fill: "FFFFFF" }
                     });
 
-                    // 2~5번 슬라이드 공통 제목 위치 (하단 2mm 여백 맞춤)
+                    function getText(id) {
+                        let el = document.getElementById(id);
+                        if(!el) return "";
+                        return el.innerText || "";
+                    }
+
                     function addSlideTitle(slide, textId) {
-                        let text = document.getElementById(textId).innerText;
-                        slide.addText(text, { 
-                            x: X_MARGIN, y: 0.45, w: W_CONTENT, h: 0.4, 
-                            valign: 'bottom', margin: 0,
-                            color: COLOR_NAVY, fontSize: 30, bold: true, fontFace: FONT_FACE 
-                        });
+                        let txt = getText(textId) || "제목";
+                        slide.addText(txt, { x: X_MARGIN, y: 0.45, w: W_CONTENT, h: 0.4, valign: 'bottom', margin: 0, color: COLOR_NAVY, fontSize: 30, bold: true, fontFace: FONT_FACE });
                         slide.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 0.93, w: W_CONTENT, h: 0.03, fill: COLOR_NAVY });
                     }
 
-                    // --- 1. 표지 슬라이드 ---
-                    let slide1 = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                    slide1.addText(document.getElementById("s1-unit").innerText, { 
-                        x: 4.0, y: 0.3, w: 5.5, align: 'right', color: COLOR_GRAY, fontSize: 24, bold: true, fontFace: FONT_FACE 
-                    });
-                    slide1.addShape(pres.ShapeType.rect, { x: 0, y: 1.6, w: 10, h: 1.2, fill: COLOR_NAVY });
-                    slide1.addText(document.getElementById("s1-title").innerText, { 
-                        x: 0, y: 1.6, w: 10, h: 1.2, align: 'center', valign: 'middle', color: "FFFFFF", fontSize: 50, bold: true, fontFace: FONT_FACE 
-                    });
-
-                    // 문법 리스트 (valign: top 적용 및 폰트 26 고정)
-                    let gData = db[currentKey].grammarParts;
+                    // --- 표지 (Title Slide) ---
+                    let slide1 = pres.addSlide();
+                    slide1.addText(getText("title-sub"), { x: 4.0, y: 0.3, w: 9.7, align: 'right', color: COLOR_GRAY_TITLE, fontSize: 24, bold: true, fontFace: FONT_FACE });
+                    slide1.addShape(pres.ShapeType.rect, { x: 0, y: 1.9, w: 10, h: 1.2, fill: COLOR_NAVY });
+                    slide1.addText(getText("title-main"), { x: 0, y: 1.9, w: 10, h: 1.2, align: 'center', valign: 'middle', color: "FFFFFF", fontSize: 50, bold: true, fontFace: FONT_FACE });
+                    
                     let gTextArr = [];
-                    gData.forEach((_, idx) => {
-                        let fullText = document.getElementById(`s1-g-${idx}`).innerText; 
-                        let firstSpace = fullText.indexOf(' ');
-                        let pos = firstSpace > -1 ? fullText.substring(0, firstSpace) : fullText;
-                        let rest = firstSpace > -1 ? fullText.substring(firstSpace) : "";
-                        gTextArr.push({ text: pos + " ", options: { color: COLOR_NAVY, bold: true } });
-                        gTextArr.push({ text: rest + (idx < gData.length -1 ? "\n" : ""), options: { color: COLOR_BLACK, bold: false } });
-                    });
-                    slide1.addText(gTextArr, { x: 0, y: 3.2, w: 10, h: 2.5, align: 'center', valign: 'top', fontSize: 26, fontFace: FONT_FACE, lineSpacing: 45 });
-
-                    // --- 2. 도입 상황 ---
-                    let slide2 = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                    addSlideTitle(slide2, "s2-title");
-                    slide2.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.3, w: 4.25, h: 3.9, fill: COLOR_BG_LIGHT });
-                    
-                    let aText = document.getElementById("s2-a").innerText;
-                    let bText = document.getElementById("s2-b").innerText;
-                    slide2.addText(aText + "\n\n" + bText, {
-                        x: 0.8, y: 1.3, w: 3.8, h: 3.9, color: COLOR_BLACK, fontSize: 24, fontFace: FONT_FACE, valign: 'middle', lineSpacing: 35
-                    });
-                    slide2.addShape(pres.ShapeType.rect, { x: 5.25, y: 1.3, w: 4.25, h: 3.9, fill: "E2E8F0" });
-                    slide2.addText(document.getElementById("s2-img-txt").innerText, {
-                        x: 5.25, y: 1.3, w: 4.25, h: 3.9, color: COLOR_GRAY, fontSize: 20, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true
-                    });
-
-                    // --- 3. 의미와 예문 ---
-                    let slide3 = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                    addSlideTitle(slide3, "s3-title");
-                    
-                    slide3.addText("의미", { x: X_MARGIN, y: 1.3, w: W_CONTENT, h: 0.4, color: COLOR_NAVY, fontSize: 24, bold: true, fontFace: FONT_FACE, valign: 'top' });
-                    slide3.addText(document.getElementById("s3-mean").innerText, { x: X_MARGIN, y: 1.8, w: W_CONTENT, h: 0.6, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top' });
-                    
-                    slide3.addText("예문", { x: X_MARGIN, y: 2.6, w: W_CONTENT, h: 0.4, color: COLOR_NAVY, fontSize: 24, bold: true, fontFace: FONT_FACE, valign: 'top' });
-                    
-                    let exArr = [];
-                    db[currentKey].examples.forEach((_, idx) => {
-                        let text = document.getElementById(`s3-ex-${idx}`).innerText;
-                        exArr.push({ text: text + (idx < db[currentKey].examples.length -1 ? "\n\n" : ""), options: { color: COLOR_BLACK } });
-                    });
-                    slide3.addText(exArr, { x: X_MARGIN, y: 3.1, w: W_CONTENT, h: 2.0, fontSize: 22, fontFace: FONT_FACE, lineSpacing: 32, valign: 'top', wrap: false });
-
-                    // --- 4. 표 Helper ---
-                    function getCellOpts(rspan) {
-                        let o = { color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: { pt: 1, color: COLOR_BORDER }, margin: 4 };
-                        if(rspan) o.rowspan = rspan;
-                        return o;
+                    for(let i=0; i<5; i++) {
+                        let fullText = getText(`title-g-${i}`);
+                        if(fullText) {
+                            let firstSpace = fullText.indexOf(' ');
+                            let pos = firstSpace > -1 ? fullText.substring(0, firstSpace) : fullText;
+                            let rest = firstSpace > -1 ? fullText.substring(firstSpace) : "";
+                            gTextArr.push({ text: pos + " ", options: { color: COLOR_NAVY, bold: true } });
+                            gTextArr.push({ text: rest + "\n", options: { color: COLOR_BLACK, bold: false } });
+                        }
                     }
-                    function getHeaderOpts() {
-                        return { fill: COLOR_NAVY, color: "FFFFFF", bold: true, fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: { pt: 1, color: COLOR_BORDER }, margin: 6 };
+                    if(gTextArr.length > 0) {
+                        slide1.addText(gTextArr, { x: 0, y: 3.5, w: 10, h: 2.0, align: 'center', valign: 'top', fontSize: 26, fontFace: FONT_FACE, lineSpacing: 45 });
                     }
 
-                    // --- 5. 테이블 슬라이드 (동적 분리 렌더링) ---
-                    db[currentKey].tables.forEach((tbl, tIdx) => {
-                        let slideT = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                        addSlideTitle(slideT, `tbl-${tIdx}-title`);
+                    // 분기 처리 (어휘 / 복습 / 문법)
+                    if (activeKey.includes('-v')) {
+                        let slideV = pres.addSlide({ masterName: "MASTER_SLIDE" });
+                        addSlideTitle(slideV, "vocab-title");
+                        slideV.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.25, w: 8.3, h: 4.1, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
+                        slideV.addText(getText("vocab-content"), { x: 0.8, y: 1.4, w: 7.8, h: 3.8, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', wrap: true });
+                    } 
+                    else if (activeKey.startsWith('review-')) {
+                        let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
+                        addSlideTitle(slideR, "review-title");
+                        slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.25, w: 8.3, h: 4.1, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
+                        slideR.addText(getText("review-content"), { x: 0.8, y: 1.4, w: 7.8, h: 3.8, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', wrap: true });
+                    } 
+                    else {
+                        // 문법 파트 루프 (gIdx 1, 2)
+                        [1, 2].forEach(gIdx => {
+                            if(!document.getElementById(`intro-${gIdx}-a`)) return; // 존재하지 않으면 패스
 
-                        let rows = [];
-                        rows.push([
-                            { text: document.querySelector(`#slide-tbl-${tIdx} th:nth-child(1)`).innerText, options: getHeaderOpts() }, 
-                            { text: document.querySelector(`#slide-tbl-${tIdx} th:nth-child(2)`).innerText, options: getHeaderOpts() }, 
-                            { text: document.querySelector(`#slide-tbl-${tIdx} th:nth-child(3)`).innerText, options: getHeaderOpts() }
-                        ]);
+                            // 도입
+                            let slide2 = pres.addSlide({ masterName: "MASTER_SLIDE" });
+                            addSlideTitle(slide2, `intro-${gIdx}-title`);
+                            slide2.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.3, w: 4.15, h: 3.9, fill: COLOR_BG_LIGHT });
+                            slide2.addText(getText(`intro-${gIdx}-a`) + "\n\n" + getText(`intro-${gIdx}-b`), { x: 0.8, y: 1.3, w: 3.8, h: 3.9, color: COLOR_BLACK, fontSize: 24, fontFace: FONT_FACE, valign: 'middle', lineSpacing: 35 });
+                            slide2.addShape(pres.ShapeType.rect, { x: 5.125, y: 1.3, w: 4.25, h: 3.9, fill: COLOR_BG_DARK });
+                            slide2.addText(getText(`intro-${gIdx}-img`), { x: 5.125, y: 1.3, w: 4.25, h: 3.9, color: COLOR_GRAY_TITLE, fontSize: 20, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
 
-                        tbl.rows.forEach((r, rIdx) => {
-                            let tr = [];
-                            if (r[0] !== null) {
-                                let fullCellText = document.getElementById(`tbl-${tIdx}-r${rIdx}-c0`).innerText;
-                                let firstSpace = fullCellText.indexOf(' ');
-                                let posPart = firstSpace > -1 ? fullCellText.substring(0, firstSpace) : fullCellText;
-                                let restPart = firstSpace > -1 ? fullCellText.substring(firstSpace) : "";
-                                
-                                tr.push({
-                                    text: [
-                                        { text: posPart, options: { color: COLOR_NAVY, bold: true } },
-                                        { text: restPart, options: { color: COLOR_BLACK, bold: false } }
-                                    ],
-                                    options: getCellOpts(r[0].rowspan)
-                                });
+                            // 의미와 예문
+                            let slide3 = pres.addSlide({ masterName: "MASTER_SLIDE" });
+                            addSlideTitle(slide3, `mean-${gIdx}-title`);
+                            slide3.addText("의미", { x: X_MARGIN, y: 1.3, w: W_CONTENT, h: 0.4, color: COLOR_NAVY, fontSize: 24, bold: true, fontFace: FONT_FACE, valign: 'top' });
+                            slide3.addText(getText(`mean-${gIdx}-desc`), { x: X_MARGIN, y: 1.8, w: W_CONTENT, h: 0.6, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top' });
+                            slide3.addText("예문", { x: X_MARGIN, y: 2.6, w: W_CONTENT, h: 0.4, color: COLOR_NAVY, fontSize: 24, bold: true, fontFace: FONT_FACE, valign: 'top' });
+                            
+                            let exArr = [];
+                            for(let i=0; i<10; i++) {
+                                let exTxt = getText(`mean-${gIdx}-ex-${i}`);
+                                if(exTxt) exArr.push({ text: exTxt + "\n\n", options: { color: COLOR_BLACK } });
                             }
-                            tr.push({ text: document.getElementById(`tbl-${tIdx}-r${rIdx}-c1`).innerText, options: getCellOpts() });
-                            tr.push({ text: document.getElementById(`tbl-${tIdx}-r${rIdx}-c2`).innerText, options: getCellOpts() });
-                            rows.push(tr);
+                            slide3.addText(exArr, { x: X_MARGIN, y: 3.1, w: W_CONTENT, h: 2.0, fontSize: 22, fontFace: FONT_FACE, lineSpacing: 32, valign: 'top', wrap: false });
+
+                            // 형태 표
+                            let thOpts = { fill: COLOR_NAVY, color: "FFFFFF", bold: true, fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: { pt: 1, color: COLOR_BORDER }, margin: 6 };
+                            function txt(content, bOpts) { return { text: content, options: { color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: bOpts } }; }
+                            function posTxt(posStr, content, bOpts) { return { text: [{ text: posStr + " ", options: { color: COLOR_NAVY, bold: true } }, { text: content, options: { color: COLOR_BLACK, bold: false } }], options: { fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: bOpts } }; }
+
+                            for(let tIdx=0; tIdx<5; tIdx++) {
+                                if(!document.getElementById(`tbl-${gIdx}-${tIdx}-title`)) continue;
+                                
+                                let slideT = pres.addSlide();
+                                addSlideTitle(slideT, `tbl-${gIdx}-${tIdx}-title`);
+
+                                let rows = [];
+                                // DOM에서 헤더 긁어오기
+                                let theads = document.querySelectorAll(`#slide-tbl-${tIdx} th`);
+                                if(theads.length >= 3) {
+                                    rows.push([
+                                        { text: theads[0].innerText, options: thOpts }, 
+                                        { text: theads[1].innerText, options: thOpts }, 
+                                        { text: theads[2].innerText, options: thOpts }
+                                    ]);
+                                } else {
+                                    rows.push([{text:"결합 형태", options:thOpts}, {text:"기본형", options:thOpts}, {text:"활용형", options:thOpts}]);
+                                }
+
+                                let borderOpts = [ {pt:1, color:COLOR_BORDER}, {pt:1, color:COLOR_BORDER}, {pt:1, color:COLOR_BORDER}, {pt:1, color:COLOR_BORDER} ];
+                                let borderNoBot = [ {pt:1, color:COLOR_BORDER}, {pt:1, color:COLOR_BORDER}, {pt:0}, {pt:1, color:COLOR_BORDER} ];
+                                let borderNoTop = [ {pt:0}, {pt:1, color:COLOR_BORDER}, {pt:1, color:COLOR_BORDER}, {pt:1, color:COLOR_BORDER} ];
+
+                                for(let rIdx=0; rIdx<15; rIdx++) {
+                                    let c1 = getText(`tbl-${gIdx}-${tIdx}-r${rIdx}-c1`);
+                                    let c2 = getText(`tbl-${gIdx}-${tIdx}-r${rIdx}-c2`);
+                                    if(!c1 && !c2) continue; // 행이 없으면 끝
+
+                                    let tr = [];
+                                    let cell0 = document.getElementById(`tbl-${gIdx}-${tIdx}-r${rIdx}-c0`);
+                                    if (cell0) {
+                                        let rspan = cell0.getAttribute('rowspan') || 1;
+                                        let fullCellText = cell0.innerText;
+                                        let firstSpace = fullCellText.indexOf(' ');
+                                        let posPart = firstSpace > -1 ? fullCellText.substring(0, firstSpace) : fullCellText;
+                                        let restPart = firstSpace > -1 ? fullCellText.substring(firstSpace) : "";
+                                        
+                                        tr.push(posTxt(posPart, restPart, rspan > 1 ? borderNoBot : borderOpts));
+                                    } else {
+                                        tr.push(txt("", borderNoTop)); 
+                                    }
+                                    tr.push(txt(c1, borderOpts));
+                                    tr.push(txt(c2, borderOpts));
+                                    rows.push(tr);
+                                }
+                                slideT.addTable(rows, { x: X_MARGIN, y: 1.3, w: W_CONTENT, colW: [3.5, 2.0, 3.25] });
+                            }
+
+                            // 연습문제
+                            for(let pIdx=0; pIdx<20; pIdx++) {
+                                let pTxt = getText(`prac-${gIdx}-${pIdx}-txt`);
+                                if(!pTxt) continue;
+
+                                let slideP = pres.addSlide();
+                                slideP.addText("확인 및 연습", { x: X_MARGIN, y: 0.45, w: W_CONTENT, h: 0.4, valign: 'bottom', margin: 0, color: COLOR_NAVY, fontSize: 30, bold: true, fontFace: FONT_FACE });
+                                slideP.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 0.93, w: W_CONTENT, h: 0.03, fill: COLOR_NAVY });
+
+                                slideP.addText(`Q${pIdx + 1}.`, { x: 0.3, y: 1.3, w: 0.95, h: 0.5, color: COLOR_NAVY, fontSize: 26, bold: true, fontFace: FONT_FACE, valign: 'top' });
+                                slideP.addShape(pres.ShapeType.rect, { x: 1.25, y: 1.25, w: 8.3, h: 4.1, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
+                                slideP.addText(pTxt, { x: 1.5, y: 1.4, w: 7.8, h: 3.8, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', lineSpacing: 35, wrap: true });
+                            }
                         });
+                    }
 
-                        slideT.addTable(rows, { x: X_MARGIN, y: 1.3, w: W_CONTENT, colW: [3.5, 2.0, 3.5] });
-                    });
-
-                    // --- 6. 연습문제 슬라이드 (1페이지 1문항 꽉 차게) ---
-                    db[currentKey].practices.forEach((_, pIdx) => {
-                        let slideP = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                        
-                        // 상단 제목 
-                        slideP.addText("확인 및 연습", { 
-                            x: X_MARGIN, y: 0.45, w: W_CONTENT, h: 0.4, valign: 'bottom', margin: 0, color: COLOR_NAVY, fontSize: 30, bold: true, fontFace: FONT_FACE 
-                        });
-                        slideP.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 0.93, w: W_CONTENT, h: 0.03, fill: COLOR_NAVY });
-
-                        // 넓은 배경 박스 (페이지를 충분히 채우도록)
-                        slideP.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.2, w: W_CONTENT, h: 4.0, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
-                        
-                        // 문항 번호 (너비를 0.95로 늘려 Q10, Q11 등 두 자릿수에도 줄바꿈 방지)
-                        slideP.addText(`Q${pIdx + 1}.`, { x: 0.7, y: 1.4, w: 0.95, h: 0.5, color: COLOR_NAVY, fontSize: 26, bold: true, fontFace: FONT_FACE });
-                        
-                        // 문제 텍스트 (22pt 적용 및 넓은 괄호 간격 유지)
-                        let pText = document.getElementById(`prac-${pIdx}-txt`).innerText;
-                        slideP.addText(pText, {
-                            x: 1.5, y: 1.4, w: 7.7, h: 3.6, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', lineSpacing: 35
-                        });
-                    });
-
-                    // 완료 및 저장
-                    pres.writeFile({ fileName: `서울대_한국어_4A_${currentKey}.pptx` }).then(() => {
-                        btn.innerHTML = '<i class="fa-solid fa-check"></i> 성공적으로 다운로드됨';
-                        showMessage("🎉 PPTX 파일이 성공적으로 다운로드되었습니다!");
-                        setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 3000);
+                    let safeTitle = activeKey.replace(/[<>:"\/\\|?*\x00-\x1F]/g, "_");
+                    pres.writeFile({ fileName: `SNU_Korean_${safeTitle}.pptx` }).then(() => {
+                        btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 다운로드 완료';
+                        showModal("🎉 성공적으로 다운로드되었습니다.");
+                        setTimeout(() => { btn.innerHTML = originalHTML; btn.disabled = false; }, 3000);
                     });
 
                 } catch(e) {
-                    showMessage("❌ PPTX 생성 중 오류가 발생했습니다: " + e.message);
-                    console.error(e);
-                    btn.innerHTML = originalText;
+                    showModal("❌ 오류 발생: " + e.message);
+                    btn.innerHTML = originalHTML;
                     btn.disabled = false;
+                    console.error(e);
                 }
             }, 100);
-        }
+        };
     </script>
 </body>
 </html>
