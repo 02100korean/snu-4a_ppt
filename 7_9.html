@@ -15,6 +15,7 @@
         body { background-color: #f8fafc; margin: 0; padding: 0; }
         .preview-bg { background-color: #e2e8f0; display: flex; flex-direction: column; align-items: center; padding: 40px 0; width: 100%; min-height: 100vh; }
         .slide-wrapper { width: 1280px; height: 720px; transform-origin: top center; transform: scale(0.75); margin-bottom: -180px; }
+        /* 텍스트가 많은 복습 읽기 지문을 위해 패딩을 최소화(30px 40px) */
         .slide-container { background-color: #ffffff; border-radius: 4px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; width: 1280px; height: 720px; overflow: hidden; padding: 30px 40px; position: relative; color: #000000; }
         .slide-container h1, .slide-container p, .slide-container td, .slide-container th { margin: 0; line-height: 1.5; color: #000000; }
         .slide-title { font-size: 36px; font-weight: bold; color: #27408B; text-align: left; width: 100%; border-bottom: 3px solid #27408B; padding-bottom: 8px; margin-bottom: 20px; }
@@ -94,7 +95,7 @@
         function showModal(msg) { document.getElementById('modalMessage').innerText = msg; document.getElementById('customModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('customModal').style.display = 'none'; }
 
-        // [7~9단원 문법 기본 뼈대]
+        // [7~9단원 문법 기본 데이터]
         window.db = {
             "7-1-1": {
                 g:[{p:"N",t:"에 따라(서)"},{p:"V",t:"-느냐에 따라(서)"},{p:"A",t:"-(으)냐에 따라(서)"}],
@@ -336,7 +337,7 @@
             }
         };
 
-        // ★ 7~9단원 어휘 문제 데이터베이스 (한 배열당 1슬라이드 생성, 보기 분리 완벽 지원)
+        // ★ 7~9단원 실제 어휘 문제 데이터베이스
         window.vocabDB = {
             "7-1-v": [
                 { b: "[보기]\n-을 대상으로 에 대해 조사하다/-는지 조사하다\n전체의 ~%가 -는다고 응답하다   순으로 응답하다\n-는다는 응답이 ~을 차지하다   -는 것으로 나타나다", q: "1) 서울대학교에서 외국인 학생 100명 (        ) 어떤 아르바이트를 (        )" },
@@ -409,7 +410,7 @@
                 { b: "[보기]\n득점을 하다   점수를 매기다   공격을 막다\n공격하다   기록을 측정하다", q: "4) 경기가 끝나기 5분 전에 우리 팀이 골을 넣어서 점수를 얻을 수 있었어. (        )" },
                 { b: "[보기]\n득점을 하다   점수를 매기다   공격을 막다\n공격하다   기록을 측정하다", q: "5) 리듬 체조는 연기를 잘한 선수에게 심판이 높은 점수를 줍니다. (        )" },
                 { b: "[보기]\n규칙을 지키다   퇴장을 당하다   반칙을 하다\n선을 밟다   경고를 받다   그물(네트)에 닿다", q: "6) 가: 배구 경기에서 김민우 선수가 점프했다가 내려올 때 팔이 (        ) 실점을 했는데 아쉽더라고요." },
-                { b: "[보기]\n규칙을 지키다   퇴장을 당하다   반칙을 하다\n선을 밟다   경고를 받다   그물(네트)에 닿다", q: "7) 가: 심판이 왜 빨간색 카드를 꺼냈어요?\n나: 상대 팀 선수를 밀었어요. 똑같은 행동을 해서 (        )거든요. 또 (        ) 그래서 지금 (        ) 거예요." },
+                { b: "[보기]\n규칙을 지키다   퇴장을 당하다   반칙을 하다\n선을 밟다   경고를 받다   그물(네트)에 닿다", q: "7) 가: 심판이 왜 빨간색 카드를 꺼냈어요?\n나: 방금 상대 팀 선수를 밀었어요. 똑같은 행동을 해서 (        )거든요. 또 (        ) 그래서 지금 (        ) 거예요." },
                 { b: "[보기]\n규칙을 지키다   퇴장을 당하다   반칙을 하다\n선을 밟다   경고를 받다   그물(네트)에 닿다", q: "8) 가: 왜 상대 팀이 공격을 하지요?\n나: 농구에서는 제일 바깥에 있는 (        ) 안 되거든요. 방금 우리 팀 선수가 (        ) 것 같아요." },
                 { b: "[보기]\n규칙을 지키다   퇴장을 당하다   반칙을 하다\n선을 밟다   경고를 받다   그물(네트)에 닿다", q: "9) 가: 장애인 주차 구역에 차를 세울까요?\n나: 여기는 장애인을 위한 자리라서 차를 세우면 안 돼요. 보는 사람이 없어도 (        ) 해요." }
             ]
@@ -419,7 +420,7 @@
             7: ["조사 결과", "통계와 그래프"], 8: ["스타와 대중문화", "대중문화의 영향"], 9: ["흥미진진한 경기", "경기와 규칙"]
         };
 
-        // ★ 7~9과 복습 (말하기, 듣기, 읽기, 쓰기, 발음) 종합 데이터
+        // ★ 7~9과 복습 (말하기, 듣기, 읽기, 쓰기, 발음) 종합 데이터 (읽기 지문 분리, 문법 V/A/N 분리, 폰트 조절 적용)
         window.reviewDB = {
             "review-7-9": [
                 {
@@ -427,8 +428,22 @@
                     title: "1. 어휘의 의미를 설명해 보세요.",
                     isList: true,
                     content: [
-                        { t: "7단원", words: ["대상", "응답하다", "과반수", "절반", "조사하다", "순", "미만", "1/3", "차지하다", "늘어나다/줄어들다", "증가하다/감소하다", "나타나다", "늘리다/줄이다", "이상/이하", "인상하다/인하하다", "경쟁률", "확률", "비율", "환율", "오르다/내리다", "취업률"] },
-                        { t: "8단원", words: ["역할을 맡다", "꿈만 같다", "실감이 안 나다/나다", "수상하다", "작품에 출연하다", "믿기지 않다", "심장이 터질 것 같다", "인기를 끌다", "팀을 옮기다", "숨이 멎다", "위로를 받다", "용기를 얻다", "즐거움을 얻다", "영향력이 커지다", "주목을 받다", "무대에 서다", "무소식", "새 앨범을 내다", "무관심하다", "관심을 끌다", "무조건", "무의미하다", "유행을 이끌다", "무책임하다"] },
+                        { t: "7단원", words: ["대상", "응답하다", "과반수", "절반", "조사하다", "순", "미만", "1/3", "차지하다", "늘어나다/줄어들다", "증가하다/감소하다", "나타나다", "늘리다/줄이다", "이상/이하", "인상하다/인하하다", "경쟁률", "확률", "비율", "환율", "오르다/내리다", "취업률"] }
+                    ]
+                },
+                {
+                    type: "말하기",
+                    title: "1. 어휘의 의미를 설명해 보세요.",
+                    isList: true,
+                    content: [
+                        { t: "8단원", words: ["역할을 맡다", "꿈만 같다", "실감이 안 나다/나다", "수상하다", "작품에 출연하다", "믿기지 않다", "심장이 터질 것 같다", "인기를 끌다", "팀을 옮기다", "숨이 멎다", "위로를 받다", "용기를 얻다", "즐거움을 얻다", "영향력이 커지다", "주목을 받다", "무대에 서다", "무소식", "새 앨범을 내다", "무관심하다", "관심을 끌다", "무조건", "무의미하다", "유행을 이끌다", "무책임하다"] }
+                    ]
+                },
+                {
+                    type: "말하기",
+                    title: "1. 어휘의 의미를 설명해 보세요.",
+                    isList: true,
+                    content: [
                         { t: "9단원", words: ["승부가 나다", "비기다", "무승부로 끝나다", "역전하다", "득점하다", "실점하다", "공격하다", "연장전을 하다", "정정당당하다", "우왕좌왕하다", "결승전에 진출하다", "예선에서 탈락하다", "아슬아슬하다", "흥미진진하다", "고만고만하다", "기록을 측정하다", "기록을 비교하다", "점수를 매기다", "규칙을 지키다", "반칙을 하다", "경고를 주다/받다", "퇴장을 당하다", "선을 밟다", "그물(네트)에 닿다", "공격을 막다/수비하다"] }
                     ]
                 },
@@ -443,36 +458,71 @@
                     q: "외국인 유학생의 온라인 쇼핑 비율과 그 이유\n[대상: 외국인 유학생 50명, 출처: LEI 신문]\n\n• 온라인으로 쇼핑한 적이 있습니까?\n  - 있다: 60.7%\n  - 없다: 39.3%\n\n• 온라인으로 쇼핑하는 이유는 무엇입니까?\n  - 가격이 저렴해서: 52.2%\n  - 배송이 빨라서: 32.8%\n  - 교환이나 환불이 쉬워서: 5.4%\n  - 기타: 9.6%"
                 },
                 {
-                    type: "말하기",
-                    title: "4. 문법과 표현의 의미를 확인해 보세요. (7단원)",
-                    q: "명에 따라(서), 동-느냐에 따라(서), 형-으냐에 따라(서), 명이냐에 따라(서)\n가: 제 친구는 파란색이 잘 어울리는데 저는 잘 안 어울려요.\n나: 피부색에 따라(서) 어울리는 색깔이 다를 수 있지요.\n\n명에 의하면\n가: 월요일만 되면 왜 이렇게 피곤한지 모르겠어요.\n나: 조사 결과에 의하면 직장인의 64%가 월요병을 겪는대요.\n\n명에 불과하다, 명을 통해(서)\n동창회에 참석한 사람은 다섯 명에 불과했다.\n성공도 좋지만 실패를 통해 얻을 수 있는 것도 많다."
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "N에 따라(서), V-느냐에 따라(서), A-(으)냐에 따라(서), N(이)냐에 따라(서)\n가: 제 친구는 파란색이 잘 어울리는데 저는 잘 안 어울려요.\n나: 피부색에 따라(서) 어울리는 색깔이 다를 수 있지요."
                 },
                 {
-                    type: "말하기",
-                    title: "4. 문법과 표현의 의미를 확인해 보세요. (8단원)",
-                    q: "동·형-을 리(가) 없다, 명일 리(가) 없다\n가: 이 음식 상한 것 같아요.\n나: 그럴 리(가) 없어요. 지금 방금 만들었거든요.\n\n명만 못하다\n가: 영화가 생각보다 재미없네요. 기대했는데.\n나: 저도 기대만 못했어요. 평점이 좋아서 봤는데 실망이네요.\n\n동-은 채(로)\n창문을 열어 놓은 채로 잠이 들어서 감기에 걸렸다.\n\n동-는다 싶다, 형-다 싶다, 명이다 싶다\n공부하다가 이해가 안 된다 싶을 때는 선생님께 물어보는 것도 좋은 방법이다."
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "N에 의하면\n가: 월요일만 되면 왜 이렇게 피곤한지 모르겠어요.\n나: 조사 결과에 의하면 직장인의 64%가 월요병을 겪는대요."
                 },
                 {
-                    type: "말하기",
-                    title: "4. 문법과 표현의 의미를 확인해 보세요. (9단원)",
-                    q: "동-으나 마나\n가: 어, 과제 마감일이 어제였네. 지금이라도 낼까?\n나: 교수님이 늦게 내면 받지 않는다고 하셨어. 지금 내나 마나 소용없을 거야.\n\n동-기는 틀렸다\n가: 민수 씨, 6시가 넘었는데 퇴근 안 해요?\n나: 오늘까지 끝내야 되는 일이 있어서 일찍 퇴근하기는 틀렸어요.\n\n명으로(서), 동·형-으나, 명이나\n나도 시간이 없었지만 친구로서 도와주지 않을 수 없었다.\n연장전까지 할 정도로 열심히 싸웠으나 결국 지고 말았다."
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "N에 불과하다, N을/를 통해(서)\n동창회에 참석한 사람은 다섯 명에 불과했다.\n성공도 좋지만 실패를 통해 얻을 수 있는 것도 많다."
+                },
+                {
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "V/A-을 리(가) 없다, N일 리(가) 없다\n가: 이 음식 상한 것 같아요.\n나: 그럴 리(가) 없어요. 지금 방금 만들었거든요."
+                },
+                {
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "N만 못하다\n가: 영화가 생각보다 재미없네요. 기대했는데.\n나: 저도 기대만 못했어요. 평점이 좋아서 봤는데 실망이네요."
+                },
+                {
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "V-은 채(로)\n창문을 열어 놓은 채로 잠이 들어서 감기에 걸렸다."
+                },
+                {
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "V-는다 싶다, A-다 싶다, N이다 싶다\n공부하다가 이해가 안 된다 싶을 때는 선생님께 물어보는 것도 좋은 방법이다."
+                },
+                {
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "V-으나 마나\n가: 어, 과제 마감일이 어제였네. 지금이라도 낼까?\n나: 교수님이 늦게 내면 받지 않는다고 하셨어. 지금 내나 마나 소용없을 거야."
+                },
+                {
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "V-기는 틀렸다\n가: 민수 씨, 6시가 넘었는데 퇴근 안 해요?\n나: 오늘까지 끝내야 되는 일이 있어서 일찍 퇴근하기는 틀렸어요."
+                },
+                {
+                    type: "문법",
+                    title: "4. 문법과 표현의 의미를 확인해 보세요.",
+                    q: "N으로(서), V/A-으나, N이나\n나도 시간이 없었지만 친구로서 도와주지 않을 수 없었다.\n연장전까지 할 정도로 열심히 싸웠으나 결국 지고 말았다."
                 },
                 {
                     type: "말하기",
                     title: "5. 문법과 표현을 사용해서 이야기해 보세요. (가형)",
-                    bank: "[사용 문법/표현]\n1) 동-느냐에 따라(서)   2) 명에 의하면   3) 동·형-을 리가 없다\n4) 명만 못하다   5) 동-으나 마나   6) 동-기는 틀렸다",
+                    bank: "[사용 문법/표현]\n1) V-느냐에 따라(서)   2) N에 의하면   3) V/A-을 리가 없다\n4) N만 못하다   5) V-으나 마나   6) V-기는 틀렸다",
                     q: "1) _____ 씨 나라에 여행을 가려고 해요. 돈이 얼마나 들까요?\n2) 책이나 뉴스에서 읽은 내용을 소개해 보세요.\n3) 다음 학기부터 등록금이 50% 오른다는 소문이 있던데요?\n4) 어제 시험 봤지요? 지난번 시험보다 잘 봤어요?\n5) 졸리면 잠깐 눈 좀 붙이지 그래요?\n6) 내일 시험인데 준비는 많이 했어요?"
                 },
                 {
                     type: "말하기",
                     title: "5. 문법과 표현을 사용해서 이야기해 보세요. (나형)",
-                    bank: "[사용 문법/표현]\n1) 동-느냐에 따라(서)   2) 명에 의하면   3) 동·형-을 리가 없다\n4) 명만 못하다   5) 동-으나 마나   6) 동-기는 틀렸다",
+                    bank: "[사용 문법/표현]\n1) V-느냐에 따라(서)   2) N에 의하면   3) V/A-을 리가 없다\n4) N만 못하다   5) V-으나 마나   6) V-기는 틀렸다",
                     q: "1) 요즘 방을 구하고 있어요. 방 크기가 비슷한데 가격 차이가 크네요.\n2) _____ 씨 나라의 인구는 몇 명입니까?\n3) 다니엘 씨에게 들었는데 4급 중간시험이 아주 쉽대요.\n4) _____ 씨가 좋아하는 가수의 새 노래가 나왔네요. 노래가 어때요?\n5) 배가 고프면 이 과자라도 좀 먹을래요?\n6) 시간이 없는데 택시 타면 시간 안에 갈 수 있을까요?"
                 },
                 {
                     type: "말하기",
                     title: "5. 문법과 표현을 사용해서 이야기해 보세요. (다형)",
-                    bank: "[사용 문법/표현]\n1) 동-느냐에 따라(서)   2) 명에 의하면   3) 동·형-을 리가 없다\n4) 명만 못하다   5) 동-으나 마나   6) 동-기는 틀렸다",
+                    bank: "[사용 문법/표현]\n1) V-느냐에 따라(서)   2) N에 의하면   3) V/A-을 리가 없다\n4) N만 못하다   5) V-으나 마나   6) V-기는 틀렸다",
                     q: "1) 아르바이트를 하면 한 달에 돈을 얼마나 벌 수 있을까요?\n2) 오늘 비가 올 확률은 몇 %입니까?\n3) 내일부터 학생 식당에서 밥을 무료로 준대요.\n4) 이사했다면서요? 새집으로 이사하니까 좋아요?\n5) 이번에 _____ 씨가 좋아하는 배우가 나오는 영화가 새로 나왔다면서요?\n6) 과제를 아직 시작도 못 했는데 오늘 다 할 수 있을까요?"
                 },
                 {
@@ -528,37 +578,44 @@
                 {
                     type: "읽기",
                     title: "1. 다음 글의 내용과 같은 것을 고르세요.",
-                    q: "태권도의 역사\n• 한국에서 처음 시작됐으며 1960년대에 국제적인 스포츠가 됨\n• 1973년에 서울에서 처음으로 세계 태권도 선수권 대회가 열림\n• 2000년에 호주 시드니에서 개최된 올림픽에서 정식 종목이 됨\n• 올림픽에서는 남녀 각각 4체급씩 경기가 치러지며 총 금메달 수는 8개임\n\n① 1960년에 태권도 세계 선수권 대회가 열렸다.\n② 태권도가 올림픽 정식 종목이 된 것은 1973년이다.\n③ 올림픽에서는 남녀 합쳐서 모두 네 번의 경기가 열린다.\n④ 올림픽에서 태권도로 딸 수 있는 금메달의 수는 여덟 개이다."
+                    passage: "태권도의 역사\n• 한국에서 처음 시작됐으며 1960년대에 국제적인 스포츠가 됨\n• 1973년에 서울에서 처음으로 세계 태권도 선수권 대회가 열림\n• 2000년에 호주 시드니에서 개최된 올림픽에서 정식 종목이 됨\n• 올림픽에서는 남녀 각각 4체급씩 경기가 치러지며 총 금메달 수는 8개임",
+                    q: "① 1960년에 태권도 세계 선수권 대회가 열렸다.\n② 태권도가 올림픽 정식 종목이 된 것은 1973년이다.\n③ 올림픽에서는 남녀 합쳐서 모두 네 번의 경기가 열린다.\n④ 올림픽에서 태권도로 딸 수 있는 금메달의 수는 여덟 개이다."
                 },
                 {
                     type: "읽기",
                     title: "2. 다음 글의 내용과 같은 것을 고르세요.",
-                    q: "최근 통계청 발표에 의하면 올해는 작년보다 물가가 4.8% 올랐다고 한다. 이것은 2009년 이후 가장 높은 수치이다. 특히 외식 물가는 지난달에 비해 5.5%나 올랐는데 그중에서도 국민 간식인 치킨 가격은 한 달 사이에 11% 가까이 인상돼서 외식 물가 인상률의 두 배나 오른 셈이다. 이처럼 외식 물가를 비롯한 먹을거리 가격이 오르면서 국민들이 느끼는 경제적 부담도 증가한 것으로 나타났다. 정부에서는 물가를 잡기 위해 여러 대책을 내놓고 있으나 물가가 안정되기까지는 시간이 걸릴 것이라는 전망이다.\n\n① 치킨 가격은 작년보다 두 배 인상됐다.\n② 올해 물가 인상률은 2009년 이후 가장 높다.\n③ 물가를 내리기 위한 정부의 노력이 효과가 있었다.\n④ 작년과 비교해서 외식 물가는 11% 오른 것으로 나타났다."
+                    passage: "최근 통계청 발표에 의하면 올해는 작년보다 물가가 4.8% 올랐다고 한다. 이것은 2009년 이후 가장 높은 수치이다. 특히 외식 물가는 지난달에 비해 5.5%나 올랐는데 그중에서도 국민 간식인 치킨 가격은 한 달 사이에 11% 가까이 인상돼서 외식 물가 인상률의 두 배나 오른 셈이다. 이처럼 외식 물가를 비롯한 먹을거리 가격이 오르면서 국민들이 느끼는 경제적 부담도 증가한 것으로 나타났다. 정부에서는 물가를 잡기 위해 여러 대책을 내놓고 있으나 물가가 안정되기까지는 시간이 걸릴 것이라는 전망이다.",
+                    q: "① 치킨 가격은 작년보다 두 배 인상됐다.\n② 올해 물가 인상률은 2009년 이후 가장 높다.\n③ 물가를 내리기 위한 정부의 노력이 효과가 있었다.\n④ 작년과 비교해서 외식 물가는 11% 오른 것으로 나타났다."
                 },
                 {
                     type: "읽기",
                     title: "3. 다음을 순서대로 맞게 나열한 것을 고르세요.",
-                    q: "(가) 그러나 요즘 팬들은 스타의 사회적 영향력을 높이는 데에도 관심이 많다.\n(나) 예전에는 팬들이 자신이 좋아하는 스타의 모든 것을 알고 싶어 하고 따라다니는 것에 집중했다.\n(다) 이처럼 예전과 다르게 팬들이 스타를 위해 사회적 활동을 한다는 점에서 변화된 팬 문화를 느낄 수 있다.\n(라) 스타의 이름으로 기부를 하거나 봉사활동을 통해서 자신이 좋아하는 스타의 이미지를 긍정적으로 변화시키는 것이 그 예이다.\n\n① (나)-(가)-(라)-(다)\n② (나)-(라)-(다)-(가)\n③ (라)-(가)-(다)-(나)\n④ (라)-(다)-(가)-(나)"
+                    passage: "(가) 그러나 요즘 팬들은 스타의 사회적 영향력을 높이는 데에도 관심이 많다.\n(나) 예전에는 팬들이 자신이 좋아하는 스타의 모든 것을 알고 싶어 하고 따라다니는 것에 집중했다.\n(다) 이처럼 예전과 다르게 팬들이 스타를 위해 사회적 활동을 한다는 점에서 변화된 팬 문화를 느낄 수 있다.\n(라) 스타의 이름으로 기부를 하거나 봉사활동을 통해서 자신이 좋아하는 스타의 이미지를 긍정적으로 변화시키는 것이 그 예이다.",
+                    q: "① (나)-(가)-(라)-(다)\n② (나)-(라)-(다)-(가)\n③ (라)-(가)-(다)-(나)\n④ (라)-(다)-(가)-(나)"
                 },
                 {
                     type: "읽기",
                     title: "4. 다음 글에서 보기의 문장이 들어가기에 가장 알맞은 곳을 고르세요.",
-                    q: "핸드볼은 실내에서 하는 7인 스포츠로서 손으로 공을 던져서 상대 팀 골대에 넣는 경기이다. ( ㉠ ) 핸드볼 경기는 전반전과 후반전 각 30분씩 진행되며 경기 종료 후 많이 득점한 팀이 이긴다. ( ㉡ ) 후반전까지 했는데도 무승부이면 연장전을 한다. ( ㉢ ) 연장전은 전반과 후반 각 5분씩 진행되는데 승부가 나지 않으면 2차 연장전을 치른다. ( ㉣ ) 두 팀이 한 번씩 순서대로 다섯 개의 공을 던져서 더 많은 득점을 한 팀이 승리하게 된다.\n\n[보기] 연장전이 모두 끝난 후에도 승부가 나지 않으면 승부 던지기를 하게 된다.\n\n① ㉠   ② ㉡   ③ ㉢   ④ ㉣"
+                    passage: "핸드볼은 실내에서 하는 7인 스포츠로서 손으로 공을 던져서 상대 팀 골대에 넣는 경기이다. ( ㉠ ) 핸드볼 경기는 전반전과 후반전 각 30분씩 진행되며 경기 종료 후 많이 득점한 팀이 이긴다. ( ㉡ ) 후반전까지 했는데도 무승부이면 연장전을 한다. ( ㉢ ) 연장전은 전반과 후반 각 5분씩 진행되는데 승부가 나지 않으면 2차 연장전을 치른다. ( ㉣ ) 두 팀이 한 번씩 순서대로 다섯 개의 공을 던져서 더 많은 득점을 한 팀이 승리하게 된다.\n\n[보기] 연장전이 모두 끝난 후에도 승부가 나지 않으면 승부 던지기를 하게 된다.",
+                    q: "① ㉠   ② ㉡   ③ ㉢   ④ ㉣"
                 },
                 {
                     type: "읽기",
                     title: "5. 빈칸에 들어갈 말로 알맞게 연결된 것을 고르세요.",
-                    q: "한국에서는 이삿짐 업체의 전화번호에 숫자 2와 4가 들어가 있는 경우가 많다. 그 숫자의 발음이 '이사'라는 단어와 발음이 같아서 쉽게 기억할 수 있기 때문인 듯하다. 이와 같이 한국에서는 발음 때문에 업체마다 자주 사용하는 전화번호가 있다. ( ㉮ ) 배달업체는 '빨리'라는 말을 떠올리기 쉽도록 전화번호로 '8282'를 선호하고, 중고품을 거래하는 업체들은 '사고 팔고'라는 말과 발음이 비슷한 '4989'를 선호한다. 그리고 '1004(천사)'처럼 좋은 의미를 가진 숫자를 전화번호로 사용하려는 사람들도 많다. ( ㉯ ) 통신 회사에서는 추첨을 통해 이런 번호를 나눠 주기도 한다. 인기 번호는 경쟁률이 2만 대 1이 넘을 정도로 경쟁률이 높다.\n\n① 또한 - 이처럼\n② 그리고 - 반면에\n③ 예를 들면 - 그래서\n④ 왜냐하면 - 그러나"
+                    passage: "한국에서는 이삿짐 업체의 전화번호에 숫자 2와 4가 들어가 있는 경우가 많다. 그 숫자의 발음이 '이사'라는 단어와 발음이 같아서 쉽게 기억할 수 있기 때문인 듯하다. 이와 같이 한국에서는 발음 때문에 업체마다 자주 사용하는 전화번호가 있다. ( ㉮ ) 배달업체는 '빨리'라는 말을 떠올리기 쉽도록 전화번호로 '8282'를 선호하고, 중고품을 거래하는 업체들은 '사고 팔고'라는 말과 발음이 비슷한 '4989'를 선호한다. 그리고 '1004(천사)'처럼 좋은 의미를 가진 숫자를 전화번호로 사용하려는 사람들도 많다. ( ㉯ ) 통신 회사에서는 추첨을 통해 이런 번호를 나눠 주기도 한다. 인기 번호는 경쟁률이 2만 대 1이 넘을 정도로 경쟁률이 높다.",
+                    q: "① 또한 - 이처럼\n② 그리고 - 반면에\n③ 예를 들면 - 그래서\n④ 왜냐하면 - 그러나"
                 },
                 {
                     type: "읽기",
                     title: "6. 다음 글의 주제로 가장 알맞은 것을 고르세요.",
-                    q: "대부분의 운동선수들은 경기에서 지고 싶어 하지 않는다. 이러한 마음이 경기를 더 흥미진진하게 하지만 승부욕 때문에 정정당당하게 경기를 하지 않고 반칙을 하는 선수들도 볼 수 있다. 심한 경우 상대 선수가 다칠 것을 알면서도 밀거나 넘어뜨리는 경우도 있다. 승부가 나지 않는 아슬아슬한 상황에서 반칙을 하면 경기 결과에 큰 영향을 줄 수도 있다. 물론 경기의 승패도 중요하다. 그러나 그것보다는 신체적, 정신적 능력을 키우고 자신의 한계에 도전하는 것에서 의미를 찾아야 한다.\n\n① 운동선수에게 승부욕은 반드시 필요하다.\n② 경기 결과보다 최선을 다하는 것이 중요하다.\n③ 과정이 좋아도 경기에서 지면 아무 소용이 없다.\n④ 일부러 반칙을 한 경우 경고 없이 퇴장시켜야 한다."
+                    passage: "대부분의 운동선수들은 경기에서 지고 싶어 하지 않는다. 이러한 마음이 경기를 더 흥미진진하게 하지만 승부욕 때문에 정정당당하게 경기를 하지 않고 반칙을 하는 선수들도 볼 수 있다. 심한 경우 상대 선수가 다칠 것을 알면서도 밀거나 넘어뜨리는 경우도 있다. 승부가 나지 않는 아슬아슬한 상황에서 반칙을 하면 경기 결과에 큰 영향을 줄 수도 있다. 물론 경기의 승패도 중요하다. 그러나 그것보다는 신체적, 정신적 능력을 키우고 자신의 한계에 도전하는 것에서 의미를 찾아야 한다.",
+                    q: "① 운동선수에게 승부욕은 반드시 필요하다.\n② 경기 결과보다 최선을 다하는 것이 중요하다.\n③ 과정이 좋아도 경기에서 지면 아무 소용이 없다.\n④ 일부러 반칙을 한 경우 경고 없이 퇴장시켜야 한다."
                 },
                 {
                     type: "읽기",
                     title: "7. 다음을 읽고 일치하는 것을 고르세요.",
-                    q: "최근 '이웃 마켓'이 유행이다. 이웃 마켓은 일종의 열린 장터로서 자신의 근처에 사는 사람들을 대상으로 물건을 판매하는 스마트폰 앱이다. 자신이 팔고 싶은 물건의 사진과 정보를 여기에 올리면 근처에 사는 사람들이 보고 구매하는 방식이다. 이웃 마켓의 장점은 누구나 쉽게 이용할 수 있고 중고품도 거래할 수 있으며 무료 나눔도 가능하다는 것이다. 뿐만 아니라 그 지역에서 할 수 있는 아르바이트도 구할 수 있고 잃어버린 물건을 찾아 주기도 한다.\n\n단점으로는 물건을 직접 사고팔기 때문에 시간이 많이 걸리고 번거롭다는 점, 사고파는 물건의 종류가 적다는 점을 꼽을 수 있다. 이런 단점에도 불구하고 이웃 마켓을 이용하는 이유는 이웃 간의 소통이 예전만 못하다는 사람들이 많은데, 이웃 마켓을 통해서 주변 사람들과 교류하고 정을 나눌 수 있기 때문인 듯하다.\n\n① 이웃 마켓은 전화를 통해서도 이용할 수 있다.\n② 이웃 마켓에서는 쓰던 물건만 거래할 수 있다.\n③ 이웃 마켓에서는 원하는 모든 물건을 살 수 있다.\n④ 이웃 마켓을 통해 아르바이트할 사람을 구할 수 있다."
+                    passage: "최근 '이웃 마켓'이 유행이다. 이웃 마켓은 일종의 열린 장터로서 자신의 근처에 사는 사람들을 대상으로 물건을 판매하는 스마트폰 앱이다. 자신이 팔고 싶은 물건의 사진과 정보를 여기에 올리면 근처에 사는 사람들이 보고 구매하는 방식이다. 이웃 마켓의 장점은 누구나 쉽게 이용할 수 있고 중고품도 거래할 수 있으며 무료 나눔도 가능하다는 것이다. 뿐만 아니라 그 지역에서 할 수 있는 아르바이트도 구할 수 있고 잃어버린 물건을 찾아 주기도 한다.\n\n단점으로는 물건을 직접 사고팔기 때문에 시간이 많이 걸리고 번거롭다는 점, 사고파는 물건의 종류가 적다는 점을 꼽을 수 있다. 이런 단점에도 불구하고 이웃 마켓을 이용하는 이유는 이웃 간의 소통이 예전만 못하다는 사람들이 많은데, 이웃 마켓을 통해서 주변 사람들과 교류하고 정을 나눌 수 있기 때문인 듯하다.",
+                    q: "① 이웃 마켓은 전화를 통해서도 이용할 수 있다.\n② 이웃 마켓에서는 쓰던 물건만 거래할 수 있다.\n③ 이웃 마켓에서는 원하는 모든 물건을 살 수 있다.\n④ 이웃 마켓을 통해 아르바이트할 사람을 구할 수 있다."
                 },
                 {
                     type: "읽기",
@@ -568,7 +625,8 @@
                 {
                     type: "읽기",
                     title: "9. 다음을 읽고 빈칸에 들어갈 내용으로 알맞은 것을 고르세요.",
-                    q: "프로 스포츠가 사람들에게 인기를 끌면서 스포츠 선수들의 인기도 높아지고 있다. 스포츠 스타의 인기는 연예인만큼 대단해서 팬클럽이 생길 정도이다. 그래서인지 스포츠 선수들의 경기 모습뿐만 아니라 경기장 밖에서의 행동들도 사람들에게 관심을 받는다. 스포츠 선수들이 경기장 안팎에서 보여 주는 (       ) 행동에 사람들이 주목하는 이유이다. 어떤 스포츠 스타는 음주 운전을 해서 사회적으로 많은 비난을 받았다. 또한 유명 선수들이 선수 생활을 마친 후 방송에 출연해서 연예인으로서 활동을 하는 경우도 심심치 않게 볼 수 있다. 이런 선수들은 광고를 통해 상품을 팔거나 예능에 출연해서 사람들에게 즐거움을 주기도 한다. 이처럼 스포츠 스타들의 영향력이 커졌기 때문에 스포츠 스타들은 운동 실력뿐만 아니라 그에 맞는 인성과 바람직한 태도도 갖추어야 할 것이다.\n\n① 무관심한\n② 무책임한\n③ 무의미한\n④ 무능력한"
+                    passage: "프로 스포츠가 사람들에게 인기를 끌면서 스포츠 선수들의 인기도 높아지고 있다. 스포츠 스타의 인기는 연예인만큼 대단해서 팬클럽이 생길 정도이다. 그래서인지 스포츠 선수들의 경기 모습뿐만 아니라 경기장 밖에서의 행동들도 사람들에게 관심을 받는다. 스포츠 선수들이 경기장 안팎에서 보여 주는 (       ) 행동에 사람들이 주목하는 이유이다. 어떤 스포츠 스타는 음주 운전을 해서 사회적으로 많은 비난을 받았다. 또한 유명 선수들이 선수 생활을 마친 후 방송에 출연해서 연예인으로서 활동을 하는 경우도 심심치 않게 볼 수 있다. 이런 선수들은 광고를 통해 상품을 팔거나 예능에 출연해서 사람들에게 즐거움을 주기도 한다. 이처럼 스포츠 스타들의 영향력이 커졌기 때문에 스포츠 스타들은 운동 실력뿐만 아니라 그에 맞는 인성과 바람직한 태도도 갖추어야 할 것이다.",
+                    q: "① 무관심한\n② 무책임한\n③ 무의미한\n④ 무능력한"
                 },
                 {
                     type: "읽기",
@@ -664,13 +722,23 @@
                 {
                     type: "쓰기",
                     title: "6. 다음 표현을 사용해서 글을 써 보세요.",
-                    bank: "[사용 표현]\n에 의하면 | 에 따라서 | -으나",
+                    bank: "[사용 표현]\nN에 의하면 | N에 따라서 | V/A-으나",
                     q: "주제: '선호하는 운동의 남녀 차이'에 대한 글을 200~300자로 쓰세요.\n\n[그래프 데이터]\n• 한국 남성이 좋아하는 운동:\n  - 축구: 24%\n  - 야구: 12%\n  - 등산: 8%\n  - 걷기: 7%\n\n• 한국 여성이 좋아하는 운동:\n  - 걷기: 15%\n  - 수영: 10%\n  - 등산: 8%\n  - 요가: 7%"
                 },
                 {
                     type: "발음",
                     title: "발음 (Pronunciation)",
-                    q: "잘 들어 보세요.\n● 붕어빵이라는 응답이 40%로 1위를 차지했습니다.\n● 정말 심장이 터질 것 같았어.\n● 경기 끝나기 십 분 전까지 0:1로 지고 있었어.\n\n잘 듣고 따라 해 보세요.\n● 한국 생활에 만족한다는 응답이 60%를 차지했습니다.\n● 그 가수를 만나서 숨이 멎을 것 같았어요.\n● 이번 경기는 3:2로 이겼어요.\n\n잘 듣고 친구와 연습해 보세요.\n● 가: 요즘 쌀 소비 현황은 어떤가요?\n   나: 2020년의 1인당 쌀 구매량은 57.7kg으로 1990년의 절반에 불과했습니다.\n● 가: 최근에 몸이 안 좋아진 것 같아요.\n   나: 라면을 덜 먹는 게 건강에 도움이 될 거예요.\n● 가: 어제 우리 팀 경기 이겼어요?\n   나: 아니요. 전반전까지는 1:1로 비겼는데 후반전에서 역전당했어요."
+                    q: "잘 들어 보세요.\n● 붕어빵이라는 응답이 40%로 1위를 차지했습니다.\n● 정말 심장이 터질 것 같았어.\n● 경기 끝나기 십 분 전까지 0:1로 지고 있었어."
+                },
+                {
+                    type: "발음",
+                    title: "발음 (Pronunciation)",
+                    q: "잘 듣고 따라 해 보세요.\n● 한국 생활에 만족한다는 응답이 60%를 차지했습니다.\n● 그 가수를 만나서 숨이 멎을 것 같았어요.\n● 이번 경기는 3:2로 이겼어요."
+                },
+                {
+                    type: "발음",
+                    title: "발음 (Pronunciation)",
+                    q: "잘 듣고 친구와 연습해 보세요.\n● 가: 요즘 쌀 소비 현황은 어떤가요?\n   나: 2020년의 1인당 쌀 구매량은 57.7kg으로 1990년의 절반에 불과했습니다.\n● 가: 최근에 몸이 안 좋아진 것 같아요.\n   나: 라면을 덜 먹는 게 건강에 도움이 될 거예요.\n● 가: 어제 우리 팀 경기 이겼어요?\n   나: 아니요. 전반전까지는 1:1로 비겼는데 후반전에서 역전당했어요."
                 }
             ]
         };
@@ -790,15 +858,14 @@
             return html;
         }
 
-        // ★ 복습 문제 렌더링 (단어 리스트 표, 듣기/읽기/쓰기/발음 1페이지 1문항)
+        // ★ 복습 문제 HTML 렌더링 (단어 리스트 표를 1개 단원씩 분리, 듣기/읽기/쓰기/발음 처리)
         function generateReviewHtml(key) {
             let rData = window.reviewDB[key] || [];
             let html = "";
             rData.forEach((item, pIdx) => {
                 if(item.isList) {
-                    let listHtml = "";
-                    item.content.forEach(unit => {
-                        listHtml += `<div style="font-weight:bold; color:#1e40af; margin-top:15px; margin-bottom:5px;">[${unit.t}]</div>`;
+                    item.content.forEach((unit, uIdx) => {
+                        let listHtml = `<div style="font-weight:bold; color:#1e40af; margin-top:15px; margin-bottom:5px; font-size:26px;">[${unit.t}]</div>`;
                         listHtml += `<table class="vocab-grid-table"><tbody>`;
                         let words = unit.words;
                         for(let i=0; i<words.length; i+=4) {
@@ -810,17 +877,33 @@
                             listHtml += `</tr>`;
                         }
                         listHtml += `</tbody></table>`;
-                    });
-                    html += `
-                    <div class="slide-wrapper" id="slide-review-${pIdx}">
-                        <div class="slide-container">
-                            <div class="slide-title" contenteditable="true">${item.type}</div>
-                            <div class="content-area">
-                                <div class="review-section-title" contenteditable="true">${item.title}</div>
-                                <div class="practice-box" id="review-content-${pIdx}" contenteditable="true" style="font-size:24px; padding:20px; overflow-y:auto;">${listHtml}</div>
+                        
+                        html += `
+                        <div class="slide-wrapper" id="slide-review-list-${pIdx}-${uIdx}">
+                            <div class="slide-container">
+                                <div class="slide-title" contenteditable="true">${item.type}</div>
+                                <div class="content-area">
+                                    <div class="review-section-title" contenteditable="true">${item.title}</div>
+                                    <div class="practice-box" id="review-list-content-${pIdx}-${uIdx}" contenteditable="true" style="font-size:24px; padding:20px; overflow-y:auto;">${listHtml}</div>
+                                </div>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`;
+                    });
+                } else if (item.type === "문법") {
+                    let rules = item.q.split('\n\n');
+                    rules.forEach((rule, rIdx) => {
+                        let ruleStr = rule.replace(/\n/g, '<br>');
+                        html += `
+                        <div class="slide-wrapper" id="slide-review-gram-${pIdx}-${rIdx}">
+                            <div class="slide-container">
+                                <div class="slide-title" contenteditable="true">${item.type}</div>
+                                <div class="content-area">
+                                    <div class="review-section-title" contenteditable="true">${item.title}</div>
+                                    <div class="practice-box" id="review-gram-content-${pIdx}-${rIdx}" contenteditable="true" style="font-size:24px; padding:20px;">${ruleStr}</div>
+                                </div>
+                            </div>
+                        </div>`;
+                    });
                 } else {
                     let wordBankStr = item.bank ? item.bank.replace(/\n/g, '<br>') : "";
                     let qStr = item.q ? item.q.replace(/\n/g, '<br>') : "";
@@ -916,7 +999,7 @@
         }
 
         // ===================================================================
-        // PPTX 다운로드 (복습용 단어 리스트 및 긴 지문 대응)
+        // PPTX 다운로드 (복습용 세부 요건 100% 반영)
         // ===================================================================
         function downloadPPTX() {
             let btn = document.getElementById('downloadBtn'); let originalText = btn.innerHTML;
@@ -927,7 +1010,8 @@
                     let pres = new PptxGenJS(); pres.layout = 'LAYOUT_16x9'; 
                     let COLOR_NAVY = "27408B"; let COLOR_BLACK = "000000"; let COLOR_GRAY = "64748B"; let COLOR_BORDER = "CBD5E1";
                     let COLOR_BG_LIGHT = "F8FAFC"; let COLOR_BG_DARK = "E2E8F0"; let FONT_FACE = "맑은 고딕";
-                    let X_MARGIN = 0.4; let W_CONTENT = 9.2; // 여백 최소화
+                    // 읽기 문제 등 긴 텍스트를 위해 상하좌우 여백을 극단적으로 최소화
+                    let X_MARGIN = 0.4; let W_CONTENT = 9.2; 
 
                     pres.defineSlideMaster({ title: "MASTER_SLIDE", background: { fill: "FFFFFF" }, objects: [{ rect: { x: 0, y: 0, w: "100%", h: 0.1, fill: COLOR_NAVY } }] });
                     function getText(id) { let el = document.getElementById(id); return el ? el.innerText : ""; }
@@ -974,39 +1058,101 @@
                     } else if (activeKey.startsWith('review-')) {
                         let rData = window.reviewDB[activeKey] || [];
                         rData.forEach((item, pIdx) => {
-                            let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                            addSlideTitle(slideR, null, item.type);
-                            slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
-                            
-                            let currentY = 1.35; let remainingHeight = 4.0;
-                            
+                            // 1. 단어 목록 분리 (isList)
                             if (item.isList) {
-                                // 단어장 표 렌더링
-                                item.content.forEach(unit => {
+                                item.content.forEach((unit, uIdx) => {
+                                    let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
+                                    addSlideTitle(slideR, null, item.type);
+                                    slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
+                                    
+                                    let currentY = 1.35;
                                     slideR.addText(`[${unit.t}]`, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 0.3, color: "1E40AF", fontSize: 20, bold: true, fontFace: FONT_FACE });
-                                    currentY += 0.3;
+                                    currentY += 0.4;
+                                    
                                     let rows = []; let words = unit.words;
                                     for(let i=0; i<words.length; i+=4) {
                                         let r = [];
+                                        // 폰트 크기 24pt 고정
                                         r.push({ text: `☐ ${words[i]||''}`, options: { fontSize: 24, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
                                         r.push({ text: words[i+1] ? `☐ ${words[i+1]}` : '', options: { fontSize: 24, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
                                         r.push({ text: words[i+2] ? `☐ ${words[i+2]}` : '', options: { fontSize: 24, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
                                         r.push({ text: words[i+3] ? `☐ ${words[i+3]}` : '', options: { fontSize: 24, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
                                         rows.push(r);
                                     }
-                                    let tblHeight = rows.length * 0.35;
                                     slideR.addTable(rows, { x: X_MARGIN, y: currentY, w: W_CONTENT, colW: [2.3, 2.3, 2.3, 2.3] });
-                                    currentY += tblHeight + 0.1;
+                                });
+                            } else if (item.title && item.title.includes("문법과 표현의 의미를 확인해 보세요")) {
+                                // 2. 문법 의미 확인 파트 (문법별 1페이지씩)
+                                let rules = item.q.split('\n\n');
+                                rules.forEach((rule) => {
+                                    let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
+                                    addSlideTitle(slideR, null, item.type);
+                                    slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
+                                    slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.35, w: W_CONTENT, h: 4.0, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
+                                    // V, A, N 변환
+                                    let formattedRule = rule.replace(/동-/g, 'V-').replace(/형-/g, 'A-').replace(/명/g, 'N');
+                                    slideR.addText(formattedRule, { x: 0.6, y: 1.45, w: 8.8, h: 3.8, color: COLOR_BLACK, fontSize: 24, fontFace: FONT_FACE, valign: 'middle', align: 'center', lineSpacing: 40, wrap: true });
+                                });
+                            } else if (item.type === "발음") {
+                                // 3. 발음 항목 분리
+                                let pParts = item.q.split('\n\n');
+                                pParts.forEach((pPart) => {
+                                    let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
+                                    addSlideTitle(slideR, null, item.type);
+                                    slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
+                                    slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.35, w: W_CONTENT, h: 4.0, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
+                                    slideR.addText(pPart, { x: 0.6, y: 1.45, w: 8.8, h: 3.8, color: COLOR_BLACK, fontSize: 24, fontFace: FONT_FACE, valign: 'middle', align: 'left', lineSpacing: 40, wrap: true });
                                 });
                             } else {
+                                // 일반 듣기, 읽기, 쓰기, 기타 말하기
                                 let bankTxt = getText(`review-${pIdx}-bank`); let qTxt = getText(`review-content-${pIdx}`);
-                                if (bankTxt && bankTxt.trim() !== "") {
-                                    slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 1.2, fill: COLOR_BG_DARK, line: { color: COLOR_BORDER, width: 1 } });
-                                    slideR.addText(bankTxt, { x: 0.5, y: currentY + 0.1, w: 9.0, h: 1.0, color: COLOR_BLACK, fontSize: 18, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
-                                    currentY += 1.3; remainingHeight -= 1.3;
+                                
+                                // 긴 텍스트 자동 페이지 분리 (읽기 지문 등)
+                                // 500자가 넘어가면 페이지를 자름
+                                let MAX_CHARS = 450;
+                                if (qTxt && qTxt.length > MAX_CHARS) {
+                                    let textParts = [];
+                                    let sentences = qTxt.split('\n');
+                                    let currentPart = "";
+                                    for(let i=0; i<sentences.length; i++) {
+                                        if(currentPart.length + sentences[i].length > MAX_CHARS) {
+                                            textParts.push(currentPart);
+                                            currentPart = sentences[i] + "\n";
+                                        } else {
+                                            currentPart += sentences[i] + "\n";
+                                        }
+                                    }
+                                    if(currentPart) textParts.push(currentPart);
+
+                                    textParts.forEach((part, partIdx) => {
+                                        let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
+                                        addSlideTitle(slideR, null, item.type);
+                                        slideR.addText(item.title + (textParts.length > 1 ? ` [지문 ${partIdx+1}]` : " [지문]"), { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
+                                        
+                                        let currentY = 1.35; let remainingHeight = 4.0;
+                                        if (bankTxt && bankTxt.trim() !== "" && partIdx === 0) {
+                                            slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 1.2, fill: COLOR_BG_DARK, line: { color: COLOR_BORDER, width: 1 } });
+                                            slideR.addText(bankTxt, { x: 0.5, y: currentY + 0.1, w: 9.0, h: 1.0, color: COLOR_BLACK, fontSize: 18, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
+                                            currentY += 1.3; remainingHeight -= 1.3;
+                                        }
+                                        slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: remainingHeight, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
+                                        slideR.addText(part, { x: 0.5, y: currentY + 0.1, w: 9.0, h: remainingHeight - 0.2, color: COLOR_BLACK, fontSize: 20, fontFace: FONT_FACE, valign: 'top', lineSpacing: 30, wrap: true });
+                                    });
+                                } else {
+                                    // 분리할 필요 없는 정상 길이
+                                    let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
+                                    addSlideTitle(slideR, null, item.type);
+                                    slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
+                                    
+                                    let currentY = 1.35; let remainingHeight = 4.0;
+                                    if (bankTxt && bankTxt.trim() !== "") {
+                                        slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 1.2, fill: COLOR_BG_DARK, line: { color: COLOR_BORDER, width: 1 } });
+                                        slideR.addText(bankTxt, { x: 0.5, y: currentY + 0.1, w: 9.0, h: 1.0, color: COLOR_BLACK, fontSize: 18, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
+                                        currentY += 1.3; remainingHeight -= 1.3;
+                                    }
+                                    slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: remainingHeight, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
+                                    slideR.addText(qTxt, { x: 0.5, y: currentY + 0.1, w: 9.0, h: remainingHeight - 0.2, color: COLOR_BLACK, fontSize: 20, fontFace: FONT_FACE, valign: 'top', lineSpacing: 30, wrap: true });
                                 }
-                                slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: remainingHeight, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
-                                slideR.addText(qTxt, { x: 0.6, y: currentY + 0.1, w: 8.8, h: remainingHeight - 0.2, color: COLOR_BLACK, fontSize: 20, fontFace: FONT_FACE, valign: 'top', lineSpacing: 28, wrap: true });
                             }
                         });
                     } else {
