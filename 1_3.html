@@ -15,39 +15,43 @@
         body { background-color: #f8fafc; margin: 0; padding: 0; }
         .preview-bg { background-color: #e2e8f0; display: flex; flex-direction: column; align-items: center; padding: 40px 0; width: 100%; min-height: 100vh; }
         .slide-wrapper { width: 1280px; height: 720px; transform-origin: top center; transform: scale(0.75); margin-bottom: -180px; }
-        .slide-container { background-color: #ffffff; border-radius: 4px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; width: 1280px; height: 720px; overflow: hidden; padding: 50px 60px; position: relative; color: #000000; }
-        .slide-container h1, .slide-container p, .slide-container td, .slide-container th { margin: 0; line-height: 1.4; color: #000000; }
-        .slide-title { font-size: 40px; font-weight: bold; color: #27408B; text-align: left; width: 100%; border-bottom: 3px solid #27408B; padding-bottom: 8px; margin-bottom: 30px; }
+        /* 텍스트가 많은 복습 읽기 지문을 위해 패딩을 최소화(30px 40px) */
+        .slide-container { background-color: #ffffff; border-radius: 4px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; width: 1280px; height: 720px; overflow: hidden; padding: 30px 40px; position: relative; color: #000000; }
+        .slide-container h1, .slide-container p, .slide-container td, .slide-container th { margin: 0; line-height: 1.5; color: #000000; }
+        .slide-title { font-size: 36px; font-weight: bold; color: #27408B; text-align: left; width: 100%; border-bottom: 3px solid #27408B; padding-bottom: 8px; margin-bottom: 20px; }
         .content-area { display: flex; flex-direction: column; flex-grow: 1; width: 100%; }
         [contenteditable="true"] { outline: none; transition: background-color 0.2s, box-shadow 0.2s; border-radius: 4px; padding: 2px 4px; }
         [contenteditable="true"]:hover { background-color: rgba(59,130,246,0.05); box-shadow: 0 0 0 2px rgba(59,130,246,0.2); cursor: text; }
         .slide1-layout { text-align: center; display: flex; flex-direction: column; width: 100%; height: 100%; position: relative; border-top: none; }
         #slide-1 > .slide-container { border-top: none; }
         .subtitle { position: absolute; top: 20px; right: 20px; font-size: 32px; color: #64748b; font-weight: bold; }
-        .slide1-navy-box { background-color: #27408B; width: 1280px; position: absolute; top: 150px; left: -60px; padding: 15px 0; text-align: center; }
+        .slide1-navy-box { background-color: #27408B; width: 1280px; position: absolute; top: 150px; left: -40px; padding: 15px 0; text-align: center; }
         .main-title { font-size: 64px; color: #ffffff; font-weight: bold; margin: 0; }
         .grammar-points { position: absolute; top: 310px; width: 100%; text-align: center; font-size: 26px; line-height: 1.8; font-weight: bold; }
         .pos-text { color: #27408B; font-weight: bold; } 
-        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; width: 100%; height: 100%; }
-        .dialogue-box { background-color: #f8fafc; padding: 40px; display: flex; flex-direction: column; justify-content: center; height: 440px; border-left: 6px solid #1e3a8a; border-radius: 12px; }
-        .dialogue-box p { font-size: 32px; margin-bottom: 30px; }
-        .image-placeholder { background-color: #e2e8f0; display: flex; justify-content: center; align-items: center; text-align: center; height: 440px; padding: 20px; border-radius: 12px; font-size: 26px; color: #64748b; font-weight: bold; }
-        .meaning-layout { display: flex; flex-direction: column; gap: 40px; width: 100%; }
-        .section-title { font-size: 32px; color: #27408B; font-weight: bold; margin-bottom: 15px; }
-        .meaning-layout p { font-size: 32px; margin-bottom: 10px; }
-        .example-text { font-size: 28px; margin-bottom: 10px; white-space: pre-wrap; }
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; height: 100%; }
+        .dialogue-box { background-color: #f8fafc; padding: 30px; display: flex; flex-direction: column; justify-content: center; height: 500px; border-left: 6px solid #1e3a8a; border-radius: 12px; }
+        .dialogue-box p { font-size: 30px; margin-bottom: 25px; }
+        .image-placeholder { background-color: #e2e8f0; display: flex; justify-content: center; align-items: center; text-align: center; height: 500px; padding: 20px; border-radius: 12px; font-size: 24px; color: #64748b; font-weight: bold; }
+        .meaning-layout { display: flex; flex-direction: column; gap: 30px; width: 100%; }
+        .section-title { font-size: 30px; color: #27408B; font-weight: bold; margin-bottom: 10px; }
+        .meaning-layout p { font-size: 30px; margin-bottom: 10px; }
+        .example-text { font-size: 26px; margin-bottom: 10px; white-space: pre-wrap; }
         .table-wrapper { width: 100%; display: flex; justify-content: center; }
         table { border-collapse: collapse; width: 100%; border: 2px solid #cbd5e1; }
-        th, td { border: 1px solid #cbd5e1; padding: 16px 20px; text-align: center; vertical-align: middle; font-size: 28px; }
+        th, td { border: 1px solid #cbd5e1; padding: 12px 15px; text-align: center; vertical-align: middle; font-size: 26px; }
         th { background-color: #27408B; color: #ffffff !important; font-weight: bold; }
         .no-bottom-border { border-bottom: none !important; }
         .no-top-border { border-top: none !important; }
-        .practice-wrapper { display: flex; flex-direction: row; width: 100%; height: 440px; gap: 20px; align-items: flex-start; padding-top: 10px; }
-        .practice-num { font-size: 36px; font-weight: bold; color: #27408B; min-width: 90px; white-space: nowrap; margin-top: 10px; }
-        .practice-box { flex-grow: 1; background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 40px; font-size: 26px; line-height: 1.8; white-space: pre-wrap; height: 100%; width: 100%; overflow: hidden; }
-        .word-bank-box { background-color: #e2e8f0; padding: 20px; border-radius: 12px; margin-bottom: 20px; font-size: 24px; font-weight: bold; text-align: center; border: 1px solid #cbd5e1; white-space: pre-wrap; color: #1e293b; width: 100%; }
-        #customModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .practice-wrapper { display: flex; flex-direction: row; width: 100%; height: 500px; gap: 15px; align-items: flex-start; padding-top: 10px; }
+        .practice-num { font-size: 30px; font-weight: bold; color: #27408B; min-width: 70px; white-space: nowrap; margin-top: 10px; }
+        /* 연습문제, 복습 폰트 사이즈 조정 (읽기 지문 등 수용) */
+        .practice-box { flex-grow: 1; background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 30px; font-size: 24px; line-height: 1.6; white-space: pre-wrap; height: 100%; width: 100%; overflow: hidden; }
+        .word-bank-box { background-color: #e2e8f0; padding: 15px; border-radius: 12px; margin-bottom: 15px; font-size: 22px; font-weight: bold; text-align: center; border: 1px solid #cbd5e1; white-space: pre-wrap; color: #1e293b; width: 100%; }
+        /* 단어 리스트 표 스타일 */
+        .vocab-grid-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .vocab-grid-table td { border: 1px solid #94a3b8; padding: 15px; text-align: left; font-size: 24px; font-weight: 500; vertical-align: top; width: 25%; }
+        .review-section-title { font-size: 28px; font-weight: bold; color: #1e40af; margin-bottom: 10px; }
     </style>
 </head>
 <body class="text-slate-800">
@@ -71,12 +75,10 @@
             </div>
         </div>
         <div class="w-full text-center py-3 bg-blue-50 border-b border-blue-100 text-blue-800 text-sm shadow-inner font-medium">
-            <i class="fa-solid fa-pen-to-square mr-1"></i> 화면의 텍스트를 클릭하여 수정할 수 있습니다.
+            <i class="fa-solid fa-pen-to-square mr-1"></i> 화면의 텍스트를 클릭하여 직접 수정할 수 있습니다.
         </div>
         <div class="preview-bg" id="previewArea"></div>
     </div>
-
-    <div id="customModal"><div class="modal-content"><p id="modalMessage" class="text-lg font-bold text-slate-800 mb-6"></p><button onclick="closeModal()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold w-full hover:bg-blue-700">확인</button></div></div>
 
     <script>
         function showScreen(id) {
@@ -87,11 +89,11 @@
             target.classList.remove('hidden');
             if (id === 'preview-screen') target.classList.add('flex');
         }
-        function showModal(msg) { document.getElementById('modalMessage').innerText = msg; document.getElementById('customModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('customModal').style.display = 'none'; }
 
-        // [1~3단원 문법 및 확인/연습 데이터 100% 매핑]
-        window.db = {
+        // ===================================================================
+        // 문법/어휘 기본 뼈대
+        // ===================================================================
+        const db = {
             "1-1-1": {
                 g:[{p:"V",t:"-는다면서(요)?\n/-다면서(요)?"},{p:"A",t:"-다면서(요)?"},{p:"N",t:"(이)라면서(요)?"}],
                 iA:"가: 오늘 교수님과 상담을 한다면서요?", iB:"나: 네. 아직 진로를 정하지 못해서 교수님과 이야기해 보려고요.",
@@ -361,19 +363,10 @@
                     "주어진 표현을 사용해서 글을 완성해 보세요.\n\n여행을 좋아하는가? (여행을 좋아해요?) 그렇다면 여행 에세이를 써 보는 건 어떤가? 전국 곳곳에 있는 맛집을 (                                                  )? (맛집을 찾아다녀요?)",
                     "친구의 질문을 듣고 '-는가?'로 바꿔서 말해 보세요.\n\n가: 언제 한국에 왔어요?\n나: 언제 한국에 왔는가?"
                 ]
-            },
-            "review-1-3": {
-                p:[
-                    "알맞은 표현을 골라서 대화를 완성해 보세요.\n[-는 셈이다 / -을 수밖에 없다 / -을 뿐만 아니라 / -다(가) 보니까]\n\n가: 저 가수 노래를 참 잘하네요.\n나: 그렇죠? (                                                  ) 연기도 잘해요. '사랑'이라는 드라마에서 주인공 친구로 나왔는데 연기를 너무 잘해서 가수인 줄 모르는 사람도 있을 정도예요.",
-                    "알맞은 표현을 골라서 대화를 완성해 보세요.\n[-는 셈이다 / -을 수밖에 없다 / -을 뿐만 아니라 / -다(가) 보니까]\n\n가: 나나 씨, 처음 한국에 왔을 때는 매운 음식을 잘 못 먹더니 이제 잘 먹네요.\n나: 네. 친구들하고 자주 (                                                  ) 매운 음식을 좋아하게 되었어요.",
-                    "알맞은 표현을 골라서 대화를 완성해 보세요.\n[-는 셈이다 / -을 수밖에 없다 / -을 뿐만 아니라 / -다(가) 보니까]\n\n가: 민우 씨가 일주일 동안 500개의 단어를 외웠대요.\n나: 와, 대단해요. 하루에 단어를 70개씩 (                                                  ). 전 10개도 못 외우는데요.",
-                    "틀린 부분을 찾아서 맞게 고쳐 보세요.\n\n회사에 취업하려다가 대학원에 진학할 거예요.\n➔ (                                                                                                    )",
-                    "틀린 부분을 찾아서 맞게 고쳐 보세요.\n\n처음에는 한국어 발음이 어렵지만 계속 연습하다 보면 잘하게 되었어요.\n➔ (                                                                                                    )"
-                ]
             }
         };
 
-        // ★ 1~3단원 실제 어휘 문제 데이터베이스 (보기 분리 완벽 지원)
+        // ★ 1~3단원 어휘 문제 데이터베이스 (한 배열당 1슬라이드 생성, 보기 분리 완벽 지원)
         window.vocabDB = {
             "1-1-v": [
                 { b: "[보기]\n진로를 정하다   취업하다   창업하다   대학원에 진학하다\n소질이 있다   적성에 맞다   전공을 살리다   전망이 밝다", q: "1) 나는 앞으로 어떤 일을 하면서 살지 결정했다. (진로를 정했다)" },
@@ -466,6 +459,258 @@
             ]
         };
 
+        // ★ 1~3과 복습 (말하기, 듣기, 읽기, 쓰기, 발음)
+        // 폰트 크기 및 여백 조정 로직은 렌더링 함수에 적용됨
+        window.reviewDB = {
+            "review-1-3": [
+                {
+                    type: "말하기",
+                    title: "1. 어휘의 의미를 설명해 보세요.",
+                    isList: true,
+                    content: [
+                        { t: "1단원", words: ["진로를 정하다", "창업하다", "소질이 있다/없다", "적성에 맞다/안 맞다", "진로를 고민하다", "대학원에 진학하다", "전공을 살리다", "전망이 밝다/어둡다", "진로를 바꾸다", "취업하다", "공감 능력이 뛰어나다", "유머 감각이 있다", "긍정적", "적극적", "도전적", "창의적", "사교적", "리더십이 있다", "책임감이 강하다", "설득력이 있다"] },
+                        { t: "2단원", words: ["가스가 차다", "피부가 가렵다", "두드러기가 나다", "얼굴에 뭐가 나다", "눈이 건조하다", "눈이 충혈되다", "재채기를 하다", "어깨가 뻣뻣하다", "목이 뻣뻣하다", "눈이 빠지다", "머리가 깨지다", "배가 터지다", "팔이 빠지다", "귀가 떨어져 나가다", "외식하다", "과식하다", "짜게 먹다", "달게 먹다", "기름진 음식을 먹다", "식사 시간이 불규칙하다", "야식을 먹다", "혈압이 높아지다", "비만이 되다", "당뇨병에 걸리다", "충치가 생기다", "위염에 걸리다"] },
+                        { t: "3단원", words: ["만족스럽다", "보람을 느끼다", "자랑스럽다", "자신감이 생기다", "괴롭다", "실망스럽다", "후회스럽다", "엉망이다", "즐기다", "아쉽다", "생각이 반영되다", "사고방식이 변화하다", "바탕이 되다", "영향을 주다/끼치다", "영향을 받다", "비정상(적)", "비전문적", "비공개(적)", "비현실적", "비대면"] }
+                    ]
+                },
+                {
+                    type: "말하기",
+                    title: "2. 어휘를 사용해서 이야기해 보세요.",
+                    q: "[출발]\n① 진로를 정했습니까? ➔ 네(②번으로) / 아니요(③번으로)\n② 그 일이 적성에 맞는 것 같습니까? ➔ 네(④번으로) / 아니요(③번으로)\n③ 어떤 일에 소질이 있습니까? ➔ (다음 칸으로)\n④ '-적'이 포함된 단어를 3개 말해 보세요. ➔ (다음 칸으로)\n⑤ 어제 과식을 했습니까? ➔ 네(⑥번으로) / 아니요(⑦번으로)\n⑥ 과식하면 어떤 증상이 나타납니까? ➔ (다음 칸으로)\n⑦ 평소에 달게 먹는 편입니까? ➔ 네(⑧번으로) / 아니요(⑨번으로)\n⑧ 음식을 달게 먹으면 어떤 문제가 나타날까요? ➔ (다음 칸으로)\n⑨ 오랜 시간 휴대폰이나 컴퓨터를 보면 어떤 문제가 생길까요? ➔ (다음 칸으로)\n⑩ 자신이 선택한 일이 후회스러웠던 적이 있습니까? ➔ 네(⑪번으로) / 아니요(⑫번으로)\n⑪ 그때 느꼈던 기분을 설명해 보세요. ➔ (다음 칸으로)\n⑫ '비-'가 포함된 단어를 3개 말해 보세요. ➔ (다음 칸으로)\n⑬ 여러분이 한국어를 공부할 때 가장 많이 영향을 받은 것에 대해 이야기해 보세요. ➔ (도착)"
+                },
+                {
+                    type: "말하기",
+                    title: "3. 문법과 표현의 의미를 확인해 보세요. (1단원)",
+                    q: "동-는다면서(요)?, 형-다면서(요)?, 명이라면서(요)?\n가: 한국 사람들은 김치를 자주 먹는다면서요?\n나: 네. 그래서인지 대부분의 식당에서 김치가 기본 반찬으로 나와요.\n\n동-다(가) 보면\n가: 한국어로 말하기가 너무 힘들어요.\n나: 한국어로 자꾸 이야기하다 보면 어렵지 않게 말하게 될 거예요.\n\n명은 동-는다는 것이다, 명은 형-다는 것이다, 명은 명이라는 것이다\n외국 생활의 어려운 점은 모든 것을 혼자 해결해야 한다는 것이다.\n\n명뿐만 아니라, 동·형-을 뿐만 아니라, 명일 뿐만 아니라\n그 가수가 인기를 끄는 이유는 노래를 잘할 뿐만 아니라 팬들과 자주 소통하기 때문이다."
+                },
+                {
+                    type: "말하기",
+                    title: "3. 문법과 표현의 의미를 확인해 보세요. (2단원)",
+                    q: "동·형-을 정도로, 동·형-을 정도이다\n가: 여기가 그렇게 좋아요?\n나: 네. 다음 휴가 때 다시 오고 싶을 정도로 좋아요.\n\n명만 되면, 동-기만 하면\n가: 저 두 사람 왜 저렇게 싸워요?\n나: 지난번 과제를 같이 하고 난 후로 만나기만 하면 싸워요.\n\n동-는 셈이다, 형-은 셈이다, 명인 셈이다\n일주일에 5일 이상은 운동을 하니까 거의 매일 운동하는 셈이다.\n\n동·형-을 수밖에 없다, 명일 수밖에 없다\n실외에서 열리는 행사인데 태풍이 와서 행사를 취소할 수밖에 없었다."
+                },
+                {
+                    type: "말하기",
+                    title: "3. 문법과 표현의 의미를 확인해 보세요. (3단원)",
+                    q: "동-으려다(가)\n가: 불고기를 해 준다더니 웬 라면이에요?\n나: 불고기를 만들려다가 시간이 없어서 라면을 끓였어요.\n\n동-다(가) 보니(까)\n가: 처음 한국에 왔을 때는 김치를 못 먹더니 이제 김치를 잘 먹네요?\n나: 네. 김치를 자주 먹다 보니까 잘 먹게 됐어요.\n\n동·형-음, 명임\n다음 주에 단어 시험이 있음.\n\n동-는가?, 형-은가?, 명인가?\n어떻게 해야 행복해질 수 있는가?"
+                },
+                {
+                    type: "말하기",
+                    title: "4. 문법과 표현을 사용해서 이야기해 보세요. (가형)",
+                    bank: "[사용 문법/표현]\n1) 동·형-을 정도로   2) 명만 되면, 동-기만 하면   3) 동-다(가) 보니(까)\n4) 동-으려다(가)   5) 동·형-을 뿐만 아니라, 명뿐만 아니라   6) 동·형-을 수밖에 없다",
+                    q: "1) 머리가 많이 아파요?\n2) 가을이라서 단풍이 아름답네요. 산에 한번 가 볼까요?\n3) 처음에는 어려웠지만 열심히 해서 잘하게 된 일이 있어요?\n4) 진로나 미래에 대한 계획을 바꾼 경험이 있어요?\n5) 밤에 잠을 자지 않으면 어떤 문제가 생깁니까?\n6) 민우 씨는 인기가 많은 것 같아요. 이유가 뭘까요?"
+                },
+                {
+                    type: "말하기",
+                    title: "4. 문법과 표현을 사용해서 이야기해 보세요. (나형)",
+                    bank: "[사용 문법/표현]\n1) 동·형-을 정도로   2) 명만 되면, 동-기만 하면   3) 동-다(가) 보니(까)\n4) 동-으려다(가)   5) 동·형-을 뿐만 아니라, 명뿐만 아니라   6) 동·형-을 수밖에 없다",
+                    q: "1) 음식을 남기면 안 돼요. 더 드세요.\n2) 봄이라서 그런지 기운도 없고 입맛도 없어요.\n3) 한국에 처음 왔을 때는 못 먹었지만 잘 먹게 된 음식이 있어요?\n4) 오랫동안 계획했던 일을 포기한 적이 있어요?\n5) 운동을 하면 어떤 점이 좋습니까?\n6) 왜 다음 학기에 휴학을 해요?"
+                },
+                {
+                    type: "말하기",
+                    title: "4. 문법과 표현을 사용해서 이야기해 보세요. (다형)",
+                    bank: "[사용 문법/표현]\n1) 동·형-을 정도로   2) 명만 되면, 동-기만 하면   3) 동-다(가) 보니(까)\n4) 동-으려다(가)   5) 동·형-을 뿐만 아니라, 명뿐만 아니라   6) 동·형-을 수밖에 없다",
+                    q: "1) 낙지볶음이 그렇게 매워요?\n2) 왜 이렇게 재채기를 해요? 감기에 걸렸어요?\n3) 처음에는 관계가 안 좋았지만 나중에 잘 지내게 된 사람이 있어요?\n4) 여행을 하다가 중간에 계획을 바꾼 적이 있어요?\n5) 우리 학교 학생 식당은 어떤 점이 좋습니까?\n6) 하기 싫지만 해야 하는 일이 있어요?"
+                },
+                {
+                    type: "듣기",
+                    title: "1. 뉴스를 듣고 알맞은 그래프를 고르세요.",
+                    q: "① 회사 일에 만족하는가? [만족스러움 43.6% / 만족스럽지 않음 56.4%]\n② 회사 일에 만족하는가? [만족스러움 36.2% / 만족스럽지 않음 33.8% / 보통 30%]\n③ 만족하는 이유는 무엇인가? [일이 비교적 쉬워서 56.4% / 일이 적성에 맞아서 36.2% / 보람을 느낄 수 있어서 28.5%]\n④ 만족하는 이유는 무엇인가? [일이 적성에 맞아서 36.2% / 보람을 느낄 수 있어서 28.5% / 일이 비교적 쉬워서 19.3%]"
+                },
+                {
+                    type: "듣기",
+                    title: "2. 대화가 끝난 후 여자가 이어서 할 행동으로 가장 알맞은 것을 고르세요.",
+                    q: "① 영화를 보러 간다.\n② 이력서를 작성한다.\n③ 선배한테 연락한다.\n④ 사진을 찍으러 간다."
+                },
+                {
+                    type: "듣기",
+                    title: "3. 대화가 끝난 후 남자가 이어서 할 행동으로 가장 알맞은 것을 고르세요.",
+                    q: "① 집으로 돌아간다.\n② 설문지를 작성한다.\n③ 자신의 이름을 알려 준다.\n④ 건강 검진을 다시 예약한다."
+                },
+                {
+                    type: "듣기",
+                    title: "4. 인터뷰를 듣고 여자의 생각으로 가장 알맞은 것을 고르세요.",
+                    q: "① 자신이 즐길 수 있는 일을 해야 된다.\n② 사람들의 인정을 받을 수 있어야 한다.\n③ 오랫동안 한 분야에서 일하면 최고가 될 수 있다.\n④ 다른 사람들에게 영향을 줄 때 보람을 느낄 수 있다."
+                },
+                {
+                    type: "듣기",
+                    title: "5. 다음을 듣고 들은 내용과 같은 것을 고르세요.",
+                    q: "① 여자는 졸업하자마자 취업했다.\n② 남자는 대학원에 진학하기로 했다.\n③ 여자는 소질을 살릴 수 있는 공부를 할 것이다.\n④ 남자는 경제학이 자신의 적성에 안 맞는다고 생각한다."
+                },
+                {
+                    type: "듣기",
+                    title: "6. 다음을 듣고 들은 내용과 같은 것을 고르세요.",
+                    q: "① 재학생은 적성 검사를 받을 수 없다.\n② 신청 기간은 4월 4일부터 일주일 동안이다.\n③ 검사 결과는 검사한 다음 날 온라인으로 알려 준다.\n④ 신청자가 많으면 원하는 날짜에 검사를 받을 수 없다."
+                },
+                {
+                    type: "듣기",
+                    title: "7. 두 사람은 무엇에 대해 이야기하고 있습니까?",
+                    q: "① 성격에 맞는 직업의 종류\n② 취업을 준비할 때 주의할 점\n③ 업무 능력을 키우기 위한 방법\n④ 회사에서 직원을 뽑을 때의 조건"
+                },
+                {
+                    type: "듣기",
+                    title: "8. 남자의 생각으로 가장 알맞은 것을 고르세요.",
+                    q: "① 성격 검사 결과를 믿을 수 없다.\n② 회사는 자신들이 원하는 직원을 뽑아야 한다.\n③ 능력보다 성격을 더 중요하게 생각해야 한다.\n④ 성격 검사보다 자기소개서와 면접이 더 효과적이다."
+                },
+                {
+                    type: "듣기",
+                    title: "9. 이 강연의 주제로 가장 알맞은 것을 고르세요.",
+                    q: "① 야식 증후군의 특성\n② 야식을 줄이는 방법\n③ 야식과 체중의 관련성\n④ 야식으로 적당한 음식"
+                },
+                {
+                    type: "듣기",
+                    title: "10. 들은 내용과 일치하는 것을 고르세요.",
+                    q: "① 물을 마시면 식욕을 줄일 수 있다.\n② 야식을 먹는 습관과 질병은 관계가 없다.\n③ 늦게 자는 사람은 야식을 먹어도 문제가 없다.\n④ 자기 힘들 정도로 배가 고파도 아무것도 안 먹는 것이 좋다."
+                },
+                {
+                    type: "읽기",
+                    title: "1. 다음 글의 내용과 같은 것을 고르세요.",
+                    q: "제5회 건강 특강 - 여드름\n• 일시: 2023년 11월 11일(토) 오전 10시\n• 장소: 한국병원 4층 대강당\n• 참가 인원: 선착순 100명\n• 참가비: 10,000원 (한국병원 직원 50% 할인)\n• 주제: 여드름의 원인과 피부 관리 방법 소개\n\n① 이 특강은 이번에 처음으로 열린다.\n② 한국병원 환자는 참가비가 5,000원이다.\n③ 이 특강에서 여드름 관리를 받을 수 있다.\n④ 먼저 신청한 백 명만 이 특강을 들을 수 있다."
+                },
+                {
+                    type: "읽기",
+                    title: "2. 다음 글의 내용과 같은 것을 고르세요.",
+                    q: "직장인에게 '다시 첫 직업을 선택할 수 있다면 어떤 직업을 선택하고 싶은가?'라고 질문했다. 공무원이 1위, 변호사 등 전문직이 2위였고, 3위는 IT 개발자, 4위는 교사로 나타났다. 공무원을 선택한 이유로는 안정적으로 일할 수 있을 뿐만 아니라 시간 여유가 있기 때문이라고 대답했다. 전문직을 선택한 이유는 높은 급여를 받을 수 있기 때문이었다. 이번 조사에서는 지금까지의 조사와 다르게 교사보다 IT 개발자가 되고 싶다고 대답한 사람이 많았는데 이것은 시대 변화를 보여 주는 것이다.\n\n① 많은 직장인들이 안정적으로 일할 수 있는 직업을 선호한다.\n② 변호사 등 전문직을 선택한 이유는 시간 여유가 있기 때문이다.\n③ 시대가 변해도 사람들이 가지고 싶어 하는 직업은 변하지 않는다.\n④ 요즘에는 IT 개발자보다 교사가 되고 싶어 하는 사람들이 더 많다."
+                },
+                {
+                    type: "읽기",
+                    title: "3. 다음을 순서대로 맞게 나열한 것을 고르세요.",
+                    q: "(가) 외식의 장점은 자기가 원하는 음식을 편하게 먹을 수 있다는 것이다.\n(나) 또한 식당의 음식은 양도 많아서 외식을 하면 과식을 할 수밖에 없다.\n(다) 하지만 식당에서 파는 음식들은 짜고 달거나 기름진 메뉴가 대부분이다.\n(라) 기름진 음식을 과식하다 보면 비만이 될 수 있어서 외식을 줄이는 것이 좋다.\n\n① (가)-(나)-(라)-(다)\n② (가)-(다)-(나)-(라)\n③ (라)-(나)-(다)-(가)\n④ (라)-(다)-(가)-(나)"
+                },
+                {
+                    type: "읽기",
+                    title: "4. 다음 글에서 보기의 문장이 들어가기에 가장 알맞은 곳을 고르세요.",
+                    q: "잘못된 식습관과 운동 부족 때문에 당뇨병으로 고생하는 사람들이 많다. ( ㉠ ) 또한 자주 피곤함을 느낄 뿐만 아니라 체중도 감소한다. ( ㉡ ) 당뇨병에 걸리지 않으려면 고기, 생선 같은 육류와 채소, 과일 등을 골고루 먹어야 한다. ( ㉢ ) 특히 후식으로 단 음식을 자주 먹으면 당뇨병에 쉽게 걸릴 수 있기 때문에 이런 습관은 버리는 것이 좋다. ( ㉣ ) 마지막으로 매일 가벼운 운동을 한다면 당뇨병을 예방할 수 있을 것이다.\n\n[보기] 당뇨병에 걸리면 목이 자주 마르고 많이 먹어도 배가 고프다고 느낀다.\n\n① ㉠   ② ㉡   ③ ㉢   ④ ㉣"
+                },
+                {
+                    type: "읽기",
+                    title: "5. 빈칸에 들어갈 말로 알맞게 연결된 것을 고르세요.",
+                    q: "학생은 꼭 학교에 다녀야 한다는 주장에 대해 반대하는 의견도 많다. 집에서 공부할 때의 장점은 학생의 특성이나 수준에 맞는 교육을 할 수 있다는 것이다. ( ㉮ ) 음악에 소질이 있는 학생은 소질을 계발할 수 있는 음악 수업을 들으면 자신의 능력을 더 발전시킬 수 있다. 학교에서는 모두 같은 내용의 수업을 듣기 때문에 자신의 소질과 장점을 잘 살리기 어렵다.\n\n학교 수업은 보통 중간 정도 실력을 가진 학생들에게 맞춰져 있다. 그래서 수준이 높은 학생들은 실력을 키우기가 어렵다. ( ㉯ ) 실력이 부족한 학생은 자신의 수준보다 어려운 수업을 들어서 학업에 대한 흥미가 떨어질 수 있다.\n\n① 또한 - 하지만\n② 하지만 - 그래서\n③ 그래서 - 예를 들면\n④ 예를 들면 - 또한"
+                },
+                {
+                    type: "읽기",
+                    title: "6. 다음 글의 주제로 가장 알맞은 것을 고르세요.",
+                    q: "최근에 채식을 하는 사람들이 늘고 있다. 채식에는 여러 종류가 있지만 보통 고기를 먹지 않고 채소, 과일, 곡물 등만을 먹는 것을 채식이라고 한다. 많은 사람들이 채식을 하는 이유는 다음과 같다. 첫째 채식을 하면 건강이 좋아진다. 채식을 하다 보면 혈압이 낮아지고 당뇨병 증상이 나아질 수 있다. 다음으로 환경에 긍정적인 영향을 줄 수 있다. 고기를 생산하기 위해서 환경을 파괴하는 경우가 많기 때문이다. 이처럼 채식을 하면 건강과 환경적 측면에서 긍정적인 결과를 얻을 수 있어서 앞으로 채식을 하는 사람은 더 늘 것으로 보인다.\n\n① 채식의 종류\n② 채식의 방법\n③ 채식의 단점\n④ 채식의 장점"
+                },
+                {
+                    type: "읽기",
+                    title: "7. 다음을 읽고 일치하지 않는 것을 고르세요.",
+                    q: "예전에는 성인이 되어 결혼을 하는 것, 죽은 뒤에 제사를 지내는 것 등을 중요하게 생각했다. 모두 다 중요하지만 그중 결혼은 특별한 의미를 가지기 때문에 반드시 해야 하는 것으로 생각됐다. 그런데 최근 결혼에 대한 사고방식이 변화하고 있다. 결혼을 꼭 해야 한다는 것이 일반적인 생각이었는데 이제는 결혼은 필수가 아니라고 생각하는 사람들도 많아졌다. 결혼을 하지 않고 산다는 의미의 비혼이라는 말도 자주 쓰이게 됐다. 또한 예전에는 이혼이나 재혼을 비공개적으로 하는 사람들이 많았다. 그러나 사회가 변하고 사고방식이 변화해서 다양한 생각을 받아들일 수 있는 분위기가 만들어졌다. 이제는 결혼과 관련된 개인의 선택이 존중받아야 할 때이다.\n\n① 예전에 결혼은 특별한 의미를 가졌다.\n② 최근 비혼이라는 말이 자주 사용되고 있다.\n③ 전에는 재혼한 사실을 숨기는 사람이 많았다.\n④ 요즘 결혼이 필수라고 생각하는 사람이 늘었다."
+                },
+                {
+                    type: "읽기",
+                    title: "8. 앞의 글의 중심 생각으로 가장 알맞은 것을 고르세요.",
+                    q: "① 이혼한 것을 공개하는 것이 중요하다.\n② 결혼에 대한 개인의 선택을 존중해야 한다.\n③ 결혼은 사회를 유지하기 위해 꼭 필요하다.\n④ 현대에도 전통적인 사고방식을 지켜야 한다."
+                },
+                {
+                    type: "읽기",
+                    title: "9. 다음을 읽고 빈칸에 들어갈 내용으로 알맞은 것을 고르세요.",
+                    q: "몇 년 동안 계속 같은 일을 하다가 보면 성격뿐만 아니라 건강도 영향을 받을 수 있다. 예를 들면 사무실에 앉아서 하루 종일 컴퓨터를 하는 사람들은 안구 건조증이나, 손목을 움직일 수 없을 정도로 통증을 느끼는 손목 터널 증후군에 걸리기도 한다. 또한 소방관들은 불이 나면 바로 출동해야 하기 때문에 식사 시간이 (       ) 수밖에 없다. 그래서 위염에 자주 걸린다. 이렇게 특정한 직업을 가진 사람들이 걸리기 쉬운 병을 직업병이라고 한다. 직업병은 그 일을 하는 사람들이 공통적으로 가진 병이기 때문에 원인을 찾아내기는 쉽지만 항상 그 일을 할 수밖에 없기 때문에 예방하기는 쉽지 않다. 그래서 증상이 나타나면 심해지지 않도록 증상을 줄이기 위한 노력을 해야 한다.\n\n① 괴로울\n② 불규칙할\n③ 실망스러울\n④ 불만족스러울"
+                },
+                {
+                    type: "읽기",
+                    title: "10. 앞의 글의 제목으로 가장 알맞은 것을 고르세요.",
+                    q: "① 성격과 직업의 관계\n② 직업병의 원인과 예\n③ 안구건조증의 치료 방법\n④ 컴퓨터가 건강에 주는 영향"
+                },
+                {
+                    type: "쓰기",
+                    title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.",
+                    bank: "[보기]\n빠지다   생기다   끼치다   살리다",
+                    q: "1) 백신이 개발된 덕분에 많은 사람들의 생명을 (        ) 수 있었다.\n   나는 언어에 소질이 있다는 말을 자주 들었다. 이런 소질을 (        ) 번역가가 되고 싶다."
+                },
+                {
+                    type: "쓰기",
+                    title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.",
+                    bank: "[보기]\n빠지다   생기다   끼치다   살리다",
+                    q: "2) 대회에 나가기 위해 팔이 (        ) 정도로 열심히 춤 연습을 했다.\n   어제 한자 수업을 신청했는데 신청자 명단에 내 이름이 (        ) 있었다. 사무실에 문의해 봐야겠다."
+                },
+                {
+                    type: "쓰기",
+                    title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.",
+                    bank: "[보기]\n빠지다   생기다   끼치다   살리다",
+                    q: "3) 작가의 경험은 소설을 쓰는 데에 큰 영향을 (        ) 수밖에 없다.\n   공사 중이니 다른 길로 가시기 바랍니다. 불편을 (        ) 드려서 죄송합니다."
+                },
+                {
+                    type: "쓰기",
+                    title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.",
+                    bank: "[보기]\n빠지다   생기다   끼치다   살리다",
+                    q: "4) 처음에는 일이 익숙하지 않았지만 여러 번 하다 보니까 자신감이 (        ).\n   초콜릿을 매일 먹는데 며칠 전부터 이가 너무 아프다. 아무래도 충치가 (        ) 것 같다."
+                },
+                {
+                    type: "쓰기",
+                    title: "2. 알맞은 말을 골라서 대화를 완성해 보세요.",
+                    bank: "[보기]\n창의적이다   비현실적이다   비전문적이다\n괴롭다   만족스럽다   실망스럽다",
+                    q: "1) 가: 민우 씨, 어제 서울대 축구팀이 한국대 팀한테 졌다면서요?\n나: 네. 당연히 이길 줄 알았는데 지고 말았어요. 기대를 많이 해서 그런지 정말 (        )."
+                },
+                {
+                    type: "쓰기",
+                    title: "2. 알맞은 말을 골라서 대화를 완성해 보세요.",
+                    bank: "[보기]\n창의적이다   비현실적이다   비전문적이다\n괴롭다   만족스럽다   실망스럽다",
+                    q: "2) 가: 어디가 불편하신가요?\n나: 요즘 새벽만 되면 기침을 너무 심하게 해요. 숨을 쉬기 어려울 정도로 (        ) 힘들어요."
+                },
+                {
+                    type: "쓰기",
+                    title: "2. 알맞은 말을 골라서 대화를 완성해 보세요.",
+                    bank: "[보기]\n창의적이다   비현실적이다   비전문적이다\n괴롭다   만족스럽다   실망스럽다",
+                    q: "3) 가: 와, 이 그림은 정말 (        ) 것 같아.\n나: 맞아. 지금까지 이런 그림은 본 적이 없어. 사람들의 표정을 신선하고 새롭게 표현했는걸."
+                },
+                {
+                    type: "쓰기",
+                    title: "2. 알맞은 말을 골라서 대화를 완성해 보세요.",
+                    bank: "[보기]\n창의적이다   비현실적이다   비전문적이다\n괴롭다   만족스럽다   실망스럽다",
+                    q: "4) 가: 주인공이 조선 시대로 가서 현대 의료 기술로 사람들을 치료해 주는 이야기래.\n나: 너무 말이 안 되는 것 같아서 별로였어. 나는 (        ) 이야기를 별로 좋아하지 않거든."
+                },
+                {
+                    type: "쓰기",
+                    title: "3. 주어진 말을 사용해서 대화를 완성해 보세요.",
+                    q: "1) 가: 크리스 씨는 한국에서 오래 살아서 그런지 한국어를 정말 잘하는 것 같아요.\n나: 맞아요. 한국 사람이라고 해도 (                                                  ) 한국어를 잘해요. (믿다)"
+                },
+                {
+                    type: "쓰기",
+                    title: "3. 주어진 말을 사용해서 대화를 완성해 보세요.",
+                    q: "2) 가: 이 식당은 새우볶음밥이 맛있어요. 민우 씨도 한번 드셔 보세요.\n나: 저는 해산물 알레르기가 있어요. 새우 같은 해산물을 (                                                  ) 두드러기가 나요. (먹다)"
+                },
+                {
+                    type: "쓰기",
+                    title: "4. 틀린 부분을 찾아서 맞게 고쳐 보세요.",
+                    q: "[보기] 지나치게 짜게 먹으면 건강에 문제가 생길 수밖에 있다. ➔ 없다\n\n1) 회사에 취업하려다가 대학원에 진학할 거예요.\n➔ (                                                                                                    )"
+                },
+                {
+                    type: "쓰기",
+                    title: "4. 틀린 부분을 찾아서 맞게 고쳐 보세요.",
+                    q: "2) 처음에는 한국어 발음이 어렵지만 계속 연습하다 보면 잘하게 되었어요.\n➔ (                                                                                                    )"
+                },
+                {
+                    type: "쓰기",
+                    title: "5. 알맞은 표현을 골라서 대화를 완성해 보세요.",
+                    bank: "[보기]\n-는 셈이다   -을 수밖에 없다\n-을 뿐만 아니라   -다(가) 보니까",
+                    q: "1) 가: 저 가수 노래를 참 잘하네요.\n나: 그렇죠? (        ) 연기도 잘해요. '사랑'이라는 드라마에서 주인공 친구로 나왔는데 연기를 너무 잘해서 가수인 줄 모르는 사람도 있을 정도예요."
+                },
+                {
+                    type: "쓰기",
+                    title: "5. 알맞은 표현을 골라서 대화를 완성해 보세요.",
+                    bank: "[보기]\n-는 셈이다   -을 수밖에 없다\n-을 뿐만 아니라   -다(가) 보니까",
+                    q: "2) 가: 나나 씨, 처음 한국에 왔을 때는 매운 음식을 잘 못 먹더니 이제 잘 먹네요.\n나: 네. 친구들하고 자주 (        ) 매운 음식을 좋아하게 되었어요."
+                },
+                {
+                    type: "쓰기",
+                    title: "5. 알맞은 표현을 골라서 대화를 완성해 보세요.",
+                    bank: "[보기]\n-는 셈이다   -을 수밖에 없다\n-을 뿐만 아니라   -다(가) 보니까",
+                    q: "3) 가: 민우 씨가 일주일 동안 500개의 단어를 외웠대요.\n나: 와, 대단해요. 하루에 단어를 70개씩 (        ) 전 10개도 못 외우는데요."
+                },
+                {
+                    type: "쓰기",
+                    title: "6. 다음 표현을 사용해서 글을 써 보세요.",
+                    bank: "[사용 표현]\n-은 셈이다 | -을 수밖에 없다 | -을 뿐만 아니라",
+                    q: "주제: 과일주스의 위험성에 대한 글을 200~300자로 쓰세요.\n\n[참고 데이터]\n과일주스 300ml (당류 31g, 각설탕 10개) = 탄산음료 250ml (당류 29g, 각설탕 10개)"
+                },
+                {
+                    type: "발음",
+                    title: "발음 (Pronunciation)",
+                    q: "잘 들어 보세요.\n● 디자인과에서는 컴퓨터로 작업을 많이 한대요.\n● 약을 먹어도 머리가 깨질 정도로 아프고 콧물도 많이 나요.\n● 졸업 후에 바로 창업하려다가 취직했어요.\n\n잘 듣고 따라 해 보세요.\n● 의예과에 진학해서 의사가 되고 싶어요.\n● 너무 많이 먹어서 배가 터질 정도예요.\n● 아이를 의자에 앉혀서 사진을 찍었어요.\n\n잘 듣고 친구와 연습해 보세요.\n● 가: 서울대학교의 공과 대학에는 어떤 전공이 있어요?\n   나: 건축학과도 있고 기계공학부도 있어요. 홈페이지를 한번 찾아보세요.\n● 가: 어떤 증상이 있으세요?\n   나: 말을 할 수 없을 정도로 목이 따끔거리고 아파요.\n● 가: 아이의 어휘력을 키워 주고 싶은데 좋은 방법이 있을까요?\n   나: 아이에게 책을 많이 읽히면 어휘력이 좋아져요."
+                }
+            ]
+        };
+
         const unitTitles = {
             1: ["진로", "능력과 자질"], 2: ["질병과 증상", "건강한 습관"], 3: ["만족과 후회", "사회 변화"]
         };
@@ -494,18 +739,18 @@
                 <div class="mb-8 bg-white p-6 rounded-xl shadow border border-slate-200">
                     <h3 class="text-xl font-bold text-blue-900 mb-4 border-b-2 border-blue-900 pb-2">${i}단원. ${unitTitles[i][0].split(' ')[0]}</h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <button onclick="openPreview('${i}-1')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white py-3 rounded-lg font-bold transition">${i}-1과 문법</button>
-                        <button onclick="openPreview('${i}-1-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition">${i}-1과 어휘</button>
-                        <button onclick="openPreview('${i}-2')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white py-3 rounded-lg font-bold transition">${i}-2과 문법</button>
-                        <button onclick="openPreview('${i}-2-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition">${i}-2과 어휘</button>
+                        <button onclick="openPreview('${i}-1')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white py-3 rounded-lg font-bold transition shadow-sm">${i}-1과 문법</button>
+                        <button onclick="openPreview('${i}-1-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition shadow-sm">${i}-1과 어휘</button>
+                        <button onclick="openPreview('${i}-2')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white py-3 rounded-lg font-bold transition shadow-sm">${i}-2과 문법</button>
+                        <button onclick="openPreview('${i}-2-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition shadow-sm">${i}-2과 어휘</button>
                     </div>
                 </div>`;
             }
             html += `
                 <div class="mb-10 bg-indigo-50 p-6 rounded-xl shadow border border-indigo-200">
-                    <h3 class="text-xl font-bold text-indigo-900 mb-4 border-b-2 border-indigo-900 pb-2">복습 과제 (Workbook)</h3>
+                    <h3 class="text-xl font-bold text-indigo-900 mb-4 border-b-2 border-indigo-900 pb-2">복습 과제 종합 (Workbook)</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <button onclick="openPreview('review-1-3')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition">1-3과 복습</button>
+                        <button onclick="openPreview('review-1-3')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">1-3과 종합 복습 열기</button>
                     </div>
                 </div>`;
             gridContainer.innerHTML = html;
@@ -527,9 +772,9 @@
                 html += generateTitleHtml(titleText, "어휘 Vocabulary", [{p:"", t:`어휘 연습문제 (${vData.length}문항)`}]);
                 html += generateVocabHtml(parts[0], parts[1]);
             } else if (key.startsWith('review-')) {
-                titleText = `1~3과 복습 (Workbook)`;
+                titleText = `1~3단원 종합 복습 (Workbook)`;
                 document.getElementById('preview-header-title').innerText = titleText;
-                html += generateTitleHtml(titleText, "복습", []);
+                html += generateTitleHtml(titleText, "종합 복습", []);
                 html += generateReviewHtml(key);
             } else {
                 let parts = key.split('-');
@@ -563,7 +808,6 @@
                 </div>`;
         }
 
-        // ★ 어휘 문제 렌더링 (1문제당 1페이지, 보기 분리)
         function generateVocabHtml(u, l) {
             let key = `${u}-${l}-v`;
             let vData = window.vocabDB[key] || [];
@@ -583,30 +827,61 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
             return html;
         }
 
+        // ★ 복습 문제 렌더링 (단어 리스트 표, 듣기/읽기/쓰기/발음 1페이지 1문항)
         function generateReviewHtml(key) {
-            let data = window.db[key];
-            if (!data || !data.p) return "";
+            let rData = window.reviewDB[key] || [];
             let html = "";
-            data.p.forEach((prac, pIdx) => {
-                let pracStr = prac.replace(/___/g, '(                                                  )').replace(/\n/g, '<br>');
-                html += `
+            rData.forEach((item, pIdx) => {
+                if(item.isList) {
+                    let listHtml = "";
+                    item.content.forEach(unit => {
+                        listHtml += `<div style="font-weight:bold; color:#1e40af; margin-top:15px; margin-bottom:5px;">[${unit.t}]</div>`;
+                        listHtml += `<table class="vocab-grid-table"><tbody>`;
+                        let words = unit.words;
+                        for(let i=0; i<words.length; i+=4) {
+                            listHtml += `<tr>`;
+                            listHtml += `<td>☐ ${words[i] || ''}</td>`;
+                            listHtml += `<td>${words[i+1] ? '☐ ' + words[i+1] : ''}</td>`;
+                            listHtml += `<td>${words[i+2] ? '☐ ' + words[i+2] : ''}</td>`;
+                            listHtml += `<td>${words[i+3] ? '☐ ' + words[i+3] : ''}</td>`;
+                            listHtml += `</tr>`;
+                        }
+                        listHtml += `</tbody></table>`;
+                    });
+                    html += `
                     <div class="slide-wrapper" id="slide-review-${pIdx}">
                         <div class="slide-container">
-                            <div class="slide-title" contenteditable="true">확인 및 연습</div>
+                            <div class="slide-title" contenteditable="true">${item.type}</div>
                             <div class="content-area">
-                                <div class="practice-wrapper">
-                                    <div class="practice-num">Q${pIdx + 1}.</div>
-                                    <div class="practice-box" id="review-content-${pIdx}" contenteditable="true">${pracStr}</div>
+                                <div class="review-section-title" contenteditable="true">${item.title}</div>
+                                <div class="practice-box" id="review-content-${pIdx}" contenteditable="true" style="font-size:24px; padding:20px; overflow-y:auto;">${listHtml}</div>
+                            </div>
+                        </div>
+                    </div>`;
+                } else {
+                    let wordBankStr = item.bank ? item.bank.replace(/\n/g, '<br>') : "";
+                    let qStr = item.q ? item.q.replace(/\n/g, '<br>') : "";
+                    let bankHtml = wordBankStr ? `<div class="word-bank-box" id="review-${pIdx}-bank" contenteditable="true">${wordBankStr}</div>` : `<div id="review-${pIdx}-bank" style="display:none;"></div>`;
+                    
+                    html += `
+                    <div class="slide-wrapper" id="slide-review-${pIdx}">
+                        <div class="slide-container">
+                            <div class="slide-title" contenteditable="true">${item.type}</div>
+                            <div class="content-area">
+                                <div class="review-section-title" contenteditable="true">${item.title}</div>
+                                <div class="practice-wrapper" style="flex-direction: column; height: 100%; gap: 0;">
+                                    ${bankHtml}
+                                    <div class="practice-box" id="review-content-${pIdx}" contenteditable="true" style="width: 100%; height: auto; flex-grow: 1; font-size:20px;">${qStr}</div>
                                 </div>
                             </div>
                         </div>
                     </div>`;
+                }
             });
             return html;
         }
@@ -682,6 +957,9 @@
             return html;
         }
 
+        // ===================================================================
+        // PPTX 다운로드 (복습용 단어 리스트 및 긴 지문 대응)
+        // ===================================================================
         function downloadPPTX() {
             let btn = document.getElementById('downloadBtn'); let originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 생성 중...'; btn.disabled = true;
@@ -691,17 +969,18 @@
                     let pres = new PptxGenJS(); pres.layout = 'LAYOUT_16x9'; 
                     let COLOR_NAVY = "27408B"; let COLOR_BLACK = "000000"; let COLOR_GRAY = "64748B"; let COLOR_BORDER = "CBD5E1";
                     let COLOR_BG_LIGHT = "F8FAFC"; let COLOR_BG_DARK = "E2E8F0"; let FONT_FACE = "맑은 고딕";
-                    let X_MARGIN = 0.625; let W_CONTENT = 8.75; 
+                    let X_MARGIN = 0.4; let W_CONTENT = 9.2; // 여백 최소화
 
                     pres.defineSlideMaster({ title: "MASTER_SLIDE", background: { fill: "FFFFFF" }, objects: [{ rect: { x: 0, y: 0, w: "100%", h: 0.1, fill: COLOR_NAVY } }] });
                     function getText(id) { let el = document.getElementById(id); return el ? el.innerText : ""; }
-                    function addSlideTitle(slide, textId) {
-                        slide.addText(getText(textId) || "제목", { x: X_MARGIN, y: 0.45, w: W_CONTENT, h: 0.4, valign: 'bottom', color: COLOR_NAVY, fontSize: 30, bold: true, fontFace: FONT_FACE });
-                        slide.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 0.93, w: W_CONTENT, h: 0.03, fill: COLOR_NAVY });
+                    function addSlideTitle(slide, textId, customTitle) {
+                        let txt = customTitle || getText(textId) || "제목";
+                        slide.addText(txt, { x: X_MARGIN, y: 0.3, w: W_CONTENT, h: 0.4, valign: 'bottom', color: COLOR_NAVY, fontSize: 30, bold: true, fontFace: FONT_FACE });
+                        slide.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 0.75, w: W_CONTENT, h: 0.03, fill: COLOR_NAVY });
                     }
 
                     let slide1 = pres.addSlide();
-                    slide1.addText(getText("title-sub"), { x: 4.0, y: 0.3, w: 5.375, align: 'right', color: COLOR_GRAY, fontSize: 24, bold: true, fontFace: FONT_FACE });
+                    slide1.addText(getText("title-sub"), { x: 4.0, y: 0.3, w: 5.8, align: 'right', color: COLOR_GRAY, fontSize: 24, bold: true, fontFace: FONT_FACE });
                     slide1.addShape(pres.ShapeType.rect, { x: 0, y: 1.9, w: 10, h: 1.2, fill: COLOR_NAVY });
                     slide1.addText(getText("title-main"), { x: 0, y: 1.9, w: 10, h: 1.2, align: 'center', valign: 'middle', color: "FFFFFF", fontSize: 50, bold: true, fontFace: FONT_FACE });
                     let gTextArr = [];
@@ -718,60 +997,81 @@
                     if(gTextArr.length > 0) slide1.addText(gTextArr, { x: 0, y: 3.5, w: 10, h: 2.0, align: 'center', valign: 'top', fontSize: 26, fontFace: FONT_FACE, lineSpacing: 45 });
 
                     if (activeKey.includes('-v')) {
-                        let parts = activeKey.split('-');
-                        let u = parts[0]; let l = parts[1];
+                        let parts = activeKey.split('-'); let u = parts[0]; let l = parts[1];
                         let vData = window.vocabDB[activeKey] || [];
-                        
                         vData.forEach((_, pIdx) => {
-                            let bankId = `vocab-${u}-${l}-${pIdx}-bank`;
-                            let qId = `vocab-${u}-${l}-${pIdx}-q`;
+                            let bankId = `vocab-${u}-${l}-${pIdx}-bank`; let qId = `vocab-${u}-${l}-${pIdx}-q`;
                             let bankTxt = getText(bankId); let qTxt = getText(qId);
-                            
                             let slideV = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                            slideV.addText("어휘 Vocabulary", { x: X_MARGIN, y: 0.45, w: W_CONTENT, h: 0.4, valign: 'bottom', color: COLOR_NAVY, fontSize: 30, bold: true, fontFace: FONT_FACE });
-                            slideV.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 0.93, w: W_CONTENT, h: 0.03, fill: COLOR_NAVY });
-                            
-                            let currentY = 1.25; let remainingHeight = 4.1;
+                            addSlideTitle(slideV, null, "어휘 Vocabulary");
+                            let currentY = 1.0; let remainingHeight = 4.4;
                             if (bankTxt && bankTxt.trim() !== "") {
-                                slideV.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 1.0, fill: COLOR_BG_DARK, line: { color: COLOR_BORDER, width: 1 } });
-                                slideV.addText(bankTxt, { x: 0.8, y: currentY + 0.1, w: 8.4, h: 0.8, color: COLOR_BLACK, fontSize: 20, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
-                                currentY += 1.2; remainingHeight -= 1.2;
+                                slideV.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 0.9, fill: COLOR_BG_DARK, line: { color: COLOR_BORDER, width: 1 } });
+                                slideV.addText(bankTxt, { x: 0.5, y: currentY + 0.05, w: 9.0, h: 0.8, color: COLOR_BLACK, fontSize: 20, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
+                                currentY += 1.1; remainingHeight -= 1.1;
                             }
                             slideV.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: remainingHeight, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
-                            slideV.addText(qTxt, { x: 0.85, y: currentY + 0.15, w: 8.3, h: remainingHeight - 0.3, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', lineSpacing: 35, wrap: true });
+                            slideV.addText(qTxt, { x: 0.6, y: currentY + 0.15, w: 8.8, h: remainingHeight - 0.3, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', lineSpacing: 35, wrap: true });
                         });
                     } else if (activeKey.startsWith('review-')) {
-                        for(let pIdx=0; pIdx<20; pIdx++) {
-                            let pTxt = getText(`review-content-${pIdx}`);
-                            if (!pTxt) continue;
+                        let rData = window.reviewDB[activeKey] || [];
+                        rData.forEach((item, pIdx) => {
                             let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                            slideR.addText("확인 및 연습", { x: X_MARGIN, y: 0.45, w: W_CONTENT, h: 0.4, valign: 'bottom', color: COLOR_NAVY, fontSize: 30, bold: true, fontFace: FONT_FACE });
-                            slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 0.93, w: W_CONTENT, h: 0.03, fill: COLOR_NAVY });
-                            slideR.addText(`Q${pIdx + 1}.`, { x: 0.3, y: 1.3, w: 0.95, h: 0.5, color: COLOR_NAVY, fontSize: 26, bold: true, fontFace: FONT_FACE, valign: 'top' });
-                            slideR.addShape(pres.ShapeType.rect, { x: 1.25, y: 1.25, w: 8.3, h: 4.1, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
-                            slideR.addText(pTxt, { x: 1.5, y: 1.4, w: 7.8, h: 3.8, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', lineSpacing: 35, wrap: true });
-                        }
+                            addSlideTitle(slideR, null, item.type);
+                            slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
+                            
+                            let currentY = 1.35; let remainingHeight = 4.0;
+                            
+                            if (item.isList) {
+                                // 단어장 표 렌더링
+                                item.content.forEach(unit => {
+                                    slideR.addText(`[${unit.t}]`, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 0.3, color: "1E40AF", fontSize: 20, bold: true, fontFace: FONT_FACE });
+                                    currentY += 0.3;
+                                    let rows = []; let words = unit.words;
+                                    for(let i=0; i<words.length; i+=4) {
+                                        let r = [];
+                                        r.push({ text: `☐ ${words[i]||''}`, options: { fontSize: 20, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
+                                        r.push({ text: words[i+1] ? `☐ ${words[i+1]}` : '', options: { fontSize: 20, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
+                                        r.push({ text: words[i+2] ? `☐ ${words[i+2]}` : '', options: { fontSize: 20, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
+                                        r.push({ text: words[i+3] ? `☐ ${words[i+3]}` : '', options: { fontSize: 20, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
+                                        rows.push(r);
+                                    }
+                                    let tblHeight = rows.length * 0.35;
+                                    slideR.addTable(rows, { x: X_MARGIN, y: currentY, w: W_CONTENT, colW: [2.3, 2.3, 2.3, 2.3] });
+                                    currentY += tblHeight + 0.1;
+                                });
+                            } else {
+                                let bankTxt = getText(`review-${pIdx}-bank`); let qTxt = getText(`review-content-${pIdx}`);
+                                if (bankTxt && bankTxt.trim() !== "") {
+                                    slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 1.2, fill: COLOR_BG_DARK, line: { color: COLOR_BORDER, width: 1 } });
+                                    slideR.addText(bankTxt, { x: 0.5, y: currentY + 0.1, w: 9.0, h: 1.0, color: COLOR_BLACK, fontSize: 18, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
+                                    currentY += 1.3; remainingHeight -= 1.3;
+                                }
+                                slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: remainingHeight, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
+                                slideR.addText(qTxt, { x: 0.6, y: currentY + 0.1, w: 8.8, h: remainingHeight - 0.2, color: COLOR_BLACK, fontSize: 20, fontFace: FONT_FACE, valign: 'top', lineSpacing: 28, wrap: true });
+                            }
+                        });
                     } else {
                         [1, 2].forEach(gIdx => {
                             if(!document.getElementById(`intro-${gIdx}-a`)) return;
                             let slide2 = pres.addSlide({ masterName: "MASTER_SLIDE" });
                             addSlideTitle(slide2, `intro-${gIdx}-title`);
-                            slide2.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.3, w: 4.15, h: 3.9, fill: COLOR_BG_LIGHT });
-                            slide2.addText(getText(`intro-${gIdx}-a`) + "\n\n" + getText(`intro-${gIdx}-b`), { x: 0.8, y: 1.3, w: 3.8, h: 3.9, color: COLOR_BLACK, fontSize: 24, fontFace: FONT_FACE, valign: 'middle', lineSpacing: 35 });
-                            slide2.addShape(pres.ShapeType.rect, { x: 5.125, y: 1.3, w: 4.25, h: 3.9, fill: COLOR_BG_DARK });
-                            slide2.addText(getText(`intro-${gIdx}-img`), { x: 5.125, y: 1.3, w: 4.25, h: 3.9, color: COLOR_GRAY, fontSize: 20, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
+                            slide2.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.1, w: 4.4, h: 4.1, fill: COLOR_BG_LIGHT });
+                            slide2.addText(getText(`intro-${gIdx}-a`) + "\n\n" + getText(`intro-${gIdx}-b`), { x: 0.6, y: 1.1, w: 4.0, h: 4.1, color: COLOR_BLACK, fontSize: 24, fontFace: FONT_FACE, valign: 'middle', lineSpacing: 35 });
+                            slide2.addShape(pres.ShapeType.rect, { x: 5.2, y: 1.1, w: 4.4, h: 4.1, fill: COLOR_BG_DARK });
+                            slide2.addText(getText(`intro-${gIdx}-img`), { x: 5.2, y: 1.1, w: 4.4, h: 4.1, color: COLOR_GRAY, fontSize: 20, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
 
                             let slide3 = pres.addSlide({ masterName: "MASTER_SLIDE" });
                             addSlideTitle(slide3, `mean-${gIdx}-title`);
-                            slide3.addText("의미", { x: X_MARGIN, y: 1.3, w: W_CONTENT, h: 0.4, color: COLOR_NAVY, fontSize: 24, bold: true, fontFace: FONT_FACE, valign: 'top' });
-                            slide3.addText(getText(`mean-${gIdx}-desc`), { x: X_MARGIN, y: 1.8, w: W_CONTENT, h: 0.6, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top' });
-                            slide3.addText("예문", { x: X_MARGIN, y: 2.6, w: W_CONTENT, h: 0.4, color: COLOR_NAVY, fontSize: 24, bold: true, fontFace: FONT_FACE, valign: 'top' });
+                            slide3.addText("의미", { x: X_MARGIN, y: 1.0, w: W_CONTENT, h: 0.4, color: COLOR_NAVY, fontSize: 24, bold: true, fontFace: FONT_FACE, valign: 'top' });
+                            slide3.addText(getText(`mean-${gIdx}-desc`), { x: X_MARGIN, y: 1.4, w: W_CONTENT, h: 0.6, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top' });
+                            slide3.addText("예문", { x: X_MARGIN, y: 2.2, w: W_CONTENT, h: 0.4, color: COLOR_NAVY, fontSize: 24, bold: true, fontFace: FONT_FACE, valign: 'top' });
                             let exArr = [];
                             for(let i=0; i<10; i++) {
                                 let exTxt = getText(`mean-${gIdx}-ex-${i}`);
                                 if(exTxt) exArr.push({ text: exTxt + "\n\n", options: { color: COLOR_BLACK } });
                             }
-                            slide3.addText(exArr, { x: X_MARGIN, y: 3.1, w: W_CONTENT, h: 2.0, fontSize: 22, fontFace: FONT_FACE, lineSpacing: 32, valign: 'top', wrap: false });
+                            slide3.addText(exArr, { x: X_MARGIN, y: 2.6, w: W_CONTENT, h: 2.5, fontSize: 22, fontFace: FONT_FACE, lineSpacing: 32, valign: 'top', wrap: false });
 
                             let thOpts = { fill: COLOR_NAVY, color: "FFFFFF", bold: true, fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: { pt: 1, color: COLOR_BORDER }, margin: 6 };
                             function txt(content, bOpts) { return { text: content, options: { color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: bOpts } }; }
@@ -805,18 +1105,17 @@
                                     tr.push(txt(c1, borderOpts)); tr.push(txt(c2, borderOpts));
                                     rows.push(tr);
                                 }
-                                slideT.addTable(rows, { x: X_MARGIN, y: 1.3, w: W_CONTENT, colW: [3.5, 2.0, 3.25] });
+                                slideT.addTable(rows, { x: X_MARGIN, y: 1.1, w: W_CONTENT, colW: [3.5, 2.5, 3.2] });
                             }
 
                             for(let pIdx=0; pIdx<30; pIdx++) {
                                 let pTxt = getText(`prac-${gIdx}-${pIdx}-txt`);
                                 if(!pTxt) continue;
                                 let slideP = pres.addSlide();
-                                slideP.addText("확인 및 연습", { x: X_MARGIN, y: 0.45, w: W_CONTENT, h: 0.4, valign: 'bottom', color: COLOR_NAVY, fontSize: 30, bold: true, fontFace: FONT_FACE });
-                                slideP.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 0.93, w: W_CONTENT, h: 0.03, fill: COLOR_NAVY });
-                                slideP.addText(`Q${pIdx + 1}.`, { x: 0.3, y: 1.3, w: 0.95, h: 0.5, color: COLOR_NAVY, fontSize: 26, bold: true, fontFace: FONT_FACE, valign: 'top' });
-                                slideP.addShape(pres.ShapeType.rect, { x: 1.25, y: 1.25, w: 8.3, h: 4.1, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
-                                slideP.addText(pTxt, { x: 1.5, y: 1.4, w: 7.8, h: 3.8, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', lineSpacing: 35, wrap: true });
+                                addSlideTitle(slideP, null, "확인 및 연습");
+                                slideP.addText(`Q${pIdx + 1}.`, { x: X_MARGIN, y: 1.0, w: 0.95, h: 0.5, color: COLOR_NAVY, fontSize: 26, bold: true, fontFace: FONT_FACE, valign: 'top' });
+                                slideP.addShape(pres.ShapeType.rect, { x: X_MARGIN+0.95, y: 1.0, w: W_CONTENT-0.95, h: 4.3, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
+                                slideP.addText(pTxt, { x: X_MARGIN+1.15, y: 1.1, w: W_CONTENT-1.35, h: 4.1, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', lineSpacing: 35, wrap: true });
                             }
                         });
                     }
