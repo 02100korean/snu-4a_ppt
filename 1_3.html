@@ -46,9 +46,6 @@
         .practice-num { font-size: 30px; font-weight: bold; color: #27408B; min-width: 70px; white-space: nowrap; margin-top: 10px; }
         .practice-box { flex-grow: 1; background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 30px; font-size: 24px; line-height: 1.6; white-space: pre-wrap; height: 100%; width: 100%; overflow: hidden; }
         .word-bank-box { background-color: #e2e8f0; padding: 15px; border-radius: 12px; margin-bottom: 15px; font-size: 22px; font-weight: bold; text-align: center; border: 1px solid #cbd5e1; white-space: pre-wrap; color: #1e293b; width: 100%; }
-        .vocab-grid-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .vocab-grid-table td { border: 1px solid #94a3b8; padding: 15px; text-align: left; font-size: 24px; font-weight: 500; vertical-align: top; width: 25%; }
-        .review-section-title { font-size: 28px; font-weight: bold; color: #1e40af; margin-bottom: 10px; }
         #customModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 30px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     </style>
@@ -57,7 +54,7 @@
 
     <div id="dashboard-screen" class="w-full min-h-screen flex flex-col">
         <div class="w-full bg-blue-900 text-white px-8 py-5 flex justify-between items-center shadow-md sticky top-0 z-50">
-            <h1 class="text-2xl font-bold">서울대 한국어 4A <span class="text-blue-300 text-base font-normal ml-2">1~3단원 제너레이터</span></h1>
+            <h1 class="text-2xl font-bold">서울대 한국어 4A <span class="text-blue-300 text-base font-normal ml-2">1~3단원 문법 및 어휘</span></h1>
             <a href="index.html" class="bg-blue-800 px-4 py-2 rounded-md font-bold hover:bg-blue-700 transition shadow"><i class="fa-solid fa-arrow-left mr-1"></i> 허브로 돌아가기</a>
         </div>
         <div class="max-w-7xl w-full mx-auto p-8">
@@ -93,10 +90,8 @@
         function showModal(msg) { document.getElementById('modalMessage').innerText = msg; document.getElementById('customModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('customModal').style.display = 'none'; }
 
-        // ===================================================================
-        // 문법/어휘 기본 뼈대
-        // ===================================================================
-        const db = {
+        // 1~3단원 문법 데이터
+        window.db = {
             "1-1-1": {
                 g:[{p:"V",t:"-는다면서(요)?\n/-다면서(요)?"},{p:"A",t:"-다면서(요)?"},{p:"N",t:"(이)라면서(요)?"}],
                 iA:"가: 오늘 교수님과 상담을 한다면서요?", iB:"나: 네. 아직 진로를 정하지 못해서 교수님과 이야기해 보려고요.",
@@ -369,7 +364,7 @@
             }
         };
 
-        // 1~3단원 어휘 문제 데이터베이스
+        // 1~3단원 어휘 문제 데이터
         window.vocabDB = {
             "1-1-v": [
                 { b: "[보기]\n진로를 정하다   취업하다   창업하다   대학원에 진학하다\n소질이 있다   적성에 맞다   전공을 살리다   전망이 밝다", q: "1) 나는 앞으로 어떤 일을 하면서 살지 결정했다. (진로를 정했다)" },
@@ -462,7 +457,11 @@
             ]
         };
 
-        // 빈 뼈대 처리 (에러 방어용)
+        const unitTitles = {
+            1: ["진로", "능력과 자질"], 2: ["질병과 증상", "건강한 습관"], 3: ["만족과 후회", "사회 변화"]
+        };
+
+        // 빈 뼈대 채우기
         for (let u = 1; u <= 3; u++) {
             for (let l = 1; l <= 2; l++) {
                 let vKey = `${u}-${l}-v`;
@@ -493,13 +492,6 @@
                     </div>
                 </div>`;
             }
-            html += `
-                <div class="mb-10 bg-indigo-50 p-6 rounded-xl shadow border border-indigo-200">
-                    <h3 class="text-xl font-bold text-indigo-900 mb-4 border-b-2 border-indigo-900 pb-2">복습 과제 종합 (Workbook)</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <button onclick="openPreview('review-1-3')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">1-3과 종합 복습 열기</button>
-                    </div>
-                </div>`;
             gridContainer.innerHTML = html;
         };
 
@@ -518,11 +510,6 @@
                 let vData = window.vocabDB[key] || [];
                 html += generateTitleHtml(titleText, "어휘 Vocabulary", [{p:"", t:`어휘 연습문제 (${vData.length}문항)`}]);
                 html += generateVocabHtml(parts[0], parts[1]);
-            } else if (key.startsWith('review-')) {
-                titleText = `1~3단원 종합 복습 (Workbook)`;
-                document.getElementById('preview-header-title').innerText = titleText;
-                html += generateTitleHtml(titleText, "종합 복습", []);
-                html += generateReviewHtml(key);
             } else {
                 let parts = key.split('-');
                 titleText = `${parts[0]}단원. ${unitTitles[parts[0]][parts[1]-1]} (${parts[0]}-${parts[1]}. 문법)`;
@@ -575,79 +562,6 @@
                             </div>
                         </div>
                     </div>`;
-            });
-            return html;
-        }
-
-        // ★ 복습 문제 HTML 렌더링 (단어 리스트 표를 1개 단원씩 분리, 듣기/읽기/쓰기/발음 처리)
-        function generateReviewHtml(key) {
-            let rData = window.reviewDB[key] || [];
-            let html = "";
-            rData.forEach((item, pIdx) => {
-                if(item.isList) {
-                    // 단원별(1단원, 2단원, 3단원)로 슬라이드를 각각 생성
-                    item.content.forEach((unit, uIdx) => {
-                        let listHtml = `<div style="font-weight:bold; color:#1e40af; margin-top:15px; margin-bottom:5px; font-size:26px;">[${unit.t}]</div>`;
-                        listHtml += `<table class="vocab-grid-table"><tbody>`;
-                        let words = unit.words;
-                        for(let i=0; i<words.length; i+=4) {
-                            listHtml += `<tr>`;
-                            listHtml += `<td>☐ ${words[i] || ''}</td>`;
-                            listHtml += `<td>${words[i+1] ? '☐ ' + words[i+1] : ''}</td>`;
-                            listHtml += `<td>${words[i+2] ? '☐ ' + words[i+2] : ''}</td>`;
-                            listHtml += `<td>${words[i+3] ? '☐ ' + words[i+3] : ''}</td>`;
-                            listHtml += `</tr>`;
-                        }
-                        listHtml += `</tbody></table>`;
-                        
-                        html += `
-                        <div class="slide-wrapper" id="slide-review-list-${pIdx}-${uIdx}">
-                            <div class="slide-container">
-                                <div class="slide-title" contenteditable="true">${item.type}</div>
-                                <div class="content-area">
-                                    <div class="review-section-title" contenteditable="true">${item.title}</div>
-                                    <div class="practice-box" id="review-list-content-${pIdx}-${uIdx}" contenteditable="true" style="font-size:24px; padding:20px; overflow-y:auto;">${listHtml}</div>
-                                </div>
-                            </div>
-                        </div>`;
-                    });
-                } else if (item.type === "문법") {
-                    // '문법과 표현의 의미를 확인해 보세요'를 문법 항목별로 분리해서 렌더링하는 것은 PPTX 다운로드 함수에서 처리하지만, 화면에도 분리해서 보여줄 수 있습니다.
-                    // 현재는 전체를 보여주고 PPTX 생성 시 분리하도록 합니다. (화면에도 분리하려면 여기서 쪼개야 함)
-                    // 화면도 쪼개서 보여주도록 변경:
-                    let rules = item.q.split('\n\n');
-                    rules.forEach((rule, rIdx) => {
-                        let ruleStr = rule.replace(/\n/g, '<br>');
-                        html += `
-                        <div class="slide-wrapper" id="slide-review-gram-${pIdx}-${rIdx}">
-                            <div class="slide-container">
-                                <div class="slide-title" contenteditable="true">${item.type}</div>
-                                <div class="content-area">
-                                    <div class="review-section-title" contenteditable="true">${item.title}</div>
-                                    <div class="practice-box" id="review-gram-content-${pIdx}-${rIdx}" contenteditable="true" style="font-size:24px; padding:20px;">${ruleStr}</div>
-                                </div>
-                            </div>
-                        </div>`;
-                    });
-                } else {
-                    let wordBankStr = item.bank ? item.bank.replace(/\n/g, '<br>') : "";
-                    let qStr = item.q ? item.q.replace(/\n/g, '<br>') : "";
-                    let bankHtml = wordBankStr ? `<div class="word-bank-box" id="review-${pIdx}-bank" contenteditable="true">${wordBankStr}</div>` : `<div id="review-${pIdx}-bank" style="display:none;"></div>`;
-                    
-                    html += `
-                    <div class="slide-wrapper" id="slide-review-${pIdx}">
-                        <div class="slide-container">
-                            <div class="slide-title" contenteditable="true">${item.type}</div>
-                            <div class="content-area">
-                                <div class="review-section-title" contenteditable="true">${item.title}</div>
-                                <div class="practice-wrapper" style="flex-direction: column; height: 100%; gap: 0;">
-                                    ${bankHtml}
-                                    <div class="practice-box" id="review-content-${pIdx}" contenteditable="true" style="width: 100%; height: auto; flex-grow: 1; font-size:20px;">${qStr}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-                }
             });
             return html;
         }
@@ -723,9 +637,6 @@
             return html;
         }
 
-        // ===================================================================
-        // PPTX 다운로드 (복습용 세부 요건 100% 반영)
-        // ===================================================================
         function downloadPPTX() {
             let btn = document.getElementById('downloadBtn'); let originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 생성 중...'; btn.disabled = true;
@@ -735,7 +646,6 @@
                     let pres = new PptxGenJS(); pres.layout = 'LAYOUT_16x9'; 
                     let COLOR_NAVY = "27408B"; let COLOR_BLACK = "000000"; let COLOR_GRAY = "64748B"; let COLOR_BORDER = "CBD5E1";
                     let COLOR_BG_LIGHT = "F8FAFC"; let COLOR_BG_DARK = "E2E8F0"; let FONT_FACE = "맑은 고딕";
-                    // 읽기 문제 등 긴 텍스트를 위해 상하좌우 여백을 극단적으로 최소화
                     let X_MARGIN = 0.4; let W_CONTENT = 9.2; 
 
                     pres.defineSlideMaster({ title: "MASTER_SLIDE", background: { fill: "FFFFFF" }, objects: [{ rect: { x: 0, y: 0, w: "100%", h: 0.1, fill: COLOR_NAVY } }] });
@@ -779,106 +689,6 @@
                             }
                             slideV.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: remainingHeight, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
                             slideV.addText(qTxt, { x: 0.6, y: currentY + 0.15, w: 8.8, h: remainingHeight - 0.3, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', lineSpacing: 35, wrap: true });
-                        });
-                    } else if (activeKey.startsWith('review-')) {
-                        let rData = window.reviewDB[activeKey] || [];
-                        rData.forEach((item, pIdx) => {
-                            // 1. 단어 목록 분리 (isList)
-                            if (item.isList) {
-                                item.content.forEach((unit, uIdx) => {
-                                    let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                                    addSlideTitle(slideR, null, item.type);
-                                    slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
-                                    
-                                    let currentY = 1.35;
-                                    slideR.addText(`[${unit.t}]`, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 0.3, color: "1E40AF", fontSize: 20, bold: true, fontFace: FONT_FACE });
-                                    currentY += 0.4;
-                                    
-                                    let rows = []; let words = unit.words;
-                                    for(let i=0; i<words.length; i+=4) {
-                                        let r = [];
-                                        // 폰트 크기 24pt 고정
-                                        r.push({ text: `☐ ${words[i]||''}`, options: { fontSize: 24, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
-                                        r.push({ text: words[i+1] ? `☐ ${words[i+1]}` : '', options: { fontSize: 24, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
-                                        r.push({ text: words[i+2] ? `☐ ${words[i+2]}` : '', options: { fontSize: 24, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
-                                        r.push({ text: words[i+3] ? `☐ ${words[i+3]}` : '', options: { fontSize: 24, fontFace: FONT_FACE, border: {pt:1, color: COLOR_BORDER}, align:'left' } });
-                                        rows.push(r);
-                                    }
-                                    slideR.addTable(rows, { x: X_MARGIN, y: currentY, w: W_CONTENT, colW: [2.3, 2.3, 2.3, 2.3] });
-                                });
-                            } else if (item.title && item.title.includes("문법과 표현의 의미를 확인해 보세요")) {
-                                // 2. 문법 의미 확인 파트 (문법별 1페이지씩)
-                                let rules = item.q.split('\n\n');
-                                rules.forEach((rule) => {
-                                    let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                                    addSlideTitle(slideR, null, item.type);
-                                    slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
-                                    slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.35, w: W_CONTENT, h: 4.0, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
-                                    // V, A, N 변환
-                                    let formattedRule = rule.replace(/동-/g, 'V-').replace(/형-/g, 'A-').replace(/명/g, 'N');
-                                    slideR.addText(formattedRule, { x: 0.6, y: 1.45, w: 8.8, h: 3.8, color: COLOR_BLACK, fontSize: 24, fontFace: FONT_FACE, valign: 'middle', align: 'center', lineSpacing: 40, wrap: true });
-                                });
-                            } else if (item.type === "발음") {
-                                // 3. 발음 항목 분리
-                                let pParts = item.q.split('\n\n');
-                                pParts.forEach((pPart) => {
-                                    let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                                    addSlideTitle(slideR, null, item.type);
-                                    slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
-                                    slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.35, w: W_CONTENT, h: 4.0, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
-                                    slideR.addText(pPart, { x: 0.6, y: 1.45, w: 8.8, h: 3.8, color: COLOR_BLACK, fontSize: 24, fontFace: FONT_FACE, valign: 'middle', align: 'left', lineSpacing: 40, wrap: true });
-                                });
-                            } else {
-                                // 일반 듣기, 읽기, 쓰기, 기타 말하기
-                                let bankTxt = getText(`review-${pIdx}-bank`); let qTxt = getText(`review-content-${pIdx}`);
-                                
-                                // 긴 텍스트 자동 페이지 분리 (읽기 지문 등)
-                                // 500자가 넘어가면 페이지를 자름
-                                let MAX_CHARS = 450;
-                                if (qTxt && qTxt.length > MAX_CHARS) {
-                                    let textParts = [];
-                                    let sentences = qTxt.split('\n');
-                                    let currentPart = "";
-                                    for(let i=0; i<sentences.length; i++) {
-                                        if(currentPart.length + sentences[i].length > MAX_CHARS) {
-                                            textParts.push(currentPart);
-                                            currentPart = sentences[i] + "\n";
-                                        } else {
-                                            currentPart += sentences[i] + "\n";
-                                        }
-                                    }
-                                    if(currentPart) textParts.push(currentPart);
-
-                                    textParts.forEach((part, partIdx) => {
-                                        let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                                        addSlideTitle(slideR, null, item.type);
-                                        slideR.addText(item.title + (textParts.length > 1 ? ` (${partIdx+1})` : ""), { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
-                                        
-                                        let currentY = 1.35; let remainingHeight = 4.0;
-                                        if (bankTxt && bankTxt.trim() !== "" && partIdx === 0) {
-                                            slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 1.2, fill: COLOR_BG_DARK, line: { color: COLOR_BORDER, width: 1 } });
-                                            slideR.addText(bankTxt, { x: 0.5, y: currentY + 0.1, w: 9.0, h: 1.0, color: COLOR_BLACK, fontSize: 18, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
-                                            currentY += 1.3; remainingHeight -= 1.3;
-                                        }
-                                        slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: remainingHeight, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
-                                        slideR.addText(part, { x: 0.5, y: currentY + 0.1, w: 9.0, h: remainingHeight - 0.2, color: COLOR_BLACK, fontSize: 20, fontFace: FONT_FACE, valign: 'top', lineSpacing: 30, wrap: true });
-                                    });
-                                } else {
-                                    // 분리할 필요 없는 정상 길이
-                                    let slideR = pres.addSlide({ masterName: "MASTER_SLIDE" });
-                                    addSlideTitle(slideR, null, item.type);
-                                    slideR.addText(item.title, { x: X_MARGIN, y: 0.85, w: W_CONTENT, h: 0.4, color: "1E40AF", fontSize: 24, bold: true, fontFace: FONT_FACE });
-                                    
-                                    let currentY = 1.35; let remainingHeight = 4.0;
-                                    if (bankTxt && bankTxt.trim() !== "") {
-                                        slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: 1.2, fill: COLOR_BG_DARK, line: { color: COLOR_BORDER, width: 1 } });
-                                        slideR.addText(bankTxt, { x: 0.5, y: currentY + 0.1, w: 9.0, h: 1.0, color: COLOR_BLACK, fontSize: 18, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
-                                        currentY += 1.3; remainingHeight -= 1.3;
-                                    }
-                                    slideR.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: currentY, w: W_CONTENT, h: remainingHeight, fill: COLOR_BG_LIGHT, line: { color: COLOR_BORDER, dashType: 'dash', width: 2 } });
-                                    slideR.addText(qTxt, { x: 0.5, y: currentY + 0.1, w: 9.0, h: remainingHeight - 0.2, color: COLOR_BLACK, fontSize: 20, fontFace: FONT_FACE, valign: 'top', lineSpacing: 30, wrap: true });
-                                }
-                            }
                         });
                     } else {
                         [1, 2].forEach(gIdx => {

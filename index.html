@@ -12,7 +12,7 @@
         .hero-section { background-color: #1e3a8a; padding: 70px 20px; text-align: center; color: white; border-bottom: 5px solid #3b82f6; }
         .hero-title { font-size: 42px; font-weight: bold; margin-bottom: 15px; }
         .hero-subtitle { font-size: 18px; color: #bfdbfe; font-weight: normal; }
-        .content-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .content-container { max-width: 1000px; margin: 50px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .card { background-color: white; border-radius: 12px; padding: 40px 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; transition: all 0.3s ease; border: 1px solid #e2e8f0; }
         .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: #93c5fd; }
         .card-icon { font-size: 50px; color: #3b82f6; margin-bottom: 20px; }
@@ -26,27 +26,33 @@
 <body>
     <div class="hero-section">
         <h1 class="hero-title">서울대 한국어 4A <br>스마트 슬라이드 제너레이터</h1>
-        <h2 class="hero-subtitle">원하시는 단원을 선택하여 교재 원문과 100% 동일한 PPTX 템플릿을 자동으로 생성하세요.</h2>
+        <h2 class="hero-subtitle">안정적인 파일 생성을 위해 4개의 파트로 나누어 제공됩니다.</h2>
     </div>
 
     <div class="content-container">
         <div class="card">
             <div class="card-icon"><i class="fa-solid fa-book"></i></div>
             <h3 class="card-title">1단원 ~ 3단원</h3>
-            <p class="card-desc">진로, 건강, 만족과 후회<br>어휘 및 문법, 복습 1-3과 종합</p>
+            <p class="card-desc">진로, 건강, 만족과 후회<br>어휘 및 문법 슬라이드 생성</p>
             <a href="1_3.html" class="card-btn">생성기 열기 <i class="fa-solid fa-arrow-right ml-1"></i></a>
         </div>
         <div class="card">
             <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
             <h3 class="card-title">4단원 ~ 6단원</h3>
-            <p class="card-desc">날씨, 풍경, 축제<br>어휘 및 문법, 복습 4-6과 종합</p>
+            <p class="card-desc">날씨, 풍경, 축제<br>어휘 및 문법 슬라이드 생성</p>
             <a href="4_6.html" class="card-btn">생성기 열기 <i class="fa-solid fa-arrow-right ml-1"></i></a>
         </div>
         <div class="card">
             <div class="card-icon"><i class="fa-solid fa-book-open-reader"></i></div>
             <h3 class="card-title">7단원 ~ 9단원</h3>
-            <p class="card-desc">조사 결과, 대중문화, 스포츠<br>어휘 및 문법, 복습 7-9과 종합</p>
+            <p class="card-desc">조사 결과, 대중문화, 스포츠<br>어휘 및 문법 슬라이드 생성</p>
             <a href="7_9.html" class="card-btn">생성기 열기 <i class="fa-solid fa-arrow-right ml-1"></i></a>
+        </div>
+        <div class="card" style="border: 2px solid #3b82f6; background-color: #f0f9ff;">
+            <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <h3 class="card-title">종합 복습 (Workbook)</h3>
+            <p class="card-desc">1-3과, 4-6과, 7-9과<br>말하기/듣기/읽기/쓰기/발음 전체</p>
+            <a href="review.html" class="card-btn">생성기 열기 <i class="fa-solid fa-arrow-right ml-1"></i></a>
         </div>
     </div>
     <div class="footer">© 2026 Seoul National University Korean 4A Smart Slide Generator.</div>
