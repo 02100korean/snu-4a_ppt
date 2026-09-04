@@ -15,6 +15,7 @@
         body { background-color: #f8fafc; margin: 0; padding: 0; }
         .preview-bg { background-color: #e2e8f0; display: flex; flex-direction: column; align-items: center; padding: 40px 0; width: 100%; min-height: 100vh; }
         .slide-wrapper { width: 1280px; height: 720px; transform-origin: top center; transform: scale(0.75); margin-bottom: -180px; }
+        /* 텍스트가 많은 복습 읽기 지문을 위해 패딩을 최소화(30px 40px) */
         .slide-container { background-color: #ffffff; border-radius: 4px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; width: 1280px; height: 720px; overflow: hidden; padding: 30px 40px; position: relative; color: #000000; }
         .slide-title { font-size: 36px; font-weight: bold; color: #27408B; text-align: left; width: 100%; border-bottom: 3px solid #27408B; padding-bottom: 8px; margin-bottom: 20px; }
         .content-area { display: flex; flex-direction: column; flex-grow: 1; width: 100%; }
@@ -77,9 +78,7 @@
         function showModal(msg) { document.getElementById('modalMessage').innerText = msg; document.getElementById('customModal').style.display = 'flex'; }
         function closeModal() { document.getElementById('customModal').style.display = 'none'; }
 
-        // ===================================================================
-        // 종합 복습 데이터 (1~9단원 전체)
-        // ===================================================================
+        // 전체 복습 데이터 (요청하신 사항 100% 반영)
         window.reviewDB = {
             "review-1-3": [
                 { type: "말하기", title: "1. 어휘의 의미를 설명해 보세요.", isList: true, content: [{ t: "1단원", words: ["진로를 정하다", "창업하다", "소질이 있다/없다", "적성에 맞다/안 맞다", "진로를 고민하다", "대학원에 진학하다", "전공을 살리다", "전망이 밝다/어둡다", "진로를 바꾸다", "취업하다", "공감 능력이 뛰어나다", "유머 감각이 있다", "긍정적", "적극적", "도전적", "창의적", "사교적", "리더십이 있다", "책임감이 강하다", "설득력이 있다"] }] },
@@ -107,9 +106,9 @@
                 { type: "읽기", title: "5. 빈칸에 들어갈 말로 알맞게 연결된 것을 고르세요.", passage: "학생은 꼭 학교에 다녀야 한다는 주장에 대해 반대하는 의견도 많다. 집에서 공부할 때의 장점은 학생의 특성이나 수준에 맞는 교육을 할 수 있다는 것이다. ( ㉮ ) 음악에 소질이 있는 학생은 소질을 계발할 수 있는 음악 수업을 들으면 자신의 능력을 더 발전시킬 수 있다. 학교에서는 모두 같은 내용의 수업을 듣기 때문에 자신의 소질과 장점을 잘 살리기 어렵다.\n\n학교 수업은 보통 중간 정도 실력을 가진 학생들에게 맞춰져 있다. 그래서 수준이 높은 학생들은 실력을 키우기가 어렵다. ( ㉯ ) 실력이 부족한 학생은 자신의 수준보다 어려운 수업을 들어서 학업에 대한 흥미가 떨어질 수 있다.", q: "① 또한 - 하지만\n② 하지만 - 그래서\n③ 그래서 - 예를 들면\n④ 예를 들면 - 또한" },
                 { type: "읽기", title: "6. 다음 글의 주제로 가장 알맞은 것을 고르세요.", passage: "최근에 채식을 하는 사람들이 늘고 있다. 채식에는 여러 종류가 있지만 보통 고기를 먹지 않고 채소, 과일, 곡물 등만을 먹는 것을 채식이라고 한다. 많은 사람들이 채식을 하는 이유는 다음과 같다. 첫째 채식을 하면 건강이 좋아진다. 채식을 하다 보면 혈압이 낮아지고 당뇨병 증상이 나아질 수 있다. 다음으로 환경에 긍정적인 영향을 줄 수 있다. 고기를 생산하기 위해서 환경을 파괴하는 경우가 많기 때문이다. 이처럼 채식을 하면 건강과 환경적 측면에서 긍정적인 결과를 얻을 수 있어서 앞으로 채식을 하는 사람은 더 늘 것으로 보인다.", q: "① 채식의 종류\n② 채식의 방법\n③ 채식의 단점\n④ 채식의 장점" },
                 { type: "읽기", title: "7. 다음을 읽고 일치하지 않는 것을 고르세요.", passage: "예전에는 성인이 되어 결혼을 하는 것, 죽은 뒤에 제사를 지내는 것 등을 중요하게 생각했다. 모두 다 중요하지만 그중 결혼은 특별한 의미를 가지기 때문에 반드시 해야 하는 것으로 생각됐다. 그런데 최근 결혼에 대한 사고방식이 변화하고 있다. 결혼을 꼭 해야 한다는 것이 일반적인 생각이었는데 이제는 결혼은 필수가 아니라고 생각하는 사람들도 많아졌다. 결혼을 하지 않고 산다는 의미의 비혼이라는 말도 자주 쓰이게 됐다. 또한 예전에는 이혼이나 재혼을 비공개적으로 하는 사람들이 많았다. 그러나 사회가 변하고 사고방식이 변화해서 다양한 생각을 받아들일 수 있는 분위기가 만들어졌다. 이제는 결혼과 관련된 개인의 선택이 존중받아야 할 때이다.", q: "① 예전에 결혼은 특별한 의미를 가졌다.\n② 최근 비혼이라는 말이 자주 사용되고 있다.\n③ 전에는 재혼한 사실을 숨기는 사람이 많았다.\n④ 요즘 결혼이 필수라고 생각하는 사람이 늘었다." },
-                { type: "읽기", title: "8. 앞의 글의 중심 생각으로 가장 알맞은 것을 고르세요.", passage: "", q: "① 이혼한 것을 공개하는 것이 중요하다.\n② 결혼에 대한 개인의 선택을 존중해야 한다.\n③ 결혼은 사회를 유지하기 위해 꼭 필요하다.\n④ 현대에도 전통적인 사고방식을 지켜야 한다." },
+                { type: "읽기", title: "8. 앞의 글의 중심 생각으로 가장 알맞은 것을 고르세요.", q: "① 이혼한 것을 공개하는 것이 중요하다.\n② 결혼에 대한 개인의 선택을 존중해야 한다.\n③ 결혼은 사회를 유지하기 위해 꼭 필요하다.\n④ 현대에도 전통적인 사고방식을 지켜야 한다." },
                 { type: "읽기", title: "9. 다음을 읽고 빈칸에 들어갈 내용으로 알맞은 것을 고르세요.", passage: "몇 년 동안 계속 같은 일을 하다가 보면 성격뿐만 아니라 건강도 영향을 받을 수 있다. 예를 들면 사무실에 앉아서 하루 종일 컴퓨터를 하는 사람들은 안구 건조증이나, 손목을 움직일 수 없을 정도로 통증을 느끼는 손목 터널 증후군에 걸리기도 한다. 또한 소방관들은 불이 나면 바로 출동해야 하기 때문에 식사 시간이 (       ) 수밖에 없다. 그래서 위염에 자주 걸린다. 이렇게 특정한 직업을 가진 사람들이 걸리기 쉬운 병을 직업병이라고 한다. 직업병은 그 일을 하는 사람들이 공통적으로 가진 병이기 때문에 원인을 찾아내기는 쉽지만 항상 그 일을 할 수밖에 없기 때문에 예방하기는 쉽지 않다. 그래서 증상이 나타나면 심해지지 않도록 증상을 줄이기 위한 노력을 해야 한다.", q: "① 괴로울\n② 불규칙할\n③ 실망스러울\n④ 불만족스러울" },
-                { type: "읽기", title: "10. 앞의 글의 제목으로 가장 알맞은 것을 고르세요.", passage: "", q: "① 성격과 직업의 관계\n② 직업병의 원인과 예\n③ 안구건조증의 치료 방법\n④ 컴퓨터가 건강에 주는 영향" },
+                { type: "읽기", title: "10. 앞의 글의 제목으로 가장 알맞은 것을 고르세요.", q: "① 성격과 직업의 관계\n② 직업병의 원인과 예\n③ 안구건조증의 치료 방법\n④ 컴퓨터가 건강에 주는 영향" },
                 { type: "쓰기", title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.", bank: "[보기]\n빠지다   생기다   끼치다   살리다", q: "1) 백신이 개발된 덕분에 많은 사람들의 생명을 (        ) 수 있었다.\n   나는 언어에 소질이 있다는 말을 자주 들었다. 이런 소질을 (        ) 번역가가 되고 싶다." },
                 { type: "쓰기", title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.", bank: "[보기]\n빠지다   생기다   끼치다   살리다", q: "2) 대회에 나가기 위해 팔이 (        ) 정도로 열심히 춤 연습을 했다.\n   어제 한자 수업을 신청했는데 신청자 명단에 내 이름이 (        ) 있었다. 사무실에 문의해 봐야겠다." },
                 { type: "쓰기", title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.", bank: "[보기]\n빠지다   생기다   끼치다   살리다", q: "3) 작가의 경험은 소설을 쓰는 데에 큰 영향을 (        ) 수밖에 없다.\n   공사 중이니 다른 길로 가시기 바랍니다. 불편을 (        ) 드려서 죄송합니다." },
@@ -140,7 +139,7 @@
                 { type: "말하기", title: "5. 문법과 표현을 사용해서 이야기해 보세요. (가형)", bank: "[사용 문법/표현]\n1) V-는 바람에   2) 어찌나 V-는지   3) N을/를 비롯해(서)\n4) V-는다고 보다   5) V-는다더라고(요), A-다더라고(요)   6) N(이)면 N(이)면", q: "1) 모임에 꼭 온다고 해서 기다렸는데 왜 안 왔어요?\n2) 과식을 해서 고생한 적이 있었어요?\n3) 고향 음식 중 유명한 음식은 무엇입니까?\n4) 월급은 많지만 적성에 안 맞는 일을 하는 것에 대해 어떻게 생각해요?\n5) 일기 예보를 봤어요? 오늘 날씨가 어떻대요?\n6) 제주도로 여행을 다녀왔다면서요? 어땠어요?" },
                 { type: "말하기", title: "5. 문법과 표현을 사용해서 이야기해 보세요. (나형)", bank: "[사용 문법/표현]\n1) V-는 바람에   2) 어찌나 V-는지   3) N을/를 비롯해(서)\n4) V-는다고 보다   5) V-는다더라고(요), A-다더라고(요)   6) N(이)면 N(이)면", q: "1) 오늘은 안 늦는다고 했잖아요. 그런데 왜 또 늦은 거예요?\n2) 한국에서 1년 정도 살았지요? 여름에 날씨가 어땠어요?\n3) 젊은 사람들이 좋아하는 장소는 어디입니까?\n4) 예뻐 보이기 위해 성형 수술을 하는 것에 대해 어떻게 생각해요?\n5) 뉴스를 열심히 보고 있네요. 새로운 소식이 있어요?\n6) 그 가수는 인기가 많은 것 같아요. 사람들이 좋아하는 이유가 뭘까요?" },
                 { type: "말하기", title: "5. 문법과 표현을 사용해서 이야기해 보세요. (다형)", bank: "[사용 문법/표현]\n1) V-는 바람에   2) 어찌나 V-는지   3) N을/를 비롯해(서)\n4) V-는다고 보다   5) V-는다더라고(요), A-다더라고(요)   6) N(이)면 N(이)면", q: "1) 숙제를 아직 못 했다고요? 왜요?\n2) 한국어 노래 가사를 다 외우다니 정말 대단해요.\n3) 생활에 필요한 전자 제품에는 어떤 것이 있습니까?\n4) 수업 시간에 휴대폰을 사용하는 것에 대해 어떻게 생각해요?\n5) 아까 아야나 씨를 만났지요? 아야나 씨가 오늘 모임에 온대요?\n6) 그 커피숍에 자주 가네요. 어떤 점이 마음에 들어요?" },
-                { type: "듣기", title: "1. 뉴스를 듣고 알맞은 그래프를 고르세요.", q: "① 여행 계획이 있는가? [해외여행 67.4% / 국내 여행 24.8% / 계획 없음 7.8%]\n② 여행 계획이 있는가? [국내 여행 67.4% / 계획 없음 24.8% / 해외여행 7.8%]\n③ 국내 여행지 중 선호하는 지역 [제주도 33.3%, 부산 19.0%, 강원도 15.9%, 경상도 7.4%]\n④ 국내 여행지 중 선호하는 지역 [강원도 33.3%, 제주도 19.0%, 경상도 15.9%, 부산 7.4%]" },
+                { type: "듣기", title: "1. 뉴스를 듣고 알맞은 그래프 고르세요.", q: "① 여행 계획이 있는가? [해외여행 67.4% / 국내 여행 24.8% / 계획 없음 7.8%]\n② 여행 계획이 있는가? [국내 여행 67.4% / 계획 없음 24.8% / 해외여행 7.8%]\n③ 국내 여행지 중 선호하는 지역 [제주도 33.3%, 부산 19.0%, 강원도 15.9%, 경상도 7.4%]\n④ 국내 여행지 중 선호하는 지역 [강원도 33.3%, 제주도 19.0%, 경상도 15.9%, 부산 7.4%]" },
                 { type: "듣기", title: "2. 대화가 끝난 후 여자가 이어서 할 행동으로 가장 알맞은 것을 고르세요.", q: "① 텔레비전을 켠다.\n② 우산을 사러 간다.\n③ 메시지를 확인한다.\n④ 남자에게 날씨를 알려 준다." },
                 { type: "듣기", title: "3. 대화가 끝난 후 남자가 이어서 할 행동으로 가장 알맞은 것을 고르세요.", q: "① 업체에 연락한다.\n② 영상을 편집한다.\n③ 여자에게 이메일을 보낸다.\n④ 부장님께 홍보 책자를 드린다." },
                 { type: "듣기", title: "4. 인터뷰를 듣고 남자의 생각으로 가장 알맞은 것을 고르세요.", q: "① 몸이 힘들어서 농사를 포기하고 싶다.\n② 색다른 과일을 키울 수 있어서 자랑스럽다.\n③ 한국에서 열대 과일을 재배하는 것은 불가능하다.\n④ 신안에서 사과와 배 같은 과일을 재배하는 것이 좋다." },
@@ -217,7 +216,7 @@
                 { type: "읽기", title: "7. 다음을 읽고 일치하는 것을 고르세요.", passage: "최근 '이웃 마켓'이 유행이다. 이웃 마켓은 일종의 열린 장터로서 자신의 근처에 사는 사람들을 대상으로 물건을 판매하는 스마트폰 앱이다. 자신이 팔고 싶은 물건의 사진과 정보를 여기에 올리면 근처에 사는 사람들이 보고 구매하는 방식이다. 이웃 마켓의 장점은 누구나 쉽게 이용할 수 있고 중고품도 거래할 수 있으며 무료 나눔도 가능하다는 것이다. 뿐만 아니라 그 지역에서 할 수 있는 아르바이트도 구할 수 있고 잃어버린 물건을 찾아 주기도 한다.\n\n단점으로는 물건을 직접 사고팔기 때문에 시간이 많이 걸리고 번거롭다는 점, 사고파는 물건의 종류가 적다는 점을 꼽을 수 있다. 이런 단점에도 불구하고 이웃 마켓을 이용하는 이유는 이웃 간의 소통이 예전만 못하다는 사람들이 많은데, 이웃 마켓을 통해서 주변 사람들과 교류하고 정을 나눌 수 있기 때문인 듯하다.", q: "① 이웃 마켓은 전화를 통해서도 이용할 수 있다.\n② 이웃 마켓에서는 쓰던 물건만 거래할 수 있다.\n③ 이웃 마켓에서는 원하는 모든 물건을 살 수 있다.\n④ 이웃 마켓을 통해 아르바이트할 사람을 구할 수 있다." },
                 { type: "읽기", title: "8. 앞 글에서 다루지 않은 내용은 무엇입니까?", q: "① 이웃 마켓의 장점\n② 이웃 마켓의 단점\n③ 이웃 마켓의 사용 연령\n④ 이웃 마켓의 사용 방법" },
                 { type: "읽기", title: "9. 다음을 읽고 빈칸에 들어갈 내용으로 알맞은 것을 고르세요.", passage: "프로 스포츠가 사람들에게 인기를 끌면서 스포츠 선수들의 인기도 높아지고 있다. 스포츠 스타의 인기는 연예인만큼 대단해서 팬클럽이 생길 정도이다. 그래서인지 스포츠 선수들의 경기 모습뿐만 아니라 경기장 밖에서의 행동들도 사람들에게 관심을 받는다. 스포츠 선수들이 경기장 안팎에서 보여 주는 (       ) 행동에 사람들이 주목하는 이유이다. 어떤 스포츠 스타는 음주 운전을 해서 사회적으로 많은 비난을 받았다. 또한 유명 선수들이 선수 생활을 마친 후 방송에 출연해서 연예인으로서 활동을 하는 경우도 심심치 않게 볼 수 있다. 이런 선수들은 광고를 통해 상품을 팔거나 예능에 출연해서 사람들에게 즐거움을 주기도 한다. 이처럼 스포츠 스타들의 영향력이 커졌기 때문에 스포츠 스타들은 운동 실력뿐만 아니라 그에 맞는 인성과 바람직한 태도도 갖추어야 할 것이다.", q: "① 무관심한\n② 무책임한\n③ 무의미한\n④ 무능력한" },
-                { type: "읽기", title: "10. 앞 글의 제목으로 가장 알맞은 것을 고르세요.", q: "① 스포츠 스타와 연예인\n② 스포츠 스타와 팬클럽\n③ 스포츠 스타의 영향력\n④ 스포츠 스타의 방송 출연" },
+                { type: "읽기", title: "10. 앞 글의 제목으로 가장 알맞은 고르세요.", q: "① 스포츠 스타와 연예인\n② 스포츠 스타와 팬클럽\n③ 스포츠 스타의 영향력\n④ 스포츠 스타의 방송 출연" },
                 { type: "쓰기", title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.", bank: "[보기]\n높다   맡다   끌다   지키다", q: "1) • 운동 경기를 할 때는 규칙을 잘 (        ) 정정당당하게 승부를 낼 수 있다.\n   • 내 친구는 만날 때마다 시간 약속을 잘 (        ) 않아서 여간 짜증 나는 것이 아니다." },
                 { type: "쓰기", title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.", bank: "[보기]\n높다   맡다   끌다   지키다", q: "2) • 그 배우는 이번에 출연한 드라마에서 실력 있는 내과 의사 역할을 (        ).\n   • 회사에서 하는 팀 프로젝트에서 내가 (        ) 일은 자료를 조사하고 분석하는 것이다." },
                 { type: "쓰기", title: "1. 공통으로 들어갈 말을 골라서 알맞게 써 보세요.", bank: "[보기]\n높다   맡다   끌다   지키다", q: "3) • 오늘 아침 일기 예보에 의하면 오후에 비가 올 확률이 (        ).\n   • 올해는 경기가 좋지 않아서 취업 경쟁률이 (        ) 수밖에 없다." },
@@ -240,6 +239,135 @@
             ]
         };
 
+        window.onload = function() {
+            const gridContainer = document.getElementById('dashboard-grid');
+            let html = '';
+            
+            html += `
+            <div class="mb-10 bg-indigo-50 p-6 rounded-xl shadow border border-indigo-200">
+                <h3 class="text-2xl font-bold text-indigo-900 mb-6 border-b-2 border-indigo-900 pb-2">복습 과제 종합 (Workbook)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button onclick="openPreview('review-1-3')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">1-3과 종합 복습 열기</button>
+                    <button onclick="openPreview('review-4-6')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">4-6과 종합 복습 열기</button>
+                    <button onclick="openPreview('review-7-9')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">7-9과 종합 복습 열기</button>
+                </div>
+            </div>`;
+            gridContainer.innerHTML = html;
+        };
+
+        let activeKey = "";
+
+        function openPreview(key) {
+            activeKey = key;
+            const container = document.getElementById("previewArea");
+            container.innerHTML = "";
+            let html = ""; let titleText = "";
+
+            if (key.startsWith('review-')) {
+                if(key === 'review-1-3') titleText = '1~3단원 종합 복습 (Workbook)';
+                else if(key === 'review-4-6') titleText = '4~6단원 종합 복습 (Workbook)';
+                else if(key === 'review-7-9') titleText = '7~9단원 종합 복습 (Workbook)';
+                
+                document.getElementById('preview-header-title').innerText = titleText;
+                html += generateTitleHtml(titleText, "종합 복습", []);
+                html += generateReviewHtml(key);
+            }
+            container.innerHTML = html;
+            showScreen('preview-screen');
+            window.scrollTo(0,0);
+        }
+
+        function generateTitleHtml(subtitle, main, gList) {
+            let listHtml = gList.map((p, i) => {
+                let posSpan = p.p ? `<span class="pos-text">${p.p}</span> ` : "";
+                return `<div id="title-g-${i}" contenteditable="true">${posSpan}${p.t.replace(/\n/g, '')}</div>`;
+            }).join('');
+            return `
+                <div class="slide-wrapper" id="slide-1">
+                    <div class="slide-container" style="border-top: none;">
+                        <div class="slide1-layout">
+                            <div class="subtitle" id="title-sub" contenteditable="true">${subtitle}</div>
+                            <div class="slide1-navy-box"><div class="main-title" id="title-main" contenteditable="true">${main}</div></div>
+                            <div class="grammar-points">${listHtml}</div>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        // ★ 복습 문제 HTML 렌더링 (단어 리스트 표, 듣기/읽기/쓰기/발음 처리)
+        function generateReviewHtml(key) {
+            let rData = window.reviewDB[key] || [];
+            let html = "";
+            rData.forEach((item, pIdx) => {
+                if(item.isList) {
+                    item.content.forEach((unit, uIdx) => {
+                        let listHtml = `<div style="font-weight:bold; color:#1e40af; margin-top:15px; margin-bottom:5px; font-size:26px;">[${unit.t}]</div>`;
+                        listHtml += `<table class="vocab-grid-table"><tbody>`;
+                        let words = unit.words;
+                        for(let i=0; i<words.length; i+=4) {
+                            listHtml += `<tr>`;
+                            listHtml += `<td>☐ ${words[i] || ''}</td>`;
+                            listHtml += `<td>${words[i+1] ? '☐ ' + words[i+1] : ''}</td>`;
+                            listHtml += `<td>${words[i+2] ? '☐ ' + words[i+2] : ''}</td>`;
+                            listHtml += `<td>${words[i+3] ? '☐ ' + words[i+3] : ''}</td>`;
+                            listHtml += `</tr>`;
+                        }
+                        listHtml += `</tbody></table>`;
+                        
+                        html += `
+                        <div class="slide-wrapper" id="slide-review-list-${pIdx}-${uIdx}">
+                            <div class="slide-container">
+                                <div class="slide-title" contenteditable="true">${item.type}</div>
+                                <div class="content-area">
+                                    <div class="review-section-title" contenteditable="true">${item.title}</div>
+                                    <div class="practice-box" id="review-list-content-${pIdx}-${uIdx}" contenteditable="true" style="font-size:20px; padding:20px; overflow-y:auto;">${listHtml}</div>
+                                </div>
+                            </div>
+                        </div>`;
+                    });
+                } else if (item.type === "문법") {
+                    let rules = item.q.split('\n\n');
+                    rules.forEach((rule, rIdx) => {
+                        let ruleStr = rule.replace(/\n/g, '<br>');
+                        html += `
+                        <div class="slide-wrapper" id="slide-review-gram-${pIdx}-${rIdx}">
+                            <div class="slide-container">
+                                <div class="slide-title" contenteditable="true">${item.type}</div>
+                                <div class="content-area">
+                                    <div class="review-section-title" contenteditable="true">${item.title}</div>
+                                    <div class="practice-box" id="review-gram-content-${pIdx}-${rIdx}" contenteditable="true" style="font-size:24px; padding:20px;">${ruleStr}</div>
+                                </div>
+                            </div>
+                        </div>`;
+                    });
+                } else {
+                    let wordBankStr = item.bank ? item.bank.replace(/\n/g, '<br>') : "";
+                    let passageStr = item.passage ? item.passage.replace(/\n/g, '<br>') + "<br><br>" : "";
+                    let qStr = item.q ? item.q.replace(/\n/g, '<br>') : "";
+                    let bankHtml = wordBankStr ? `<div class="word-bank-box" id="review-${pIdx}-bank" contenteditable="true">${wordBankStr}</div>` : `<div id="review-${pIdx}-bank" style="display:none;"></div>`;
+                    let fullStr = passageStr + qStr;
+                    
+                    html += `
+                    <div class="slide-wrapper" id="slide-review-${pIdx}">
+                        <div class="slide-container">
+                            <div class="slide-title" contenteditable="true">${item.type}</div>
+                            <div class="content-area">
+                                <div class="review-section-title" contenteditable="true">${item.title}</div>
+                                <div class="practice-wrapper" style="flex-direction: column; height: 100%; gap: 0;">
+                                    ${bankHtml}
+                                    <div class="practice-box" id="review-content-${pIdx}" contenteditable="true" style="width: 100%; height: auto; flex-grow: 1; font-size:20px;">${fullStr}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                }
+            });
+            return html;
+        }
+
+        // ===================================================================
+        // PPTX 다운로드 (복습용 세부 요건 100% 반영)
+        // ===================================================================
         function downloadPPTX() {
             let btn = document.getElementById('downloadBtn'); let originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 생성 중...'; btn.disabled = true;
