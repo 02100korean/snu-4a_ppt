@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>서울대 한국어 4A - 스마트 제너레이터</title>
+    <title>서울대 한국어 4A - 스마트 슬라이드 제너레이터</title>
     
     <!-- 폰트 및 아이콘 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
 
     <style>
         /* ==================================================================
-           1. PPTX 템플릿 렌더링 전용 CSS (V20 디자인 완벽 유지)
+           PPTX 템플릿 렌더링 전용 CSS (V20 디자인 완벽 유지)
            ================================================================== */
         * { box-sizing: border-box; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif !important; }
         
@@ -52,7 +52,6 @@
             padding: 50px 60px;
             position: relative;
             color: #000000;
-            border-top: 10px solid #27408B;
         }
 
         .slide-container h1, .slide-container h2, .slide-container h3,
@@ -104,74 +103,31 @@
 
         /* 연습문제 */
         .practice-wrapper { display: flex; flex-direction: row; width: 100%; height: 440px; gap: 20px; align-items: flex-start; padding-top: 10px; }
-        .practice-num { font-size: 36px; font-weight: bold; color: #27408B; min-width: 80px; white-space: nowrap; margin-top: 10px; }
+        .practice-num { font-size: 36px; font-weight: bold; color: #27408B; min-width: 90px; white-space: nowrap; margin-top: 10px; }
         .practice-box { flex-grow: 1; background-color: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px; padding: 40px; font-size: 26px; color: #000000; line-height: 1.8; white-space: pre-wrap; height: 100%; width: 100%; overflow: hidden; }
 
-        /* 커스텀 모달 */
+        /* 알림 모달 */
         #customModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; }
         .modal-content { background: white; padding: 24px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
 
-    <!-- 1. 로그인 화면 -->
-    <div id="login-screen" class="w-full h-screen flex flex-col justify-center items-center bg-blue-900 text-white hidden">
-        <h1 class="text-4xl font-bold mb-8">서울대 한국어 4A 시스템</h1>
-        <p class="mb-8 text-blue-200">선생님 인증이 필요합니다.</p>
-        <button onclick="loginWithGoogle()" class="flex items-center gap-3 bg-white text-blue-900 px-6 py-3 rounded-lg font-bold shadow-lg hover:bg-blue-50 transition">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-6 h-6">
-            Google 계정으로 로그인
-        </button>
-    </div>
-
-    <!-- 2. 접근 권한 없음 화면 -->
-    <div id="denied-screen" class="w-full h-screen flex flex-col justify-center items-center bg-slate-100 hidden">
-        <i class="fa-solid fa-lock text-6xl text-red-500 mb-6"></i>
-        <h1 class="text-3xl font-bold mb-4">접근 권한이 없습니다</h1>
-        <p class="text-slate-600 mb-8" id="admin-contact-msg">관리자에게 접근 권한을 요청하세요.</p>
-        <button onclick="signOutUser()" class="bg-slate-800 text-white px-6 py-2 rounded-lg font-bold hover:bg-slate-700 transition">다른 계정으로 로그인</button>
-    </div>
-
-    <!-- 3. 메인 대시보드 화면 -->
-    <div id="dashboard-screen" class="w-full min-h-screen flex flex-col hidden">
+    <!-- 1. 메인 대시보드 화면 -->
+    <div id="dashboard-screen" class="w-full min-h-screen flex flex-col">
         <div class="w-full bg-blue-900 text-white px-8 py-5 flex justify-between items-center shadow-md sticky top-0 z-50">
             <h1 class="text-2xl font-bold">서울대 한국어 4A <span class="text-blue-300 text-base font-normal ml-2">스마트 슬라이드 제너레이터</span></h1>
-            <div class="flex gap-4">
-                <button id="admin-btn" onclick="showScreen('admin-screen')" class="hidden bg-yellow-500 text-blue-900 px-4 py-2 rounded-md font-bold hover:bg-yellow-400 transition"><i class="fa-solid fa-gear"></i> 관리자 설정</button>
-                <button onclick="signOutUser()" class="bg-blue-800 px-4 py-2 rounded-md font-bold hover:bg-blue-700 transition">로그아웃</button>
-            </div>
         </div>
 
-        <div class="max-w-6xl w-full mx-auto p-8">
-            <p class="text-slate-600 mb-8 text-center text-lg">원하는 단원의 항목을 클릭하면 즉시 편집 및 PPTX 다운로드가 가능합니다.</p>
+        <div class="max-w-7xl w-full mx-auto p-8">
+            <p class="text-slate-600 mb-8 text-center text-lg">원하시는 단원의 버튼을 클릭하면 PPTX 템플릿이 자동으로 생성되며, 편집 및 다운로드가 가능합니다.</p>
             <div id="dashboard-grid" class="w-full">
                 <!-- Javascript로 그리드 버튼 자동 생성됨 -->
             </div>
         </div>
     </div>
 
-    <!-- 4. 관리자 화면 -->
-    <div id="admin-screen" class="w-full min-h-screen bg-slate-100 flex flex-col hidden">
-        <div class="w-full bg-blue-900 text-white px-8 py-5 flex justify-between items-center shadow-md">
-            <h1 class="text-2xl font-bold"><i class="fa-solid fa-users-gear mr-2"></i> 접근 권한 관리</h1>
-            <button onclick="showScreen('dashboard-screen')" class="bg-blue-800 px-4 py-2 rounded-md font-bold hover:bg-blue-700 transition"><i class="fa-solid fa-house"></i> 대시보드로 돌아가기</button>
-        </div>
-        
-        <div class="max-w-3xl w-full mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg">
-            <h2 class="text-xl font-bold mb-6 border-b pb-4">허용된 선생님 이메일 등록</h2>
-            <div class="flex gap-4 mb-8">
-                <input type="email" id="new-email-input" placeholder="선생님 이메일 입력 (예: teacher@gmail.com)" class="flex-1 border border-slate-300 rounded-lg px-4 py-2 outline-none focus:border-blue-500">
-                <button onclick="addAllowedEmail()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 transition">추가</button>
-            </div>
-            
-            <h3 class="text-lg font-bold mb-4 text-slate-700">현재 등록된 이메일 목록</h3>
-            <ul id="email-list" class="flex flex-col gap-3">
-                <!-- 자바스크립트로 렌더링 -->
-            </ul>
-        </div>
-    </div>
-
-    <!-- 5. PPTX 미리보기 및 편집 화면 -->
+    <!-- 2. PPTX 미리보기 및 편집 화면 -->
     <div id="preview-screen" class="w-full hidden flex-col">
         <div class="w-full bg-blue-900 text-white px-8 py-4 flex justify-between items-center shadow-md sticky top-0 z-50">
             <h1 class="text-xl font-bold" id="preview-header-title">미리보기 편집</h1>
@@ -180,8 +136,8 @@
                 <button id="downloadBtn" onclick="downloadPPTX()" class="bg-emerald-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-emerald-500 transition shadow"><i class="fa-solid fa-file-powerpoint mr-1"></i> PPTX 다운로드</button>
             </div>
         </div>
-        <div class="w-full text-center py-3 bg-blue-50 border-b border-blue-100 text-blue-800 text-sm">
-            <i class="fa-solid fa-pen-to-square mr-1"></i> 슬라이드 화면의 텍스트를 마우스로 클릭하여 바로 수정할 수 있습니다.
+        <div class="w-full text-center py-3 bg-blue-50 border-b border-blue-100 text-blue-800 text-sm shadow-inner font-medium">
+            <i class="fa-solid fa-pen-to-square mr-1"></i> 슬라이드 화면의 텍스트를 마우스로 클릭하여 바로 수정할 수 있습니다. 수정 후 우측 상단의 다운로드 버튼을 누르세요.
         </div>
         
         <div class="preview-bg" id="previewArea">
@@ -193,273 +149,22 @@
     <div id="customModal">
         <div class="modal-content">
             <p id="modalMessage" class="text-lg font-bold text-slate-800 mb-6"></p>
-            <button onclick="closeModal()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold w-full hover:bg-blue-700">확인</button>
+            <button onclick="closeModal()" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold w-full hover:bg-blue-700 transition">확인</button>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // 환경 변수 처리 (Immersive 런타임 대응)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'snu-4a-grammar';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "dummy", authDomain: "dummy", projectId: "dummy"
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        let currentUser = null;
-        let allowedEmailsList = [];
-        
-        // base64로 인코딩된 관리자 이메일을 코드상에서 디코딩하여 사용합니다 (이메일 노출 방지)
-        // evernewyum@gmail.com 을 btoa() 로 인코딩한 값: ZXZlcm5ld3l1bUBnbWFpbC5jb20=
-        const ADMIN_EMAIL = atob("ZXZlcm5ld3l1bUBnbWFpbC5jb20=");
-
-        // 전역 함수 등록
-        window.loginWithGoogle = async function() {
-            const provider = new GoogleAuthProvider();
-            try {
-                const result = await signInWithPopup(auth, provider);
-                currentUser = result.user;
-                verifyAccess();
-            } catch (error) {
-                showModal("구글 로그인에 실패했습니다.");
-            }
-        };
-
-        window.signOutUser = async function() {
-            await signOut(auth);
-            location.reload();
-        };
-
-        // 앱 초기화 및 Auth 체크
-        async function initAuth() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined') {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                    currentUser = auth.currentUser;
-                } else {
-                    // 환경 밖 테스트용
-                    showScreen('login-screen');
-                    return;
-                }
-
-                if (currentUser) {
-                    if (!currentUser.email) {
-                        // 이메일 정보가 없는 경우 (익명 등) 명시적 구글 로그인 요구
-                        showScreen('login-screen');
-                    } else {
-                        verifyAccess();
-                    }
-                }
-            } catch (e) {
-                console.error(e);
-                showScreen('login-screen');
-            }
-        }
-
-        // 권한 검증 로직
-        function verifyAccess() {
-            if (!currentUser || !currentUser.email) {
-                showScreen('login-screen');
-                return;
-            }
-
-            // 권한 거부 시 띄워줄 관리자 연락처 동적 메시지 처리
-            document.getElementById('admin-contact-msg').innerText = `관리자(${ADMIN_EMAIL})에게 접근 권한을 요청하세요.`;
-
-            if (currentUser.email === ADMIN_EMAIL) {
-                document.getElementById('admin-btn').classList.remove('hidden');
-                setupAdminListener();
-                showScreen('dashboard-screen');
-                return;
-            }
-
-            // 일반 유저 이메일 권한 체크 (Rule 1: Strict Path 적용)
-            const emailsRef = collection(db, 'artifacts', appId, 'public', 'data', 'allowedEmails');
-            getDocs(emailsRef).then(snapshot => {
-                let isAllowed = false;
-                snapshot.forEach(d => {
-                    if (d.data().email === currentUser.email) isAllowed = true;
-                });
-                
-                if (isAllowed) {
-                    showScreen('dashboard-screen');
-                } else {
-                    showScreen('denied-screen');
-                }
-            }).catch(e => {
-                console.error(e);
-                showScreen('denied-screen');
-            });
-        }
-
-        // ===================================================================
-        // 관리자 패널 관련 (Firebase onSnapshot)
-        // ===================================================================
-        function setupAdminListener() {
-            const emailsRef = collection(db, 'artifacts', appId, 'public', 'data', 'allowedEmails');
-            onSnapshot(emailsRef, (snapshot) => {
-                allowedEmailsList = snapshot.docs.map(doc => ({ id: doc.id, email: doc.data().email }));
-                renderAdminList();
-            }, (error) => {
-                console.error("Failed to listen to allowed emails", error);
-            });
-        }
-
-        window.addAllowedEmail = async function() {
-            if (!currentUser) return;
-            const input = document.getElementById('new-email-input');
-            const email = input.value.trim();
-            if (!email) return;
-
-            const emailsRef = collection(db, 'artifacts', appId, 'public', 'data', 'allowedEmails');
-            try {
-                await addDoc(emailsRef, { email: email });
-                input.value = '';
-                showModal("이메일이 추가되었습니다.");
-            } catch (e) {
-                showModal("추가 실패: " + e.message);
-            }
-        };
-
-        window.removeAllowedEmail = async function(docId) {
-            if (!currentUser) return;
-            try {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'allowedEmails', docId));
-            } catch (e) {
-                showModal("삭제 실패: " + e.message);
-            }
-        };
-
-        function renderAdminList() {
-            const list = document.getElementById('email-list');
-            list.innerHTML = '';
-            allowedEmailsList.forEach(item => {
-                let li = document.createElement('li');
-                li.className = "flex justify-between items-center bg-slate-50 border border-slate-200 px-4 py-3 rounded-lg";
-                li.innerHTML = `
-                    <span class="font-medium text-slate-700">${item.email}</span>
-                    <button onclick="removeAllowedEmail('${item.id}')" class="text-red-500 hover:text-red-700 font-bold px-3 py-1 rounded bg-red-50 hover:bg-red-100 transition">삭제</button>
-                `;
-                list.appendChild(li);
-            });
-            if(allowedEmailsList.length === 0) {
-                list.innerHTML = '<li class="text-slate-500 text-center py-4">등록된 이메일이 없습니다.</li>';
-            }
-        }
-
-        // 앱 구동 시작
-        initAuth();
-
-        // ===================================================================
-        // 텍스트북/워크북 데이터베이스 구조화
-        // ===================================================================
-        const grammarDB = {
-            "1-1-1": {
-                pos: "V", text: "-는다면서(요)?\n/-다면서(요)?",
-                meaning: "다른 사람에게 듣거나 이미 알고 있는 사실을 확인할 때 사용합니다.",
-                examples: [ "가: 방학에 부산에 간다면서요?\n나: 네. 오랜만에 부산에 사는 친구를 만나려고요.", "가: 한국은 과일값이 비싸다면서요?\n나: 네. 너무 비싸서 자주 사 먹기 힘들어요." ],
-                tables: [
-                    { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "V", text: "-는다면서(요)?\n/-다면서(요)?", rowspan: 2 }, "가다", "간다면서요?"], [null, "먹다", "먹는다면서요?"] ] },
-                    { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "A", text: "-다면서(요)?", rowspan: 2 }, "비싸다", "비싸다면서요?"], [null, "재미있다", "재미있다면서요?"] ] },
-                    { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "N", text: "(이)라면서(요)?", rowspan: 2 }, "친구", "친구라면서요?"], [null, "생일", "생일이라면서요?"] ] }
-                ],
-                practices: [
-                    "가: 테오 씨, 내일 발표를 한다면서요? 준비는 잘돼 가요?\n나: 열심히 하고 있는데 쉽지 않네요.\n\n[힌트] 테오 씨가 내일 발표를 한대요.",
-                    "가: 나나 씨, (                                                  )?\n     다음 주에 제주도에 갈 건데 어디에 가면 좋을까요?\n나: 성산일출봉에 한번 가 보세요. 아주 아름다워요."
-                ]
-            },
-            "1-1-2": {
-                pos: "V", text: "-다(가) 보면",
-                meaning: "앞의 행동을 계속하면 나중에 뒤의 결과가 생길 수 있다는 것을 말할 때 사용합니다.",
-                examples: [ "가: 저는 요리에 소질이 없나 봐요. 제가 만든 요리는 너무 맛이 없어요.\n나: 자주 요리를 하다 보면 지금보다 잘하게 될 거예요." ],
-                tables: [
-                    { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "V", text: "-다(가) 보면", rowspan: 2 }, "연습하다", "연습하다가 보면"], [null, "먹다", "먹다가 보면"] ] }
-                ],
-                practices: [
-                    "가: 김치가 맛있는데 저한테는 좀 매운 것 같아요.\n나: 처음에는 좀 맵지만 (                                                  ) 괜찮아질 거예요. 나도 그랬어요."
-                ]
-            }
-        };
-
-        // 제목 매핑 매트릭스
-        const unitTitles = {
-            1: ["진로", "능력과 자질"], 2: ["질병과 증상", "건강한 습관"], 3: ["만족과 후회", "사회 변화"],
-            4: ["날씨와 기후", "기후와 문화의 특징"], 5: ["아름다운 풍경", "여행의 기쁨"], 6: ["함께 즐기는 축제", "감상과 평가"],
-            7: ["조사 결과", "통계와 그래프"], 8: ["스타와 대중문화", "대중문화의 영향"], 9: ["흥미진진한 경기", "경기와 규칙"]
-        };
-
-        // 데이터 뼈대 자동 생성 (1-1-1 ~ 9-2-2)
-        for (let u = 1; u <= 9; u++) {
-            for (let p = 1; p <= 2; p++) {
-                for (let g = 1; g <= 2; g++) {
-                    let key = `${u}-${p}-${g}`;
-                    if (!grammarDB[key]) {
-                        grammarDB[key] = {
-                            pos: "V", text: `${u}-${p}-${g} 문법 내용 입력란`,
-                            meaning: "여기에 문법의 의미를 입력하세요.",
-                            examples: [ "가: 예문 1\n나: 대답 1", "가: 예문 2\n나: 대답 2" ],
-                            tables: [ { headers: ["결합 형태", "기본형", "활용형"], rows: [ [{ pos: "V", text: "동사 형태", rowspan: 1 }, "기본형", "활용형 입력"], [{ pos: "A", text: "형용사 형태", rowspan: 1 }, "기본형", "활용형 입력"] ] } ],
-                            practices: [ "가: 연습문제를 입력하세요.\n나: 빈칸을 (                                                  ) 채워보세요." ]
-                        };
-                    }
-                }
-            }
-        }
-
-        // ===================================================================
-        // 대시보드 버튼 그리드 생성
-        // ===================================================================
-        window.buildDashboard = function() {
-            const gridContainer = document.getElementById('dashboard-grid');
-            let html = '';
-
-            // 1~9단원
-            for(let i=1; i<=9; i++) {
-                html += `
-                <div class="mb-10 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="text-2xl font-bold text-blue-900 mb-6 border-b-2 border-blue-900 pb-2">${i}단원</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <button onclick="openPreview('${i}-1')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 py-3 rounded-lg font-bold transition shadow-sm">${i}-1과</button>
-                        <button onclick="openPreview('${i}-1-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition shadow-sm">${i}-1과 어휘</button>
-                        <button onclick="openPreview('${i}-2')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 py-3 rounded-lg font-bold transition shadow-sm">${i}-2과</button>
-                        <button onclick="openPreview('${i}-2-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition shadow-sm">${i}-2과 어휘</button>
-                    </div>
-                </div>`;
-            }
-
-            // 복습
-            html += `
-                <div class="mb-10 bg-indigo-50 p-6 rounded-xl shadow-sm border border-indigo-200">
-                    <h3 class="text-2xl font-bold text-indigo-900 mb-6 border-b-2 border-indigo-900 pb-2">복습 과제</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <button onclick="openPreview('review-1-3')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">1-3과 복습</button>
-                        <button onclick="openPreview('review-4-6')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">4-6과 복습</button>
-                        <button onclick="openPreview('review-7-9')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">7-9과 복습</button>
-                    </div>
-                </div>`;
-
-            gridContainer.innerHTML = html;
-        };
-
-        // 초기 빌드
-        buildDashboard();
-
-        // 화면 전환 헬퍼
+    <!-- Firebase 없이 순수 JS로 작동하는 안전한 스크립트 -->
+    <script>
+        // 전역 UI 제어 함수
         window.showScreen = function(screenId) {
-            ['login-screen', 'denied-screen', 'dashboard-screen', 'admin-screen', 'preview-screen'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-            });
-            document.getElementById(screenId).classList.remove('hidden');
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById('preview-screen').classList.add('hidden');
+            document.getElementById('preview-screen').classList.remove('flex');
+            
+            let target = document.getElementById(screenId);
+            target.classList.remove('hidden');
             if (screenId === 'preview-screen') {
-                document.getElementById(screenId).classList.add('flex');
-            } else {
-                document.getElementById('preview-screen').classList.remove('flex');
+                target.classList.add('flex');
             }
         };
 
@@ -467,13 +172,183 @@
             document.getElementById('modalMessage').innerText = msg;
             document.getElementById('customModal').style.display = 'flex';
         };
+
         window.closeModal = function() {
             document.getElementById('customModal').style.display = 'none';
         };
 
-        // ===================================================================
-        // PPTX 미리보기 렌더링 로직
-        // ===================================================================
+        // 데이터베이스 (전체 단원 뼈대 생성)
+        const db = {
+            "1-1-1": {
+                unitLabel: "1단원. 진로와 적성 (1-1. 진로)",
+                grammarParts: [
+                    { pos: "V", text: "-는다면서(요)?" },
+                    { pos: "A", text: "-다면서(요)?" },
+                    { pos: "N", text: "(이)라면서(요)?" }
+                ],
+                intro: {
+                    speakerA: "가: 오늘 교수님과 상담을 한다면서요?",
+                    speakerB: "나: 네. 아직 진로를 정하지 못해서 교수님과 이야기해 보려고요."
+                },
+                meaning: "다른 사람에게 듣거나 이미 알고 있는 사실을 확인할 때 사용합니다.",
+                examples: [
+                    "가: 방학에 부산에 간다면서요?\n나: 네. 오랜만에 부산에 사는 친구를 만나려고요.",
+                    "가: 한국은 과일값이 비싸다면서요?\n나: 네. 너무 비싸서 자주 사 먹기 힘들어요."
+                ],
+                tables: [
+                    {
+                        title: "문법 형태 (1) : 동사",
+                        headers: ["결합 형태", "기본형", "활용형"],
+                        rows: [
+                            [ { pos: "V", text: "-는다면서(요)?\n/-다면서(요)?", rowspan: 2 }, "가다", "간다면서요?" ],
+                            [ null, "먹다", "먹는다면서요?" ]
+                        ]
+                    },
+                    {
+                        title: "문법 형태 (2) : 형용사",
+                        headers: ["결합 형태", "기본형", "활용형"],
+                        rows: [
+                            [ { pos: "A", text: "-다면서(요)?", rowspan: 2 }, "비싸다", "비싸다면서요?" ],
+                            [ null, "재미있다", "재미있다면서요?" ]
+                        ]
+                    },
+                    {
+                        title: "문법 형태 (3) : 명사",
+                        headers: ["결합 형태", "기본형", "활용형"],
+                        rows: [
+                            [ { pos: "N", text: "(이)라면서(요)?", rowspan: 2 }, "친구", "친구라면서요?" ],
+                            [ null, "생일", "생일이라면서요?" ]
+                        ]
+                    },
+                    {
+                        title: "문법 형태 (4) : 과거 / 미래",
+                        headers: ["결합 형태", "기본형", "활용형"],
+                        rows: [
+                            [ { pos: "V, A", text: "-었/았다면서(요)?", rowspan: 3 }, "보다", "봤다면서요?" ],
+                            [ null, "길다", "길었다면서요?" ],
+                            [ null, "잘하다", "잘했다면서요?" ],
+                            [ { pos: "N", text: "(이)었다면서(요)?", rowspan: 2 }, "친구", "친구였다면서요?" ],
+                            [ null, "생일", "생일이었다면서요?" ],
+                            [ { pos: "V, A", text: "-(으)ㄹ 거라면서(요)?", rowspan: 2 }, "취업하다", "취업할 거라면서요?" ],
+                            [ null, "읽다", "읽을 거라면서요?" ]
+                        ]
+                    }
+                ],
+                practices: [
+                    "대화를 완성해 보세요.\n\n가: 테오 씨, 내일 발표를 한다면서요? 준비는 잘돼 가요?\n나: 열심히 하고 있는데 쉽지 않네요.\n\n[힌트] 테오 씨가 내일 발표를 한대요.",
+                    "대화를 완성해 보세요.\n\n가: 나나 씨, (                                                  )?\n     다음 주에 제주도에 갈 건데 어디에 가면 좋을까요?\n나: 성산일출봉에 한번 가 보세요. 아주 아름다워요.",
+                    "대화를 완성해 보세요.\n\n가: 민우야, (                                                  )? 어떤 사람을 좋아해?\n나: 응. 나는 내 이야기를 잘 들어 주는 사람이 좋더라."
+                ]
+            },
+            "1-1-2": {
+                unitLabel: "1단원. 진로와 적성 (1-1. 진로)",
+                grammarParts: [ { pos: "V", text: "-다(가) 보면" } ],
+                intro: {
+                    speakerA: "가: 요즘 수영을 배우기 시작했는데 너무 재미있어요.\n     그런데 아직 조금밖에 못 가요.",
+                    speakerB: "나: 걱정하지 마세요.\n     계속 연습하다가 보면 더 멀리 갈 수 있을 거예요."
+                },
+                meaning: "앞의 행동을 계속하면 나중에 뒤의 결과가 생길 수 있다는 것을 말할 때 사용합니다.",
+                examples: [
+                    "가: 저는 요리에 소질이 없나 봐요. 제가 만든 요리는 너무 맛이 없어요.\n나: 자주 요리를 하다 보면 지금보다 잘하게 될 거예요.",
+                    "가: 한국 음식은 너무 매워서 먹을 때마다 좀 힘들어요.\n나: 한국 음식이 좀 맵지만 계속 먹다 보면 익숙해질 거예요."
+                ],
+                tables: [
+                    {
+                        title: "문법 형태",
+                        headers: ["결합 형태", "기본형", "활용형"],
+                        rows: [
+                            [ { pos: "V", text: "-다(가) 보면", rowspan: 2 }, "연습하다", "연습하다가 보면" ],
+                            [ null, "먹다", "먹다가 보면" ]
+                        ]
+                    }
+                ],
+                practices: [
+                    "대화를 완성해 보세요.\n\n가: 김치가 맛있는데 저한테는 좀 매운 것 같아요.\n나: 처음에는 좀 맵지만 (                                                  ) 괜찮아질 거예요. 나도 그랬어요."
+                ]
+            }
+        };
+
+        const unitTitles = {
+            1: ["진로", "능력과 자질"], 2: ["질병과 증상", "건강한 습관"], 3: ["만족과 후회", "사회 변화"],
+            4: ["날씨와 기후", "기후와 문화의 특징"], 5: ["아름다운 풍경", "여행의 기쁨"], 6: ["함께 즐기는 축제", "감상과 평가"],
+            7: ["조사 결과", "통계와 그래프"], 8: ["스타와 대중문화", "대중문화의 영향"], 9: ["흥미진진한 경기", "경기와 규칙"]
+        };
+
+        for (let u = 1; u <= 9; u++) {
+            for (let p = 1; p <= 2; p++) {
+                for (let g = 1; g <= 2; g++) {
+                    let key = `${u}-${p}-${g}`;
+                    if (!db[key]) {
+                        db[key] = {
+                            unitLabel: `${u}단원. ${unitTitles[u][p-1]} (${u}-${p})`,
+                            grammarParts: [ { pos: "", text: `${u}-${p}-${g} 문법 내용 입력란` } ],
+                            intro: { speakerA: "가: 대화문 입력", speakerB: "나: 대화문 입력" },
+                            meaning: "여기에 문법의 의미를 입력하세요.",
+                            examples: [ "가: 예문 1\n나: 대답 1" ],
+                            tables: [
+                                {
+                                    title: "문법 형태",
+                                    headers: ["결합 형태", "기본형", "활용형"],
+                                    rows: [
+                                        [ { pos: "V", text: "동사 형태", rowspan: 1 }, "기본형", "활용형 입력" ]
+                                    ]
+                                }
+                            ],
+                            practices: [
+                                "가: 연습문제를 입력하세요.\n나: 빈칸을 (                                                  ) 채워보세요."
+                            ]
+                        };
+                    }
+                }
+            }
+        }
+
+        const reviews = ["1-3", "4-6", "7-9"];
+        reviews.forEach((r) => {
+            let key = `review-${r}`;
+            db[key] = {
+                unitLabel: `복습 ${r}과`,
+                grammarParts: [ { pos: "", text: `복습 ${r}과 문제풀이` } ],
+                intro: { speakerA: "가: 복습 대화문 입력", speakerB: "나: 대화문 입력" },
+                meaning: "배운 내용을 다시 확인해 봅시다.",
+                examples: [ "복습 예문 입력 공간" ],
+                tables: [],
+                practices: [ `복습 ${r}과 연습문제 1 (문제를 자유롭게 입력하세요.)` ]
+            };
+        });
+
+        // 윈도우 로드 시 실행
+        window.onload = function() {
+            const gridContainer = document.getElementById('dashboard-grid');
+            let html = '';
+
+            for(let i=1; i<=9; i++) {
+                html += `
+                <div class="mb-10 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-2xl font-bold text-blue-900 mb-6 border-b-2 border-blue-900 pb-2">${i}단원. ${unitTitles[i][0].split(' ')[0]}</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <button onclick="window.openPreview('${i}-1')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 py-3 rounded-lg font-bold transition shadow-sm">${i}-1과 문법</button>
+                        <button onclick="window.openPreview('${i}-1-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition shadow-sm">${i}-1과 어휘</button>
+                        <button onclick="window.openPreview('${i}-2')" class="bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 py-3 rounded-lg font-bold transition shadow-sm">${i}-2과 문법</button>
+                        <button onclick="window.openPreview('${i}-2-v')" class="bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-600 hover:text-white py-3 rounded-lg font-medium transition shadow-sm">${i}-2과 어휘</button>
+                    </div>
+                </div>`;
+            }
+
+            html += `
+                <div class="mb-10 bg-indigo-50 p-6 rounded-xl shadow-sm border border-indigo-200">
+                    <h3 class="text-2xl font-bold text-indigo-900 mb-6 border-b-2 border-indigo-900 pb-2">복습 과제 (Workbook)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button onclick="window.openPreview('review-1-3')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">1-3과 복습</button>
+                        <button onclick="window.openPreview('review-4-6')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">4-6과 복습</button>
+                        <button onclick="window.openPreview('review-7-9')" class="bg-indigo-600 text-white hover:bg-indigo-700 py-3 rounded-lg font-bold transition shadow-sm">7-9과 복습</button>
+                    </div>
+                </div>`;
+
+            gridContainer.innerHTML = html;
+            window.showScreen('dashboard-screen');
+        };
+
         let activeKey = "";
 
         window.openPreview = function(key) {
@@ -484,7 +359,6 @@
             let titleText = "";
 
             if (key.includes('-v')) {
-                // 어휘 (Vocabulary)
                 let parts = key.split('-');
                 let u = parts[0], l = parts[1];
                 titleText = `${u}단원. ${unitTitles[u][l-1]} (${u}-${l}. 어휘)`;
@@ -493,7 +367,6 @@
                 html += generateTitleHtml(titleText, "어휘 Vocabulary", []);
                 html += generateVocabHtml();
             } else if (key.startsWith('review-')) {
-                // 복습 (Review)
                 let ranges = key.split('-').slice(1).join('-');
                 titleText = `${ranges}과 복습 (Workbook)`;
                 document.getElementById('preview-header-title').innerText = titleText;
@@ -501,14 +374,13 @@
                 html += generateTitleHtml(titleText, "복습", []);
                 html += generateReviewHtml();
             } else {
-                // 문법 (Grammar)
                 let parts = key.split('-');
                 let u = parts[0], l = parts[1];
                 titleText = `${u}단원. ${unitTitles[u][l-1]} (${u}-${l}. 문법)`;
                 document.getElementById('preview-header-title').innerText = titleText;
 
-                let g1 = grammarDB[`${u}-${l}-1`];
-                let g2 = grammarDB[`${u}-${l}-2`];
+                let g1 = db[`${u}-${l}-1`];
+                let g2 = db[`${u}-${l}-2`];
 
                 let gList = [];
                 if(g1) gList.push(g1);
@@ -516,13 +388,13 @@
 
                 html += generateTitleHtml(titleText, "문법과 표현", gList);
 
-                // 각 문법 포인트 생성
                 if(g1) html += generateGrammarHtml(g1, 1);
                 if(g2) html += generateGrammarHtml(g2, 2);
             }
 
             container.innerHTML = html;
-            showScreen('preview-screen');
+            window.showScreen('preview-screen');
+            window.scrollTo(0,0);
         };
 
         function generateTitleHtml(subtitle, main, gList) {
@@ -532,7 +404,7 @@
             }).join('');
 
             return `
-                <div class="slide-wrapper" id="slide-title">
+                <div class="slide-wrapper" id="slide-1">
                     <div class="slide-container" style="border-top: none;">
                         <div class="slide1-layout">
                             <div class="subtitle" id="title-sub" contenteditable="true">${subtitle}</div>
@@ -577,7 +449,6 @@
         function generateGrammarHtml(g, gIdx) {
             let html = "";
             
-            // 도입
             html += `
                 <div class="slide-wrapper">
                     <div class="slide-container">
@@ -585,11 +456,11 @@
                         <div class="content-area">
                             <div class="two-column">
                                 <div class="dialogue-box">
-                                    <p id="intro-${gIdx}-a" contenteditable="true">가: 도입 대화를 입력하세요.</p>
-                                    <p id="intro-${gIdx}-b" contenteditable="true" style="margin-bottom: 0;">나: 대답을 입력하세요.</p>
+                                    <p id="intro-${gIdx}-a" contenteditable="true">${g.intro.speakerA.replace(/\n/g, '<br>')}</p>
+                                    <p id="intro-${gIdx}-b" contenteditable="true" style="margin-bottom: 0;">${g.intro.speakerB.replace(/\n/g, '<br>')}</p>
                                 </div>
                                 <div class="image-placeholder">
-                                    <p id="intro-${gIdx}-img" contenteditable="true">[그림을 복사하여 붙여넣으세요]</p>
+                                    <p id="intro-${gIdx}-img" contenteditable="true">[PDF 원본에서 그림을 복사하여<br>이곳에 붙여넣으세요]</p>
                                 </div>
                             </div>
                         </div>
@@ -597,7 +468,6 @@
                 </div>
             `;
 
-            // 의미와 예문
             let exHTML = g.examples.map((ex, i) => 
                 `<div class="example-text" id="mean-${gIdx}-ex-${i}" contenteditable="true" style="margin-bottom: 25px;">${ex.replace(/\n/g, '<br>')}</div>`
             ).join('');
@@ -622,71 +492,73 @@
                 </div>
             `;
 
-            // 형태 표
-            g.tables.forEach((tbl, tIdx) => {
-                let trs = "";
-                tbl.rows.forEach((row, rIdx) => {
-                    trs += "<tr>";
-                    if(row[0] !== null) {
-                        let posHtml = row[0].pos ? `<span class="pos-text">${row[0].pos}</span> ` : "";
-                        trs += `<td rowspan="${row[0].rowspan}" id="tbl-${gIdx}-${tIdx}-r${rIdx}-c0" contenteditable="true">
-                                    ${posHtml}${row[0].text.replace(/\n/g, '<br>')}
-                                </td>`;
-                    }
-                    trs += `<td id="tbl-${gIdx}-${tIdx}-r${rIdx}-c1" contenteditable="true">${row[1]}</td>`;
-                    trs += `<td id="tbl-${gIdx}-${tIdx}-r${rIdx}-c2" contenteditable="true">${row[2]}</td>`;
-                    trs += "</tr>";
+            if (g.tables && g.tables.length > 0) {
+                g.tables.forEach((tbl, tIdx) => {
+                    let trs = "";
+                    tbl.rows.forEach((row, rIdx) => {
+                        trs += "<tr>";
+                        if(row[0] !== null) {
+                            let posHtml = row[0].pos ? `<span class="pos-text">${row[0].pos}</span> ` : "";
+                            trs += `<td rowspan="${row[0].rowspan}" id="tbl-${gIdx}-${tIdx}-r${rIdx}-c0" contenteditable="true">
+                                        ${posHtml}${row[0].text.replace(/\n/g, '<br>')}
+                                    </td>`;
+                        }
+                        trs += `<td id="tbl-${gIdx}-${tIdx}-r${rIdx}-c1" contenteditable="true">${row[1]}</td>`;
+                        trs += `<td id="tbl-${gIdx}-${tIdx}-r${rIdx}-c2" contenteditable="true">${row[2]}</td>`;
+                        trs += "</tr>";
+                    });
+
+                    html += `
+                        <div class="slide-wrapper" id="slide-tbl-${tIdx}">
+                            <div class="slide-container">
+                                <div class="slide-title" id="tbl-${gIdx}-${tIdx}-title" contenteditable="true">${tbl.title}</div>
+                                <div class="content-area">
+                                    <div class="table-wrapper">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 40%;" contenteditable="true">${tbl.headers[0]}</th>
+                                                    <th style="width: 25%;" contenteditable="true">${tbl.headers[1]}</th>
+                                                    <th style="width: 35%;" contenteditable="true">${tbl.headers[2]}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${trs}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 });
+            }
 
-                html += `
-                    <div class="slide-wrapper">
-                        <div class="slide-container">
-                            <div class="slide-title" id="tbl-${gIdx}-${tIdx}-title" contenteditable="true">문법 형태</div>
-                            <div class="content-area">
-                                <div class="table-wrapper">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 40%;" contenteditable="true">${tbl.headers[0]}</th>
-                                                <th style="width: 25%;" contenteditable="true">${tbl.headers[1]}</th>
-                                                <th style="width: 35%;" contenteditable="true">${tbl.headers[2]}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>${trs}</tbody>
-                                    </table>
+            if (g.practices && g.practices.length > 0) {
+                g.practices.forEach((prac, pIdx) => {
+                    let qNum = pIdx + 1;
+                    html += `
+                        <div class="slide-wrapper" id="slide-prac-${gIdx}-${pIdx}">
+                            <div class="slide-container">
+                                <div class="slide-title" contenteditable="true">확인 및 연습</div>
+                                <div class="content-area">
+                                    <div class="practice-wrapper">
+                                        <div class="practice-num" contenteditable="true">Q${qNum}.</div>
+                                        <div class="practice-box" id="prac-${gIdx}-${pIdx}-txt" contenteditable="true">${prac.replace(/\n/g, '<br>')}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                `;
-            });
-
-            // 연습문제
-            g.practices.forEach((prac, pIdx) => {
-                html += `
-                    <div class="slide-wrapper">
-                        <div class="slide-container">
-                            <div class="slide-title" contenteditable="true">확인 및 연습</div>
-                            <div class="content-area">
-                                <div class="practice-wrapper">
-                                    <div class="practice-num" contenteditable="true">Q${pIdx + 1}.</div>
-                                    <div class="practice-box" id="prac-${gIdx}-${pIdx}-txt" contenteditable="true">${prac}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
+            }
 
             return html;
         }
 
-        // ===================================================================
-        // PPTX 엔진 연동 및 다운로드
-        // ===================================================================
         window.downloadPPTX = function() {
             let btn = document.getElementById('downloadBtn');
-            let originalHTML = btn.innerHTML;
+            let originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> 파일 생성 중...';
             btn.disabled = true;
 
@@ -723,9 +595,9 @@
                         slide.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 0.93, w: W_CONTENT, h: 0.03, fill: COLOR_NAVY });
                     }
 
-                    // --- 표지 (Title Slide) ---
+                    // --- 1 ---
                     let slide1 = pres.addSlide();
-                    slide1.addText(getText("title-sub"), { x: 4.0, y: 0.3, w: 9.7, align: 'right', color: COLOR_GRAY_TITLE, fontSize: 24, bold: true, fontFace: FONT_FACE });
+                    slide1.addText(getText("title-sub"), { x: 4.0, y: 0.3, w: 5.375, align: 'right', color: COLOR_GRAY_TITLE, fontSize: 24, bold: true, fontFace: FONT_FACE });
                     slide1.addShape(pres.ShapeType.rect, { x: 0, y: 1.9, w: 10, h: 1.2, fill: COLOR_NAVY });
                     slide1.addText(getText("title-main"), { x: 0, y: 1.9, w: 10, h: 1.2, align: 'center', valign: 'middle', color: "FFFFFF", fontSize: 50, bold: true, fontFace: FONT_FACE });
                     
@@ -744,7 +616,6 @@
                         slide1.addText(gTextArr, { x: 0, y: 3.5, w: 10, h: 2.0, align: 'center', valign: 'top', fontSize: 26, fontFace: FONT_FACE, lineSpacing: 45 });
                     }
 
-                    // 분기 처리 (어휘 / 복습 / 문법)
                     if (activeKey.includes('-v')) {
                         let slideV = pres.addSlide({ masterName: "MASTER_SLIDE" });
                         addSlideTitle(slideV, "vocab-title");
@@ -758,11 +629,9 @@
                         slideR.addText(getText("review-content"), { x: 0.8, y: 1.4, w: 7.8, h: 3.8, color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, valign: 'top', wrap: true });
                     } 
                     else {
-                        // 문법 파트 루프 (gIdx 1, 2)
                         [1, 2].forEach(gIdx => {
-                            if(!document.getElementById(`intro-${gIdx}-a`)) return; // 존재하지 않으면 패스
+                            if(!document.getElementById(`intro-${gIdx}-a`)) return;
 
-                            // 도입
                             let slide2 = pres.addSlide({ masterName: "MASTER_SLIDE" });
                             addSlideTitle(slide2, `intro-${gIdx}-title`);
                             slide2.addShape(pres.ShapeType.rect, { x: X_MARGIN, y: 1.3, w: 4.15, h: 3.9, fill: COLOR_BG_LIGHT });
@@ -770,7 +639,6 @@
                             slide2.addShape(pres.ShapeType.rect, { x: 5.125, y: 1.3, w: 4.25, h: 3.9, fill: COLOR_BG_DARK });
                             slide2.addText(getText(`intro-${gIdx}-img`), { x: 5.125, y: 1.3, w: 4.25, h: 3.9, color: COLOR_GRAY_TITLE, fontSize: 20, fontFace: FONT_FACE, align: 'center', valign: 'middle', bold: true });
 
-                            // 의미와 예문
                             let slide3 = pres.addSlide({ masterName: "MASTER_SLIDE" });
                             addSlideTitle(slide3, `mean-${gIdx}-title`);
                             slide3.addText("의미", { x: X_MARGIN, y: 1.3, w: W_CONTENT, h: 0.4, color: COLOR_NAVY, fontSize: 24, bold: true, fontFace: FONT_FACE, valign: 'top' });
@@ -784,7 +652,6 @@
                             }
                             slide3.addText(exArr, { x: X_MARGIN, y: 3.1, w: W_CONTENT, h: 2.0, fontSize: 22, fontFace: FONT_FACE, lineSpacing: 32, valign: 'top', wrap: false });
 
-                            // 형태 표
                             let thOpts = { fill: COLOR_NAVY, color: "FFFFFF", bold: true, fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: { pt: 1, color: COLOR_BORDER }, margin: 6 };
                             function txt(content, bOpts) { return { text: content, options: { color: COLOR_BLACK, fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: bOpts } }; }
                             function posTxt(posStr, content, bOpts) { return { text: [{ text: posStr + " ", options: { color: COLOR_NAVY, bold: true } }, { text: content, options: { color: COLOR_BLACK, bold: false } }], options: { fontSize: 22, fontFace: FONT_FACE, align: "center", valign: "middle", border: bOpts } }; }
@@ -796,7 +663,6 @@
                                 addSlideTitle(slideT, `tbl-${gIdx}-${tIdx}-title`);
 
                                 let rows = [];
-                                // DOM에서 헤더 긁어오기
                                 let theads = document.querySelectorAll(`#slide-tbl-${tIdx} th`);
                                 if(theads.length >= 3) {
                                     rows.push([
@@ -815,7 +681,7 @@
                                 for(let rIdx=0; rIdx<15; rIdx++) {
                                     let c1 = getText(`tbl-${gIdx}-${tIdx}-r${rIdx}-c1`);
                                     let c2 = getText(`tbl-${gIdx}-${tIdx}-r${rIdx}-c2`);
-                                    if(!c1 && !c2) continue; // 행이 없으면 끝
+                                    if(!c1 && !c2) continue; 
 
                                     let tr = [];
                                     let cell0 = document.getElementById(`tbl-${gIdx}-${tIdx}-r${rIdx}-c0`);
@@ -837,8 +703,7 @@
                                 slideT.addTable(rows, { x: X_MARGIN, y: 1.3, w: W_CONTENT, colW: [3.5, 2.0, 3.25] });
                             }
 
-                            // 연습문제
-                            for(let pIdx=0; pIdx<20; pIdx++) {
+                            for(let pIdx=0; pIdx<30; pIdx++) {
                                 let pTxt = getText(`prac-${gIdx}-${pIdx}-txt`);
                                 if(!pTxt) continue;
 
@@ -854,15 +719,15 @@
                     }
 
                     let safeTitle = activeKey.replace(/[<>:"\/\\|?*\x00-\x1F]/g, "_");
-                    pres.writeFile({ fileName: `SNU_Korean_${safeTitle}.pptx` }).then(() => {
-                        btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 다운로드 완료';
-                        showModal("🎉 성공적으로 다운로드되었습니다.");
-                        setTimeout(() => { btn.innerHTML = originalHTML; btn.disabled = false; }, 3000);
+                    pres.writeFile({ fileName: `SNU_Korean_4A_${safeTitle}.pptx` }).then(() => {
+                        btn.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 다운로드 완료';
+                        window.showModal("🎉 성공적으로 다운로드되었습니다.");
+                        setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; }, 3000);
                     });
 
                 } catch(e) {
-                    showModal("❌ 오류 발생: " + e.message);
-                    btn.innerHTML = originalHTML;
+                    window.showModal("❌ 오류 발생: " + e.message);
+                    btn.innerHTML = originalText;
                     btn.disabled = false;
                     console.error(e);
                 }
@@ -871,3 +736,4 @@
     </script>
 </body>
 </html>
+```eof
